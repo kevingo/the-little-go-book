@@ -82,18 +82,26 @@ To explicitly compile code, use go build:
 
 Main
 
-Hopefully, the code that we just executed is understandable. We've created a function and printed out a string with the built-in println function. Did go run know what to execute because there was only a single choice? No. In Go, the entry point to a program has to be a function called main within a package main.
+希望我們上面執行的程式碼是好理解的。我們建立了一個函式，並且透過內建的 `println`
+方法印出字串。當我們執行 `go run` 的時候，Go 會知道因為我們只有單一的一個
+檔案，而知道我們要執行的就是那隻程式嗎？不，在 Go 語言裡，程式的進入點是在
+main package 裡面的 main 函式。
 
-We'll talk more about packages in a later chapter. For now, while we focus on understanding the basics of Go, we'll always write our code within the main package.
+我們會在後面的章節討論 packege 的概念。現在，我們只要了解 Go 的基礎就好。
+在這裡，我們一律將我們的程式碼寫在 main package 中。
 
-If you want, you can alter the code and change the package name. Run the code via go run and you should get an error. Then, change the name back to main but use a different function name. You should see a different error message. Try making those same changes but use go build instead. Notice that the code compiles, there's just no entry point to run it. This is perfectly normal when you are, for example, building a library.
+如果你想要試試看，也可以變更 package 的名稱，接著一樣執行程式，看看會跑出
+什麼錯誤訊息。也可以把 package 改回 main，但是變更函式的名稱，又會跑出什麼
+錯誤訊息。嘗試執行一樣的變更，但不是執行，而是去編譯他，編譯時，你會發現這沒有
+進入點的編譯。當你在編譯一個套件時，這是相當正常的。
 
 Imports
+Go 有相當多內建的函數，例如：`println` 可以不需要引用任何套件就可以使用。
+即使我們使用第三方套件，不使用內建的函式幾乎是不可能的。在 Go 中，
+使用 `import` 關鍵字可以用來引用在程式碼中使用的相關套件。
 
-Go has a number of built-in functions, such as println, which can be used without reference. We can't get very far though, without making use of Go's standard library and eventually using third-party libraries. In Go, the import keyword is used to declare the packages that are used by the code in the file.
-
-Let's change our program:
-
+讓我們修改一下原本的程式碼：
+```
 package main
 
 import (
@@ -107,15 +115,24 @@ func main() {
   }
   fmt.Println("It's over", os.Args[1])
 }
-Which you can run via:
+```
+透過以下指令來執行：
 
-go run main.go 9000
-We're now using two of Go's standard packages: fmt and os. We've also introduced another built-in function len. len returns the size of a string, or the number of values in a dictionary, or, as we see here, the number of elements in an array. If you're wondering why we expect 2 arguments, it's because the first argument -- at index 0 -- is always the path of the currently running executable. (Change the program to print it out and see for yourself.)
+`go run main.go 9000`
 
-You've probably noticed we prefix the function name with the package, e.g., fmt.Println. This is different from many other languages. We'll learn more about packages in later chapters. For now, knowing how to import and use a package is a good start.
+我們現在使用兩個 Go 的標準套件：`fmt` 和 `os`。同時也會使用另一個
+內建的函數 `len`。`len` 會傳回 string 的長度，或是一個 dictionary 
+的數量，亦或是我們這裡看到的 array 的長度。如果你不知道為什麼
+我們的程式是存取第二個參數，那是因為第一個參數 (index 是 0) 代表的是
+目前執行程式碼的路徑。
 
-Go is strict about importing packages. It will not compile if you import a package but don't use it. Try to run the following:
+你或許注意到了我們在函數的前面多了前綴名稱 `fmt.Println`。這和其他的語言有所不同，
+我們會在後面談論到 package。現在，了解如何使用 import 和 package 就夠了。
 
+Go 對於如何使用 import 來引入套件的管理上是嚴格的，如果你 import 了套件，
+卻沒有使用它的話，是無法編譯成功的。嘗試執行下面的程式碼：
+
+```
 package main
 
 import (
@@ -125,16 +142,21 @@ import (
 
 func main() {
 }
-You should get two errors about fmt and os being imported and not used. Can this get annoying? Absolutely. Over time, you'll get used to it (it'll still be annoying though). Go is strict about this because unused imports can slow compilation; admittedly a problem most of us don't have to this degree.
+```
 
-Another thing to note is that Go's standard library is well documented. You can head over to https://golang.org/pkg/fmt/#Println to learn more about the Println function that we used. You can click on that section header and see the source code. Also, scroll to the top to learn more about Go's formatting capabilities.
+你會得到兩個錯誤訊息，告訴你 `fmt` 和 `os` 這兩個套件被引用但卻無法使用。
+覺得困擾嗎？肯定的，但隨著不斷學習，你會習慣的(儘管你仍然會感到困擾)。
+Go 會這麼嚴格的原因是，引用未使用的套件會使得編譯速度變慢，儘管，大多數人
+可能不會有這種程度的困擾。
 
-If you're ever stuck without internet access, you can get the documentation running locally via:
+另一個值得一提的是，Go 的標準函式庫有相當良好的文件。你可以到 [https://golang.org/pkg/fmt/#Println ](https://golang.org/pkg/fmt/#Println)
+閱讀關於 `fmt` 套件中 `Println` 函數的文件，也可以點擊觀看原始碼。
 
-godoc -http=:6060
-and pointing your browser to http://localhost:6060
+`godoc -http=:6060`
+如果你的電腦無法連上網路，你可以在本機端輸入：`godoc -http=:6060`，
+然後在瀏覽器上到 http://localhost:6060 來檢視文件。
 
-Variables and Declarations
+## 變數與宣告
 
 It'd be nice to begin and end our look at variables by saying you declare and assign to a variable by doing x = 4. Unfortunately, things are more complicated in Go. We'll begin our conversation by looking at simple examples. Then, in the next chapter, we'll expand this when we look at creating and using structures. Still, it'll probably take some time before you truly feel comfortable with it.
 
@@ -142,6 +164,7 @@ You might be thinking Woah! What can be so complicated about this? Let's start l
 
 The most explicit way to deal with variable declaration and assignment in Go is also the most verbose:
 
+```
 package main
 
 import (
@@ -153,6 +176,8 @@ func main() {
   power = 9000
   fmt.Printf("It's over %d\n", power)
 }
+```
+
 Here, we declare a variable power of type int. By default, Go assigns a zero value to variables. Integers are assigned 0, booleans false, strings "" and so on. Next, we assign 9000 to our power variable. We can merge the first two lines:
 
 var power int = 9000
