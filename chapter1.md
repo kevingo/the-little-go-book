@@ -157,13 +157,7 @@ Go 會這麼嚴格的原因是，引用未使用的套件會使得編譯速度�
 然後在瀏覽器上到 http://localhost:6060 來檢視文件。
 
 ## 變數與宣告
-
-It'd be nice to begin and end our look at variables by saying you declare and assign to a variable by doing x = 4. Unfortunately, things are more complicated in Go. We'll begin our conversation by looking at simple examples. Then, in the next chapter, we'll expand this when we look at creating and using structures. Still, it'll probably take some time before you truly feel comfortable with it.
-
-You might be thinking Woah! What can be so complicated about this? Let's start looking at some examples.
-
-The most explicit way to deal with variable declaration and assignment in Go is also the most verbose:
-
+當我們寫下 `x=4` ，這對於變數的宣告來說，也許是一個開始，也可以是結束了。但不幸的，在 Go 中，事情相對複雜了些。我們會從簡單的範例開始，在下一章中，我們會在使用 structure 的時候，擴展我們的例子。你可能會想說，哇，是什麼事情會這麼複雜？讓我們先來看些例子。 在 Go 中，宣告變數最明確也是最冗長的方式是：
 ```
 package main
 
@@ -178,14 +172,18 @@ func main() {
 }
 ```
 
-Here, we declare a variable power of type int. By default, Go assigns a zero value to variables. Integers are assigned 0, booleans false, strings "" and so on. Next, we assign 9000 to our power variable. We can merge the first two lines:
+這裡，我們宣告了一個 int 類型的變數，預設情況下，Go 會為這個變數分配一個零值。整數的話是 `0`、布林值為 `false`、字串是 `""` 等。下一步，我們將 9000 指派給 `power` 這個變數。我們可以合併這兩行：
 
-var power int = 9000
-Still, that's a lot of typing. Go has a handy short variable declaration operator, :=, which can infer the type:
+`var power int = 9000`
 
-power := 9000
-This is handy, and it works just as well with functions:
 
+這仍然需要打很多字。在 Go 中，有一個方便的簡短宣告運算子 `:=`，這個運算子可以進行型別的推論：
+
+`power := 9000`
+
+這很方便，同時在函數也能這樣使用：
+
+```
 func main() {
   power := getPower()
 }
@@ -193,27 +191,32 @@ func main() {
 func getPower() int {
   return 9001
 }
-It's important that you remember that := is used to declare the variable as well as assign a value to it. Why? Because a variable can't be declared twice (not in the same scope anyway). If you try to run the following, you'll get an error.
+```
 
+重要的是，要記住 `:=` 同時用於宣告變數以及為它賦值。為什麼？ 因為變數不能被宣告兩次 (不在同一範圍內)。 如果你嘗試執行以下操作，會收到錯誤。
+
+```
 func main() {
   power := 9000
   fmt.Printf("It's over %d\n", power)
 
-  // COMPILER ERROR:
+  // 編譯錯誤：
   // no new variables on left side of :=
   power := 9001
   fmt.Printf("It's also over %d\n", power)
 }
-The compiler will complain with no new variables on left side of :=. This means that when we first declare a variable, we use := but on subsequent assignment, we use the assignment operator =. This makes a lot of sense, but it can be tricky for your muscle memory to remember when to switch between the two.
+```
+編譯器會抱怨在 `:=` 運算子的左側沒有新的變數。這代表，當我們首次宣告一個變數時，我們使用 `:=` 運算子，但是在後續賦值中，我們使用賦值運算子 `=`。 這相當合理，但會有點微妙，你需要多練習來讓你的肌肉可以順利的在這兩者之間進行轉換。
 
-If you read the error message closely, you'll notice that variables is plural. That's because Go lets you assign multiple variables (using either = or :=):
-
+如果你仔細閱讀錯誤訊息，你會注意到變數是複數。 這是因為 Go 允許你指派多個變數 (使用 `=` 或 `:=` 皆可)
+```
 func main() {
   name, power := "Goku", 9000
   fmt.Printf("%s's power is over %d\n", name, power)
 }
-As long as one of the variables is new, := can be used. Consider:
-
+```
+一旦這個變數是新的，`:=` 運算子就可以被使用。看看以下的範例：
+```
 func main() {
   power := 1000
   fmt.Printf("default power is %d\n", power)
@@ -221,22 +224,30 @@ func main() {
   name, power := "Goku", 9000
   fmt.Printf("%s's power is over %d\n", name, power)
 }
-Although power is being used twice with :=, the compiler won't complain the second time we use it, it'll see that the other variable, name, is a new variable and allow :=. However, you can't change the type of power. It was declared (implicitly) as an integer and thus, can only be assigned integers.
+```
+雖然 power 這個變數被 `:=` 指派兩次，編譯器卻不會產生錯誤。編譯器會看到有一個新的
+變數 `name`，因此你可以正常使用 `:=`。但要注意的是，你不能變更 power 這個變數的型態，
+因為他被隱性的指派為整數，所以只能被整數賦值。
 
-For now, the last thing to know is that, like imports, Go won't let you have unused variables. For example,
-
+現在，你要知道的最後一件事情是，就跟 import 一樣，Go 不會讓你有宣告但未使用的變數。看看這個例子：
+```
 func main() {
   name, power := "Goku", 1000
   fmt.Printf("default power is %d\n", power)
 }
-won't compile because name is declared but not used. Like unused imports it'll cause some frustration, but overall I think it helps with code cleanliness and readability.
+```
+將無法編譯成功。因為 `name` 變數宣告了但沒有被使用。就像 import 了未使用的套件一樣，這可能會讓某些人覺得沮喪，但整體來看，
+我認為這對於程式碼的整潔度和可讀性是有所幫助的。
 
-There's more to learn about declaration and assignments. For now, remember that you'll use var NAME TYPE when declaring a variable to its zero value, NAME := VALUE when declaring and assigning a value, and NAME = VALUE when assigning to a previously declared variable.
+關於變數的宣告和指派還有更多可以學習的部分。現在，你要記住，使用 `var NAME TYPE` 的方式來宣告一個變數會被賦予該變數的零值，
+使用 `NAME := VALUE` 是宣告變數並賦值，而 `NAME = VALUE` 是指派一個值給之前宣告過的變數。
 
-Function Declarations
+## 函式宣告
 
-This is a good time to point out that functions can return multiple values. Let's look at three functions: one with no return value, one with one return value, and one with two return values.
+在學習完變數宣告後，現在正是一個好時機讓你知道，Go 的函式是可以有多個回傳值的。讓我們來看看三個函式，一個沒有回傳值、一個回傳一個值，
+最後一個回傳兩個值：
 
+```
 func log(message string) {
 }
 
@@ -245,31 +256,41 @@ func add(a int, b int) int {
 
 func power(name string) (int, bool) {
 }
-We'd use the last one like so:
+```
 
+我們可以這樣使用多回傳值的函式：
+
+```
 value, exists := power("goku")
 if exists == false {
   // handle this error case
 }
-Sometimes, you only care about one of the return values. In these cases, you assign the other values to _:
+```
 
+Sometimes, you only care about one of the return values. In these cases, you assign the other values to _:
+有時候，你只需要其中一個回傳值。在這種情況下，你可以將不需要處理的變數，用 `_` 來取代：
+
+```
 _, exists := power("goku")
 if exists == false {
   // handle this error case
 }
-This is more than a convention. _, the blank identifier, is special in that the return value isn't actually assigned. This lets you use _ over and over again regardless of the returned type.
+```
+這種使用方式不僅僅是一種常規，`_` 空白識別符號是特別用在返回值不需要被實際指派的時候使用。
+你可以不管返回的類型，重複的使用 `_` 識別符號。
 
-Finally, there's something else that you're likely to run into with function declarations. If parameters share the same type, we can use a shorter syntax:
+最後，如果在函式所用到的參數共用同一種類型的話，我們可以用較短的語法宣告(如下方的 a, b 變數共用整數型態的宣告)：
 
+```
 func add(a, b int) int {
 
 }
-Being able to return multiple values is something you'll use often. You'll also frequently use _ to discard a value. Named return values and the slightly less verbose parameter declaration aren't that common. Still, you'll run into all of these sooner than later so it's important to know about them.
+```
 
-Before You Continue
+函式多重返回值和使用 `_` 來丟棄你不需要的回傳值是很常用到的功能。命名返回值和少量的 verbose 參數宣告不是那麼常見。
+不過你遲早會使用它們，所以了解他們還是很重要的。
 
-We looked at a number of small individual pieces and it probably feels disjointed at this point. We'll slowly build larger examples and hopefully, the pieces will start to come together.
+## 在你繼續之前
+我們學習了一些小部分的概念，你可能會覺得有點零散。我們會慢慢學習一些更大的程式，屆時這些部分將會聚集成完整的程式碼。
 
-If you're coming from a dynamic language, the complexity around types and declarations might seem like a step backwards. I don't disagree with you. For some systems, dynamic languages are categorically more productive.
-
-If you're coming from a statically typed language, you're probably feeling comfortable with Go. Inferred types and multiple return values are nice (though certainly not exclusive to Go). Hopefully as we learn more, you'll appreciate the clean and terse syntax.
+如果你之前是學習動態程式語言，你或許會覺得複雜的型別和宣告是一種退步。但我並不認同這樣的想法，對於某些系統，也許動態語言的確會更有生產力。如果你之前是學習靜態程式語言，你也許在學習 Go 的過程是覺得熟悉的，推論的型別和多回傳值是相當好的特性(儘管並非 Go 所獨有)。希望隨著我們學習更多，會對於 Go 乾淨簡潔的語法會更加欣賞。
