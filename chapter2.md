@@ -49,18 +49,12 @@ goku := Saiyan{"Goku", 9000}
 
 上面的各種飯粒都是宣告一個 `goku` 的結構變數，並且指派對應的值。
 
-Many times though, we don't want a variable that is directly associated 
-with our value but rather a variable that has a pointer to our value. 
-A pointer is a memory address; it's the location of where to find the 
-actual value. It's a level of indirection. Loosely, 
-it's the difference between being at a house and having directions 
-to the house.
 許多時候，我們不想要一個直接關聯的變數，而是想要一個指向該變數所儲存的值的指標。
-指標所儲存的內容是記憶體位置。
+指標所儲存的內容是記憶體位置，找到這個記憶體位置就可以找到對應的值。這是一種對應的關係，
+就像你的房子和前往你房子的方向一樣。
 
-Why do we want a pointer to the value, rather than the actual value? 
-It comes down to the way Go passes arguments to a function: as copies. 
-Knowing this, what does the following print?
+為什麼我們想要值的指標，而不是值本身呢？這就必須要知道 Go 傳遞參數到一個函式：用副本的方式。
+了解這個之後，來看看底下會印出什麼？
 
 ```go
 func main() {
@@ -74,7 +68,9 @@ func Super(s Saiyan) {
 }
 ```
 
-The answer is 9000, not 19000. Why? Because `Super` made changes to a copy of our original `goku` value and thus, changes made in `Super` weren't reflected in the caller. To make this work as you probably expect, we need to pass a pointer to our value:
+答案是 9000，而不是 19000，為什麼？因為 `Super` 改變了 `goku` 副本的值，而並非原本呼叫 `Super` 所傳進去的 `goku`。
+因此，在 `Super` 中的變更並不會反應到呼叫 `Super` 時所傳入的 `goku` 上。為了讓程式碼的行為如你所預期，
+我們必須要傳入指標：
 
 ```go
 func main() {
@@ -88,11 +84,14 @@ func Super(s *Saiyan) {
 }
 ```
 
-We made two changes. The first is the use of the `&` operator to get the address of our value (it's called the *address of* operator). Next, we changed the type of parameter `Super` expects. It used to expect a value of type `Saiyan` but now expects an address of type `*Saiyan`, where `*X` means *pointer to value of type X*. There's obviously some relation between the types `Saiyan` and `*Saiyan`, but they are two distinct types.
+在這裡我們調整兩個部分。第一個是我們使用 `&` 運算子來取得對應值的記憶體位置（這叫做 *取得記憶體位置* 運算子）。
+接著，我們變更 `Super` 函式的參數。之前我們預期的參數是 `Saiyan` 結構的值，但是現在我們
+預期的參數是 `*Saiyan` 型態，`*X` 的意思是 *型別 X 的值的指標*。顯而易見的，
+`Saiyan` 和 `*Saiyan` 勢必有些關聯，但他們是兩種完全不同的型別。
 
-Note that we're still passing a copy of `goku's` value to `Super` it just so happens that `goku's` value has become an address. That copy is the same address as the original, which is what that indirection buys us. Think of it as copying the directions to a restaurant. What you have is a copy, but it still points to the same restaurant as the original.
+注意我們仍然將 `goku` 的副本值傳給 `Super`，只是 `goku` 的值變成了記憶體位置。
 
-We can prove that it's a copy by trying to change where it points to (not something you'd likely want to actually do):
+我們可以試著變更這個副本指向的位置來證明他的確是個副本（不過這也許不是你本來會做的事情）：
 
 ```go
 func main() {
@@ -106,15 +105,19 @@ func Super(s *Saiyan) {
 }
 ```
 
-The above, once again, prints 9000. This is how many languages behave, including Ruby, Python, Java and C#. Go, and to some degree C#, simply make the fact visible.
+上面的例子中，還是會印出 9000。這個行為在許多的程式語言都是如此，包含：Ruby, Python, Java 和 C#。
+在 Go 和 某種程度的 C# 上，只是讓這個事實更顯著。
 
-It should also be obvious that copying a pointer is going to be cheaper than copying a complex structure. On a 64-bit machine, a pointer is 64 bits large. If we have a structure with many fields, creating copies can be expensive. The real value of pointers though is that they let you share values. Do we want `Super` to alter a copy of `goku` or alter the shared `goku` value itself?
+更顯而易見的，指標的副本會比整個複雜結構的副本來的輕量多了。在 64 位元的機器上，一個指標的大小是 64 bits。
+如果我們有一個包含許多欄位的結構，建立一個副本會是相當昂貴的。指標的真正價值是讓你共享值，
+想想看，我們是想要讓 `Super` 變更 `goku` 的副本，還是共享 `goku` 值的本身呢？
 
-All this isn't to say that you'll always want a pointer. At the end of this chapter, after we've seen a bit more of what we can do with structures, we'll re-examine the pointer-versus-value question.
+這一切不是說你永遠都說我要的是一個指標。在這章節的最後，等到我們看了更多關於結構的內容後，
+我們會再重新看看指標和值的問題。
 
-## Functions on Structures
+## 函式和結構
 
-We can associate a method with a structure:
+我們可以將一個方法與結構互相關聯：
 
 ```go
 type Saiyan struct {
@@ -127,7 +130,7 @@ func (s *Saiyan) Super() {
 }
 ```
 
-In the above code, we say that the type `*Saiyan` is the **receiver** of the `Super` method. We call `Super` like so:
+在上面的程式中，我們說 `*Saiyan` 型別是 `Super` 方法的**接收者**。我們可以這樣呼叫 `Super`：
 
 ```go
 goku := &Saiyan{"Goku", 9001}
@@ -135,10 +138,9 @@ goku.Super()
 fmt.Println(goku.Power) // will print 19001
 ```
 
-## Constructors
+## 建構子
 
-Structures don't have constructors. Instead, you create a function that returns an instance of the desired type (like a factory):
-
+結構並沒有所謂的建構子。相反的，你可以建立一個函式，回傳值是你所需要型別的實例（就像工廠模式一樣）：
 ```go
 func NewSaiyan(name string, power int) *Saiyan {
   return &Saiyan{
@@ -148,10 +150,10 @@ func NewSaiyan(name string, power int) *Saiyan {
 }
 ```
 
-This pattern rubs a lot of developers the wrong way. On the one hand, it's a pretty slight syntactical change; on the other, it does feel a little less compartmentalized.
+這種模式讓很多開發者走到錯誤的路上。一方面，他是一個很微妙的語法，另一方面，他確實感覺
+有點不直覺。
 
-Our factory doesn't have to return a pointer; this is absolutely valid:
-
+我們的工廠模式不一定要回傳一個指標，下面這段程式碼也是完全合法的：
 ```go
 func NewSaiyan(name string, power int) Saiyan {
   return Saiyan{
@@ -163,15 +165,16 @@ func NewSaiyan(name string, power int) Saiyan {
 
 ## New
 
-Despite the lack of constructors, Go does have a built-in `new` function which is used to allocate the memory required by a type. The result of `new(X)` is the same as `&X{}`:
-
+儘管 Go 語言中沒有建構子，但 Go 卻有內建的 `new` 函式，用來分配對應型別的記憶體空間。
+就結果來看，`new(X)` 和 `&X{}` 是一樣的。
 ```go
 goku := new(Saiyan)
 // same as
 goku := &Saiyan{}
 ```
 
-Which you use is up to you, but you'll find that most people prefer the latter whenever they have fields to initialize, since it tends to be easier to read:
+要用哪一種方法都可以，但你會發現大多數人都喜歡用後者，無論他們是否有對應的欄位需要初始化。
+原因是他比較容易閱讀。
 
 ```go
 goku := new(Saiyan)
@@ -186,13 +189,15 @@ goku := &Saiyan {
 }
 ```
 
-Whichever approach you choose, if you follow the factory pattern above, you can shield the rest of your code from knowing and worrying about any of the allocation details.
+無論你採用哪種方法，只要遵循工廠模式，你可以放心的不去管後面如何分配記憶體位置的種種細節。
 
-## Fields of a Structure
+## 結構中的欄位
 
-In the example that we've seen so far, `Saiyan` has two fields `Name` and `Power` of types `string` and `int`, respectively. Fields can be of any type -- including other structures and types that we haven't explored yet such as arrays, maps, interfaces and functions.
+在我們已經看過的例子中，`Saiyan` 結構有兩個欄位，字串型別的 `Name` 和 整數型別的 `Power`。
+事實上，結構的欄位可以是任何型別，包括其他的結構，或是任何我們還沒有介紹過的陣列、map、
+介面和函式。
 
-For example, we could expand our definition of `Saiyan`:
+例如，我們可以擴展 `Saiyan` 的定義：
 
 ```go
 type Saiyan struct {
@@ -202,7 +207,7 @@ type Saiyan struct {
 }
 ```
 
-which we'd initialize via:
+可以這樣初始化：
 
 ```go
 gohan := &Saiyan{
@@ -216,9 +221,10 @@ gohan := &Saiyan{
 }
 ```
 
-## Composition
+## 組合
 
-Go supports composition, which is the act of including one structure into another. In some languages, this is called a trait or a mixin. Languages that don't have an explicit composition mechanism can always do it the long way. In Java:
+Go 語言支持組合，意思就是將一個結構包含到另外一個結構的行為。在某些語言中，這被叫做
+`trait` 或 `mixin`。沒有明確組合機智的語言總是會用其他的方式來達成。在 Java 中是這樣做：
 
 ```java
 public class Person {
@@ -241,7 +247,8 @@ public class Saiyan {
 }
 ```
 
-This can get pretty tedious. Every method of `Person` needs to be duplicated in `Saiyan`. Go avoids this tediousness:
+這樣撰寫十分乏味。`Person` 中的每個方法都必須要在 `Saiyan` 中重複一次。
+Go 則避免了這樣的作法：
 
 ```go
 type Person struct {
@@ -265,7 +272,9 @@ goku := &Saiyan{
 goku.Introduce()
 ```
 
-The `Saiyan` structure has a field of type `*Person`. Because we didn't give it an explicit field name, we can implicitly access the fields and functions of the composed type. However, the Go compiler *did* give it a field name, consider the perfectly valid:
+`Saiyan` 結構中有一個型態是 `*Person` 的欄位。因為我們沒有給他明確的欄位名稱，
+所以我們可以透過組合隱性的存取這個欄位和函式。然而，Go 的編譯器 *的確* 會給他一個欄位名稱。
+看看以下的例子：
 
 ```go
 goku := &Saiyan{
@@ -275,15 +284,18 @@ fmt.Println(goku.Name)
 fmt.Println(goku.Person.Name)
 ```
 
-Both of the above will print "Goku".
+兩個都會印出 "Goku"。
 
-Is composition better than inheritance? Many people think that it's a more robust way to share code. When using inheritance, your class is tightly coupled to your superclass and you end up focusing on hierarchy rather than behavior.
+組合是否比繼承好呢？許多人認為這是分享程式碼一個比較可靠的方式。當使用繼承時，你的類別會僅耦合
+道父類別，最終你關注的是階層結構而並非是程式碼本身的行為。
 
-### Overloading
+### 多載
 
-While overloading isn't specific to structures, it's worth addressing. Simply, Go doesn't support overloading. For this reason, you'll see (and write) a lot of functions that look like `Load`, `LoadById`, `LoadByName` and so on.
+雖然多載並不限定於在結構，但值得在這一提。簡單來說，Go 不支援多載，
+所以你會看到很多函式用來做 `Load`、`LoadById`、`LoadByName`。
 
-However, because implicit composition is really just a compiler trick, we can "overwrite" the functions of a composed type. For example, our `Saiyan` structure can have its own `Introduce` function:
+然而，因為隱性組合是一種編譯器的小技巧，我們可以 "覆寫" 組合型別的函式。例如，
+`Saiyan` 結構可以有自己的 `Introduce` 函式：
 
 ```go
 func (s *Saiyan) Introduce() {
@@ -291,23 +303,26 @@ func (s *Saiyan) Introduce() {
 }
 ```
 
-The composed version is always available via `s.Person.Introduce()`.
+而你總是可以透過 `s.Person.Introduce()` 來呼叫他。
 
-## Pointers versus Values
+## 指標 V.S. 值
 
-As you write Go code, it's natural to ask yourself *should this be a value, or a pointer to a value?* There are two pieces of good news. First, the answer is the same regardless of which of the following we're talking about:
+當你在寫 Go 的程式碼時，問問自己 *這是一個值，還是一個指標指向該值* 是很正常的。
+有兩個好消息，第一，下面任何一個問題的答案都是一樣的：
 
-* A local variable assignment
-* Field in a structure
-* Return value from a function
-* Parameters to a function
-* The receiver of a method
+* 區域變數賦值
+* 結構中的欄位
+* 函式的回傳值
+* 函式的參數
+* 方法的接收者
 
-Secondly, if you aren't sure, use a pointer.
+第二，如果你不確定的話，用指標。
 
-As we already saw, passing values is a great way to make data immutable (changes that a function makes to it won't be reflected in the calling code). Sometimes, this is the behavior that you'll want but more often, it won't be.
+就像我們看到的，傳遞值是使得資料成為不可變得一個好方法（在被呼叫的方法中變更該值並不會反映到呼叫者上）。
+有時候，這是你想要的行為，但大多時候你不會想要這樣。
 
-Even if you don't intend to change the data, consider the cost of creating a copy of large structures. Conversely, you might have small structures, say:
+即使你真的不想要改變資料本身，想想看建立一個龐大結構的副本是多大的開銷。
+相反的，如果你有一個相對小的結構：
 
 ```go
 type Point struct {
@@ -315,11 +330,10 @@ type Point struct {
   Y int
 }
 ```
+在這樣的例子中，使用結構副本的開銷可能被抵銷掉，你可以直接訪問 `X` 和 `Y`。再提醒一次，
+這些都是比較細微的差別，除非你反覆存取幾千或幾萬次，不然可能不會注意到這開銷的差別。
 
-In such cases, the cost of copying the structure is probably offset by being able to access `X` and `Y` directly, without any indirection.
+## 繼續學習下去之前
 
-Again, these are all pretty subtle cases. Unless you're iterating over thousands or possibly tens of thousands of such points, you wouldn't notice a difference.
-
-## Before You Continue
-
-From a practical point of view, this chapter introduced structures, how to make an instance of a structure a receiver of a function, and added pointers to our existing knowledge of Go's type system. The following chapters will build on what we know about structures as well as the inner workings that we've explored.
+從實際的角度來說，這一章節中我們介紹了結構。學習如何讓結構的實例成為一個函式的接收者。
+並且在既有 Go 的型別系統中增加了指標的知識。下一章節會建基在我們學習到的結構。
