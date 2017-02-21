@@ -51,27 +51,19 @@ scores := []int{1,4,293,4,9}
 scores := make([]int, 10)
 ```
 
-We use `make` instead of `new` because there's more to creating a slice than 
-just allocating the memory (which is what `new` does). Specifically, 
-we have to allocate the memory for the underlying array and also initialize 
-the slice.  In the above, we initialize a slice with a 
-length of 10 and a capacity of 10. The length is the size of the slice, 
-the capacity is the size of the underlying array. 
-Using `make` we can specify the two separately:
 我們使用 `make` 而沒有使用 `new` 是因為建立一個 slice 不僅僅是分配一個記憶體區間而已（`new` 的
 作用就是分配一段記憶體區間）。明確的來說，我們幫底層的陣列建立了一段記憶體區間，同時也要初始化 slice。
 在上面的例子中，我們初始化一個 slice，長度和容量都是 10。長度代表 slice 的大小，
-而容量是底層陣列的大小。
+而容量是底層陣列的大小。透過 `make` 函式，我們可以同時宣告長度和容量。
 
 ```go
 scores := make([]int, 0, 10)
 ```
 
-This creates a slice with a length of 0 but with a capacity of 10. 
-(If you're paying attention, you'll note that `make` and `len` *are* overloaded. 
-Go is a language that, to the frustration of some, makes use of features which aren't exposed for developers to use.)
+這會建立一個長度是 0 ，容量是 10 的 slice。（如果你有留意的話，會發現 `make` 和 `len` 同時實現了
+ *重載* 的功能。Go 語言的某些特性會讓你感到有點失望，因為某些部分他並沒有揭露給開發者使用。）
 
-To better understand the interplay between length and capacity, let's look at some examples:
+為了更好理解關於長度和容量之間的交互關係，讓我們來看一些例子：
 
 ```go
 func main() {
@@ -81,7 +73,8 @@ func main() {
 }
 ```
 
-Our first example crashes. Why? Because our slice has a length of 0. Yes, the underlying array has 10 elements, but we need to explicitly expand our slice in order to access those elements. One way to expand a slice is via `append`:
+上面的第一個例子是無法運作的，為什麼？因為我們的 slice 長度是 0。是的，底層的陣列有 10 個元素，
+但如果想要存取元素時，我們必須明確的擴展 slice。其中一個擴展 slice 的方式是使用 `append`：
 
 ```go
 func main() {
@@ -91,7 +84,9 @@ func main() {
 }
 ```
 
-But that changes the intent of our original code. Appending to a slice of length 0 will set the first element. For whatever reason, our crashing code wanted to set the element at index 7. To do this, we can re-slice our slice:
+但這改變了我們原本程式碼的意圖，在長度為 0 的 slice 上增加一個元素會被放到 slice 的第一個元素。
+不管出自什麼原因，那段不能運作的程式碼會賦值給 slice 的第 8 個元素。為了達成這個目標，我們可以再
+切割 slice：
 
 ```go
 func main() {
@@ -102,9 +97,13 @@ func main() {
 }
 ```
 
-How large can we resize a slice? Up to its capacity which, in this case, is 10. You might be thinking *this doesn't actually solve the fixed-length issue of arrays.* It turns out that `append` is pretty special. If the underlying array is full, it will create a new larger array and copy the values over (this is exactly how dynamic arrays work in PHP, Python, Ruby, JavaScript, ...). This is why, in the example above that used `append`, we had to re-assign the value returned by `append` to our `scores` variable: `append` might have created a new value if the original had no more space.
+可以調整 slice 長度的上限是多少？這個上限就是根據 slice 的容量來決定，在上面的例子中，就是 10。
+你可能會認為這沒有解決 *固定長度陣列* 的問題。其實 `append` 是比較特別的，如果底層的陣列已經滿了，
+`append` 會創造一個更大的暫列，並且複製所有的值到新的陣列（這也是動態陣列的工作原理，像是：PHP、Python、
+Ruby、Javascript等）。這就是為什麼我們在上面的例子中使用 `append`，我們必須要將 `append` 得返回值
+重新指派給 scores 變數，如果原始的 slice 沒有更多容量時，`append` 會建立一個新的。
 
-If I told you that Go grew arrays with a 2x algorithm, can you guess what the following will output?
+如果我告訴你 Go 在擴展陣列時使用的是 2x 演算法，你可以猜到以下的程式碼的輸出是什麼嗎？
 
 ```go
 func main() {
@@ -115,8 +114,8 @@ func main() {
   for i := 0; i < 25; i++ {
     scores = append(scores, i)
 
-    // if our capacity has changed,
-    // Go had to grow our array to accommodate the new data
+    // 如果容量改變了，
+    // Go 為了容納新的資料，會增加陣列的長度
     if cap(scores) != c {
       c = cap(scores)
       fmt.Println(c)
@@ -125,9 +124,10 @@ func main() {
 }
 ```
 
-The initial capacity of `scores` is 5. In order to hold 20 values, it'll have to be expanded 3 times with a capacity of 10, 20 and finally 40.
+如果初始 `scores` 的容量是 5，為了要容納 20 個元素，slice 的容量必須要擴展 3 次，分別是
+10、20 和 40。
 
-As a final example, consider:
+最後一個範例：
 
 ```go
 func main() {
@@ -137,9 +137,13 @@ func main() {
 }
 ```
 
-Here, the output is going to be `[0, 0, 0, 0, 0, 9332]`. Maybe you thought it would be `[9332, 0, 0, 0, 0]`? To a human, that might seem logical. To a compiler, you're telling it to append a value to a slice that already holds 5 values.
+Here, the output is going to be `[0, 0, 0, 0, 0, 9332]`. Maybe you thought it would be `[9332, 0, 0, 0, 0]`? 
+To a human, that might seem logical. To a compiler, you're telling it to append a value to a slice that 
+already holds 5 values.
+上面的程式碼輸出會是 `[0, 0, 0, 0, 0, 9332]`。從直觀來看，你可能會以為輸出是 `[9332, 0, 0, 0, 0]`？
+對編譯器而言，上面的程式碼代表的意思是，附加 9332 到已經有五個值的 slice 。
 
-Ultimately, there are four common ways to initialize a slice:
+最後，這裡提供四種常見初始化 slice 的方式：
 
 ```go
 names := []string{"leto", "jessica", "paul"}
@@ -148,9 +152,10 @@ var names []string
 scores := make([]int, 0, 20)
 ```
 
-When do you use which? The first one shouldn't need much of an explanation. You use this when you know the values that you want in the array ahead of time.
+你該使用哪一種方式？
 
-The second one is useful when you'll be writing into specific indexes of a slice. For example:
+第一種方式相當直觀，不需要太多的說明，但缺點是你必須先吃到要往 slice 裡面放的元素是什麼。
+第二種方式在你想要往 slice 的特定位置寫入一個值的時候很有用，比如說：
 
 ```go
 func extractPowers(saiyans []*Saiyans) []int {
@@ -162,11 +167,10 @@ func extractPowers(saiyans []*Saiyans) []int {
 }
 ```
 
-The third version is a nil slice and is used in conjunction with `append`, when the number of elements is unknown.
+第三個方式會回傳一個空的 slice，一般會和 `append` 一起使用。此時 slice 的數量是未知的。
 
-The last version lets us specify an initial capacity; useful if we have a general idea of how many elements we'll need.
-
-Even when you know the size, `append` can be used. It's largely a matter of preference:
+最後一種方式讓我們指定 slice 的長度和容量。當我們大概知道需要多少元素時很有用。
+即使你知道元素的個數，`append` 也可以被使用。這取決於個人喜好：
 
 ```go
 func extractPowers(saiyans []*Saiyans) []int {
@@ -178,7 +182,9 @@ func extractPowers(saiyans []*Saiyans) []int {
 }
 ```
 
-Slices as wrappers to arrays is a powerful concept. Many languages have the concept of slicing an array. Both JavaScript and Ruby arrays have a `slice` method. You can also get a slice in Ruby by using `[START..END]` or in Python via `[START:END]`. However, in these languages, a slice is actually a new array with the values of the original copied over. If we take Ruby, what's the output of the following?
+slice 作為一個陣列的封裝來說是很有用的。許多語言都有類似的概念。Javascript 和 Ruby 中都有一個 `slice` 方法。
+在 Ruby 中，你可以透過 `[START..END]` 來得到一個 slice，或是在 Python 中使用 `[START:END]` 來得到一個 slice。
+然而，在某些語言中，slice 的確是從原始陣列複製而來。如果我們使用 Ruby，下面的程式碼會輸出什麼？
 
 ```go
 scores = [1,2,3,4,5]
@@ -187,7 +193,7 @@ slice[0] = 999
 puts scores
 ```
 
-The answer is `[1, 2, 3, 4, 5]`. That's because `slice` is a completely new array with copies of values. Now, consider the Go equivalent:
+答案是 `[1, 2, 3, 4, 5]`。因為 `slice` 是把舊的值全部複製過來的一個新陣列。現在，同樣情況下來看看 Go 會怎麼做：
 
 ```go
 scores := []int{1,2,3,4,5}
@@ -196,29 +202,31 @@ slice[0] = 999
 fmt.Println(scores)
 ```
 
-The output is `[1, 2, 999, 4, 5]`.
+輸出會是 `[1, 2, 999, 4, 5]`。
 
-This changes how you code. For example, a number of functions take a position parameter. In JavaScript, if we want to find the first space in a string (yes, slices work on strings too!) after the first five characters, we'd write:
+這種行為會如何改變你的程式碼？例如，很多函式會需要位置參數。在 JavaScript 中，如果我們想要在前五個字元後尋找一個空白
+（是的，slice 也可以在字串中使用），我們可以這樣寫：
 
 ```go
 haystack = "the spice must flow";
 console.log(haystack.indexOf(" ", 5));
 ```
 
-In Go, we leverage slices:
+在 Go 語言中，我們使用 slice 來做：
 
 ```go
 strings.Index(haystack[5:], " ")
 ```
 
-We can see from the above example, that `[X:]` is shorthand for *from X to the end* while `[:X]` is shorthand for *from the start to X*. Unlike other languages, Go doesn't support negative values. If we want all of the values of a slice except the last, we do:
+從上面的例子中，我們可以看到 `[X:]` 是代表 *從 X 到結尾* 的縮寫。而 `[:X]` 代表的是 *從開始到 X* 的縮寫。跟其他語言不同的是，
+Go 不支援負索引值，如果我們想要除了最後一個以外的所有值，可以這樣寫：
 
 ```go
 scores := []int{1, 2, 3, 4, 5}
 scores = scores[:len(scores)-1]
 ```
 
-The above is the start of an efficient way to remove a value from an unsorted slice:
+上面的例子是從一個未排序 slice 中去除一個值得有效方法。
 
 ```go
 func main() {
@@ -235,7 +243,9 @@ func removeAtIndex(source []int, index int) []int {
 }
 ```
 
-Finally, now that we know about slices, we can look at another commonly used built-in function: `copy`. `copy` is one of those functions that highlights how slices change the way we code. Normally, a method that copies values from one array to another has 5 parameters: `source`, `sourceStart`, `count`, `destination` and `destinationStart`. With slices, we only need two:
+我們已經瞭解了 slice。最後，再來學習一下一個常見的內建函式 `copy`。`copy` 是許多的函式中顯著會改變我們如何撰寫程式碼的函式之一。
+一般來說，複製陣列的值到另外一個陣列會需要五個參數：`source`, `sourceStart`, 
+`count`, `destination` 和 `destinationStart`。但使用 slice，我們只需要兩個參數：
 
 ```go
 import (
@@ -257,7 +267,8 @@ func main() {
 }
 ```
 
-Take some time and play with the above code. Try variations. See what happens if you change copy to something like `copy(worst[2:4], scores[:5])`, or what if you try to copy more or less than `5` values into `worst`?
+花點時間研究上面的程式碼。試著改變一些部分。如果你使用 `copy(worst[2:4], scores[:5])` 方式去複製，看看會產生什麼結果？
+或者試著複製多於或者少於 5 個值到 `worst`。
 
 ## Maps
 
