@@ -137,9 +137,6 @@ func main() {
 }
 ```
 
-Here, the output is going to be `[0, 0, 0, 0, 0, 9332]`. Maybe you thought it would be `[9332, 0, 0, 0, 0]`? 
-To a human, that might seem logical. To a compiler, you're telling it to append a value to a slice that 
-already holds 5 values.
 上面的程式碼輸出會是 `[0, 0, 0, 0, 0, 9332]`。從直觀來看，你可能會以為輸出是 `[9332, 0, 0, 0, 0]`？
 對編譯器而言，上面的程式碼代表的意思是，附加 9332 到已經有五個值的 slice 。
 
@@ -272,9 +269,10 @@ func main() {
 
 ## Maps
 
-Maps in Go are what other languages call hashtables or dictionaries. They work as you expect: you define a key and value, and can get, set and delete values from it.
+在 Go 語言中的 Map 就如同其他語言的 hashtables 或 dictionaries。他們的功用正如同你想像的：
+定義鍵和值，你可以從 map 中取得、設定或刪除該值。
 
-Maps, like slices, are created with the `make` function. Let's look at an example:
+Map 和 slice 一樣，可以透過 `make` 函式來建立。讓我們來看個例子：
 
 ```go
 func main() {
@@ -288,7 +286,7 @@ func main() {
 }
 ```
 
-To get the number of keys, we use `len`. To remove a value based on its key, we use `delete`:
+使用 `len` 可以取得鍵值的數量。可以透過 `delete` 函式來刪除特定鍵的值。
 
 ```go
 // returns 1
@@ -298,15 +296,15 @@ total := len(lookup)
 delete(lookup, "goku")
 ```
 
-Maps grow dynamically. However, we can supply a second argument to `make` to set an initial size:
+Map 是動態增長的。然而，我們可以在 `make` 函式中透過設定第二個參數來給訂初始大小：
 
 ```go
 lookup := make(map[string]int, 100)
 ```
 
-If you have some idea of how many keys your map will have, defining an initial size can help with performance.
+如果你對於有多少鍵值有概念的話，預先定義初始化大小有助於提升效能。
 
-When you need a map as a field of a structure, you define it as:
+當你需要把結構的欄位定義為一個 map 時，可以這樣做：
 
 ```go
 type Saiyan struct {
@@ -315,7 +313,7 @@ type Saiyan struct {
 }
 ```
 
-One way to initialize the above is via:
+初始化上面這個結構的一種方式：
 
 ```go
 goku := &Saiyan{
@@ -325,7 +323,8 @@ goku := &Saiyan{
 goku.Friends["krillin"] = ... //todo load or create Krillin
 ```
 
-There's yet another way to declare and initialize values in Go. Like `make`, this approach is specific to maps and arrays. We can declare as a composite literal:
+這裡還有另外一種方式可以宣告和初始化一個 map。類似 `make`，這種方式可以用來初始化 map 和陣列。
+我們可以這樣宣告：
 
 ```go
 lookup := map[string]int{
@@ -334,7 +333,7 @@ lookup := map[string]int{
 }
 ```
 
-We can iterate over a map using a `for` loop combined with the `range` keyword:
+我們可以使用 `for` 迴圈和 `range` 關鍵字來遍歷 map：
 
 ```go
 for key, value := range lookup {
@@ -342,11 +341,11 @@ for key, value := range lookup {
 }
 ```
 
-Iteration over maps isn't ordered. Each iteration over a lookup will return the key value pair in a random order.
+要特別注意的是，遍歷 map 是沒有順序性的。每一次的遍歷返回的鍵值對都是隨機的。
 
-## Pointers versus Values
+## 指針和值
 
-We finished Chapter 2 by looking at whether you should assign and pass pointers or values. We'll now have this same conversation with respect to array and map values. Which of these should you use?
+我們在第二章時已經討論過什麼時候要傳遞指針、什麼時候要傳遞值。現在我們學習到了陣列和 map，再來看看該使用以下哪一種方式？
 
 ```go
 a := make([]Saiyan, 10)
@@ -354,12 +353,15 @@ a := make([]Saiyan, 10)
 b := make([]*Saiyan, 10)
 ```
 
-Many developers think that passing `b` to, or returning it from, a function is going to be more efficient. However, what's being passed/returned is a copy of the slice, which itself is a reference. So with respect to passing/returning the slice itself, there's no difference.
+很多開發者會認為傳遞 b 到一個函式，或是回傳一個 b 會比較有效率，但事實上，我們傳遞或返回的都是一個 slice 的拷貝，
+所以就傳遞或返回這個 slice 而言，是沒有什麼差別的。
 
-Where you will see a difference is when you modify the values of a slice or map. At this point, the same logic that we saw in Chapter 2 applies. So the decision on whether to define an array of pointers versus an array of values comes down to how you use the individual values, not how you use the array or map itself.
+你會看見不同的地方是在於如果你要修改 slice 或 map 的值。在這點上，同樣的邏輯我們已經在第二章看過。
+所以是定義一個陣列指針或陣列值，取決於你怎麼使用單個值，而不是怎麼使用陣列或 map 本身來決定。
 
-## Before You Continue
+## 在你繼續學習之前
 
-Arrays and maps in Go work much like they do in other languages. If you're used to dynamic arrays, there might be a small adjustment, but `append` should solve most of your discomfort. If we peek beyond the superficial syntax of arrays, we find slices. Slices are powerful and they have a surprisingly large impact on the clarity of your code.
+陣列和 map 在 Go 中跟其他的語言很類似，如果你曾經使用過動態陣列，可能需要一點時間適應，但是 `append` 應該會解決掉大
+部分不適應的地方。如果我們拋開陣列表面的語法，你會發現 slice 是很強大的。使用 slice 對於你維持程式碼的簡潔是有很大幫助的。
 
-There are edge cases that we haven't covered, but you're not likely to run into them. And, if you do, hopefully the foundation we've built here will let you understand what's going on.
+這便有一些極端案例我們沒有提到，但你應該很少會遇到這些案例。如果你碰到了，希望我們為你打下的基礎可以讓你了解是怎麼回事。
