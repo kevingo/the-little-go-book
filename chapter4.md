@@ -78,13 +78,14 @@ func main() {
 go run main/main.go
 ```
 
-### Cyclical Imports
+### 循環引用
 
-As you start writing more complex systems, you're bound to run into cyclical imports. This happens when package A imports package B but package B imports package A (either directly or indirectly through another package). This is something the compiler won't allow.
+當你開始撰寫更複雜的系統時，你一定會遇到循環引用的問題。當 A 套件要引用 B 套件，但 B 套件又引用 A 套件時就會發生這樣的狀況(不管是直接引用或是透過其他套件間接引用)。
+這種情況編譯器是不會允許的。
 
-Let's change our shopping structure to cause the error.
+讓我們調整我們的專案結構來模擬這樣的錯誤。
 
-Move the `Item` definition from `shopping/db/db.go` into `shopping/pricecheck.go`. Your `pricecheck.go` file should now look like:
+將 `Item` 的定義從 `shopping/db/db.go` 改為 `shopping/pricecheck.go`，所以你的 `pricecheck.go` 會長的像這樣：
 
 ```go
 package shopping
@@ -106,7 +107,8 @@ func PriceCheck(itemId int) (float64, bool) {
 }
 ```
 
-If you try to run the code, you'll get a couple of errors from `db/db.go` about `Item` being undefined. This makes sense. `Item` no longer exists in the `db` package; it's been moved to the shopping package. We need to change `shopping/db/db.go` to:
+如果你是著執行這段程式碼，你會從 `db/db.go` 得到一個關於 `Item` 未定義的錯誤。這是很合理的，
+因為 `Item` 不再存在於 `db` 套件了，他已經被移到 `shopping` 的套件中。我們需要調整 `shopping/db/db.go`：
 
 ```go
 package db
@@ -122,7 +124,7 @@ func LoadItem(id int) *shopping.Item {
 }
 ```
 
-Now when you try to run the code, you'll get a dreaded *import cycle not allowed* error. We solve this by introducing another package which contains shared structures. Your directory structure should look like:
+現在再執行一下程式碼，你會得到*循環引用*錯誤。要解決這個問題，我們必須要導入另外一個套件，所以我們現在的目錄結構長得像這樣：
 
 ```
 $GOPATH/src
@@ -135,8 +137,9 @@ $GOPATH/src
     - main
       main.go
 ```
-
-`pricecheck.go` will still import `shopping/db`, but `db.go` will now import `shopping/models` instead of `shopping`, thus breaking the cycle. Since we moved the shared `Item` structure to `shopping/models/item.go`, we need to change `shopping/db/db.go` to reference the `Item` structure from `models` package:
+`pricecheck.go` 仍然會引用 `shopping/db`，但是 `db.go` 現在會引用 `shopping/models`，而不是 `shopping`。
+如此一來就可以解決循環引用的問題。由於我們將共用的結構 `Item` 到 `shopping/models/item.go`，我們需要變更 `shopping/db.db.go`
+，讓他可以從 `models` 套件中引用 `Item` 結構。
 
 ```go
 package db
@@ -152,7 +155,8 @@ func LoadItem(id int) *models.Item {
 }
 ```
 
-You'll often need to share more than just `models`, so you might have other similar folder named `utilities` and such. The important rule about these shared packages is that they shouldn't import anything from the `shopping` package or any sub-packages. In a few sections, we'll look at interfaces which can help us untangle these types of dependencies.
+你經常會共享的套件不僅僅是 `models`，可能還會有其他類似 `utilities` 這樣的套件。關於這一類共享套件的重要規則就是，
+他不應該從 `shopping` 套件或其他任何的子套件中引用任何東西。在一些小節中，我們會看到使用介面將會幫助我們解決這些相依關係。
 
 ### Visibility
 
