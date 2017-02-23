@@ -163,11 +163,6 @@ func LoadItem(id int) *models.Item {
 Go 使用一個簡單的規則來定義每個型態和函式是否可被外部的套件呼叫。如果你宣告的類型或函式時以大寫字母開頭，那這個函式或型態就是可見的。
 如果是以小寫開頭，那就是不可見的。
 
-This also applies to structure fields. If a structure field name starts with a lowercase letter, 
-only code within the same package will be able to access them.
-
-For example, if our `items.go` file had a function that looked like:
-
 這樣的規則也適用於結構，如果一個結構中的欄位是小寫字母開頭，那只有在同一個套件中的程式碼才能夠存取這些欄位。例如，我們在 `items.go` 中有一個函式長這樣：
 
 ```go
@@ -180,11 +175,6 @@ func NewItem() *Item {
 你可以繼續修改 `shopping` 套件中的型態或欄位，例如，如果你將 `Item` 結構中的 `Price` 欄位改成 `price`，會得到錯誤訊息。
 
 ### 套件管理
-
-The `go` command we've been using to `run` and `build` has a `get` subcommand which is used to 
-fetch third-party libraries. `go get` supports various protocols but for this example, 
-we'll be getting a library from Github, meaning, you'll need `git` installed on your computer.
-
 我們已經學習過 go 的命令列工具，例如 `go run` 和 `go build`，還有一個 `get` 的子命令可以用來下載第三方函式庫。
 `go get` 支援不同的通訊協定，但在我們這個例子中，我們會嘗試透過這個命令從 Github 上下載一個函式庫，這意味著你必須在你的電腦上安裝 `git`。
 假設你已經安裝 `git` 了，在你的命令列上輸入：
