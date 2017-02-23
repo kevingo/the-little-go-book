@@ -158,13 +158,17 @@ func LoadItem(id int) *models.Item {
 你經常會共享的套件不僅僅是 `models`，可能還會有其他類似 `utilities` 這樣的套件。關於這一類共享套件的重要規則就是，
 他不應該從 `shopping` 套件或其他任何的子套件中引用任何東西。在一些小節中，我們會看到使用介面將會幫助我們解決這些相依關係。
 
-### Visibility
+### 可視性
 
-Go uses a simple rule to define what types and functions are visible outside of a package. If the name of the type or function starts with an uppercase letter, it's visible. If it starts with a lowercase letter, it isn't.
+Go 使用一個簡單的規則來定義每個型態和函式是否可被外部的套件呼叫。如果你宣告的類型或函式時以大寫字母開頭，那這個函式或型態就是可見的。
+如果是以小寫開頭，那就是不可見的。
 
-This also applies to structure fields. If a structure field name starts with a lowercase letter, only code within the same package will be able to access them.
+This also applies to structure fields. If a structure field name starts with a lowercase letter, 
+only code within the same package will be able to access them.
 
 For example, if our `items.go` file had a function that looked like:
+
+這樣的規則也適用於結構，如果一個結構中的欄位是小寫字母開頭，那只有在同一個套件中的程式碼才能夠存取這些欄位。例如，我們在 `items.go` 中有一個函式長這樣：
 
 ```go
 func NewItem() *Item {
@@ -172,23 +176,27 @@ func NewItem() *Item {
 }
 ```
 
-it could be called via `models.NewItem()`. But if the function was named `newItem`, we wouldn't be able to access it from a different package.
+我們可以透過 `models.NewItem()` 呼叫這個函式，但如果這個函式命名為 `newItem`，那我們從其他的套件就無法呼叫這個函式。
+你可以繼續修改 `shopping` 套件中的型態或欄位，例如，如果你將 `Item` 結構中的 `Price` 欄位改成 `price`，會得到錯誤訊息。
 
-Go ahead and change the name of the various functions, types and fields from the `shopping` code. For example, if you rename the `Item's` `Price` field to `price`, you should get an error.
+### 套件管理
 
-### Package Management
+The `go` command we've been using to `run` and `build` has a `get` subcommand which is used to 
+fetch third-party libraries. `go get` supports various protocols but for this example, 
+we'll be getting a library from Github, meaning, you'll need `git` installed on your computer.
 
-The `go` command we've been using to `run` and `build` has a `get` subcommand which is used to fetch third-party libraries. `go get` supports various protocols but for this example, we'll be getting a library from Github, meaning, you'll need `git` installed on your computer.
-
-Assuming you already have git installed, from a shell/command prompt, enter:
+我們已經學習過 go 的命令列工具，例如 `go run` 和 `go build`，還有一個 `get` 的子命令可以用來下載第三方函式庫。
+`go get` 支援不同的通訊協定，但在我們這個例子中，我們會嘗試透過這個命令從 Github 上下載一個函式庫，這意味著你必須在你的電腦上安裝 `git`。
+假設你已經安裝 `git` 了，在你的命令列上輸入：
 
 ```
 go get github.com/mattn/go-sqlite3
 ```
 
-`go get` fetches the remote files and stores them in your workspace. Go ahead and check your `$GOPATH/src`. In addition to the `shopping` project that we created, you'll now see a `github.com` folder. Within, you'll see a `mattn` folder which contains a `go-sqlite3` folder.
+`go get` 會從遠端下載檔案並且儲存到你的工作目錄。查看你的 `$GOPATH/src`。除了我們已經建立的 `shopping` 專案外，你還會看到 `github.com` 資料夾。
+在這個資料夾中，你還會看見一個 `mattn` 資料夾，裡面包含了 `go-sqlite3` 的資料夾。
 
-We just talked about how to import packages that live in our workspace. To use our newly gotten `go-sqlite3` package, we'd import it like so:
+我們已經學習過如何引用一個套件在我們的工作目錄中，現在我們有一個全新的 `go-sqlite3` 套件，你可以透過以下方式引用：
 
 ```go
 import (
@@ -196,21 +204,23 @@ import (
 )
 ```
 
-I know this looks like a URL but in reality, it'll simply import the `go-sqlite3` package which it expects to find in `$GOPATH/src/github.com/mattn/go-sqlite3`.
+我知道這看起來很像一個網址，但事實上，他代表引用 `go-sqlite3` 套件，而這個套件就位在你電腦中的 `$GOPATH/src/github.com/mattn/go-sqlite3` 目錄下。
 
-### Dependency Management
+### 相依管理
+`go get` 有一些其他有趣的地方。如果你在一個專案中執行 `go get`，他會幫你掃描所有的檔案，尋找 `import` 所引用的第三方套件，並且嘗試下載它。
+某方面來說，我們自己的程式碼變成一個 `Gemfile` 或 `package.json` 檔案。（譯注：`Gemfile` 是 Ruby 用來管理第三方套件的檔案、`package.json` 是 Nodejs 用來管理第三方套件的檔案）
 
-`go get` has a couple of other tricks up its sleeve. If we `go get` within a project, it'll scan all the files, looking for `imports` to third-party libraries and will download them. In a way, our own source code becomes a `Gemfile` or `package.json`.
+如果你使用 `go get -u`，他會更新所有的套件（或是你也可以透過 `go get -u FULL_PACKAGE_NAME` 更新特定的套件）。
 
-If you call `go get -u` it'll update the packages (or you can update a specific package via `go get -u FULL_PACKAGE_NAME`).
+最後，你可能會發現 `go get` 的一些不足的地方。首先，他無法指定一個特定版本，他總會指向 `master/head/trunk/default`，這是一個
+嚴重的問題，尤其是你有兩個專案引用到同一個套件，但又需要該套件的不同版本。
 
-Eventually, you might find `go get` inadequate. For one thing, there's no way to specify a revision, it always points to the master/head/trunk/default. This is an even larger problem if you have two projects needing different versions of the same library.
+為了解決這個問題，你可以使用一些第三方相依管理的工具。雖然這些工具還不太成熟，但有兩個相依管理的工具比較有未來性，那就是 [goop](https://github.com/nitrous-io/goop) 和 [godep](https://github.com/tools/godep)。
+更完整的列表可以參考 [go-wiki](https://github.com/golang/go/wiki/PackageManagementTools)。
 
-To solve this, you can use a third-party dependency management tool. They are still young, but two promising ones are [goop](https://github.com/nitrous-io/goop) and [godep](https://github.com/tools/godep). A more complete list is available at the [go-wiki](https://code.google.com/p/go-wiki/wiki/PackageManagementTools).
+## 介面
 
-## Interfaces
-
-Interfaces are types that define a contract but not an implementation. Here's an example:
+介面是一種型態，他定義了宣告但沒有實作。底下是一個範例：
 
 ```go
 type Logger interface {
@@ -218,7 +228,7 @@ type Logger interface {
 }
 ```
 
-You might be wondering what purpose this could possibly serve. Interfaces help decouple your code from specific implementations. For example, we might have various types of loggers:
+你可能會覺得這樣有什麼用處？介面可以讓你的程式碼從實作中去耦合。例如，你可能會有很多種不同的 loggers：
 
 ```go
 type SqlLogger struct { ... }
@@ -226,9 +236,7 @@ type ConsoleLogger struct { ... }
 type FileLogger struct { ... }
 ```
 
-Yet by programming against the interface, rather than these concrete implementations, we can easily change (and test) which we use without any impact to our code.
-
-How would you use one? Just like any other type, it could be a structure's field:
+如果你在實作的時候使用介面，而不是具體的實作時，你可以很容易的改變和測試我們的程式碼。要怎麼使用？就像其他的類型一樣，你可以把介面作為結構的一個欄位宣告：
 
 ```go
 type Server struct {
@@ -236,7 +244,7 @@ type Server struct {
 }
 ```
 
-or a function parameter (or return value):
+或是一個韓式的參數（或是回傳值）：
 
 ```go
 func process(logger Logger) {
@@ -244,7 +252,7 @@ func process(logger Logger) {
 }
 ```
 
-In a language like C# or Java, we have to be explicit when a class implements an interface:
+在 C# 或 Java 中，當一個類別實作一個介面時，並需要明確的定義：
 
 ```go
 public class ConsoleLogger : Logger {
@@ -254,7 +262,7 @@ public class ConsoleLogger : Logger {
 }
 ```
 
-In Go, this happens implicitly. If your structure has a function name `Log` with a `string` parameter and no return value, then it can be used as a `Logger`. This cuts down on the verboseness of using interfaces:
+在 Go 中，這樣的行為是隱性的。如果你的結構有一個函式 `Log`，參數是 `string`，並且沒有回傳值，那這就可以當作是一個 `Logger`。這讓介面的使用上少了點冗余性。
 
 ```go
 type ConsoleLogger struct {}
@@ -262,17 +270,16 @@ func (l ConsoleLogger) Log(message string) {
   fmt.Println(message)
 }
 ```
+這也促成了介面具有小巧和集中的特性。Go 語言的標準函式庫中充滿著介面。尤其是在 `io` 的函式庫中有許多熱門的介面，比如說 `io.Reader`、`io.Writer` 和 `io.Closer`。
+如果你撰寫一個函式，函式的參數會呼叫 `Close`，你就可以傳遞一個 `io.Closer` 的介面而不用管你使用的具體型別是什麼。
 
-It also tends to promote small and focused interfaces. The standard library is full of interfaces. The `io` package has a handful of popular ones such as `io.Reader`, `io.Writer`, and `io.Closer`. If you write a function that expects a parameter that you'll only be calling `Close()` on, you absolutely should accept an `io.Closer` rather than whatever concrete type you're using.
+介面也可以組合，也就是說介面可以由其他的介面組成。例如 `io.ReadCloser` 就是由 `io.Reader` 介面和 `io.Closer` 介面組成。
 
-Interfaces can also participate in composition. And, interfaces themselves can be composed of other interfaces. For example, `io.ReadCloser` is an interface composed of the `io.Reader` interface as well as the `io.Closer` interface.
+最後，介面經常會避免循環引用。因為介面沒有具體的實作內容，所以他們的相依性是有限的。
 
-Finally, interfaces are commonly used to avoid cyclical imports. Since they don't have implementations, they'll have limited dependencies.
+## 在你繼續學習之前
 
-## Before You Continue
+當你開始用 Go 來撰寫一些專案時，你會習慣在 Go 工作目錄中組織程式碼的方式。最重要的事你要記住套件名稱和目錄結構有密切的關連（不只在一個專案中如此，在整個工作目錄都是這樣）。
+Go 語言處理可見性的方式是簡單、高效率且具有一致性的。還有一些內容我們沒有介紹到，比如說常數和全域變數，但別擔心，他們的可見性也是遵守一樣的規則。
 
-Ultimately, how you structure your code around Go's workspace is something that you'll only feel comfortable with after you've written a couple of non-trivial projects. What's most important for you to remember is the tight relationship between package names and your directory structure (not just within a project, but within the entire workspace).
-
-The way Go handles visibility of types is straightforward and effective. It's also consistent. There are a few things we haven't looked at, such as constants and global variables but rest assured, their visibility is determined by the same naming rule.
-
-Finally, if you're new to interfaces, it might take some time before you get a feel for them. However, the first time you see a function that expects something like `io.Reader`, you'll find yourself thanking the author for not demanding more than he or she needed.
+最後，如果你不熟悉 Go 的介面，可能會需要花一點時間來學習他。然而，當你第一次看到一個類似 `io.Reader` 的函式時，你會感激作者不會要求超過他所需要的部分的。
