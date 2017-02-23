@@ -1,10 +1,10 @@
-# Chapter 5 - Tidbits
+# 第五章 - 花絮
 
-In this chapter, we'll talk about a miscellany of Go's feature which didn't quite fit anywhere else.
+在這章，我們會介紹一些 Go 語言的花絮，這些特性主要是用在 Go 語言上。
 
-## Error Handling
+## 錯誤處理
 
-Go's preferred way to deal with errors is through return values, not exceptions. Consider the `strconv.Atoi` function which takes a string and tries to convert it to an integer:
+Go 主要是透過返回值來處理錯誤，並沒有一般語言的異常處理。讓我們來看看 `strconv.Atoi` 函式，這個函式會將字串轉整數：
 
 ```go
 package main
@@ -29,7 +29,7 @@ func main() {
 }
 ```
 
-You can create your own error type; the only requirement is that it fulfills the contract of the built-in `error` interface, which is:
+你可以建立自己的錯誤型別，唯一的要求就是要滿足內建的 `錯誤` 介面：
 
 ```go
 type error interface {
@@ -37,7 +37,7 @@ type error interface {
 }
 ```
 
-More commonly, we can create our own errors by importing the `errors` package and using it in the `New` function:
+一般情況下，我們可以引用內建的 `error` 套件，並使用 `new` 函式來建立自己的錯誤型別：
 
 ```go
 import (
@@ -54,13 +54,14 @@ func process(count int) error {
 }
 ```
 
-There's a common pattern in Go's standard library of using error variables. For example, the `io` package has an `EOF` variable which is defined as:
+Go 的標準函式庫就是透過這種模式來來進行錯誤處理。例如，在 `io` 的函式庫中有一個 `EOF` 的變數用來定義錯誤：
 
 ```go
 var EOF = errors.New("EOF")
 ```
 
-This is a package variable (it's defined outside of a function) which is publicly accessible (upper-case first letter). Various functions can return this error, say when we're reading from a file or STDIN. If it makes contextual sense, you should use this error, too. As consumers, we can use this singleton:
+這是一個屬於套件級別的變數（定義在函式外部），是可以是可以被公開存取的（變數是大寫開頭）。當我們從檔案中或標準輸入中讀取資料時，
+許多的函式都可以返回這種錯誤。如果有上下文關係的話，你也應該使用這種錯誤處理。作為使用者，你可以這樣使用：
 
 ```go
 package main
@@ -79,11 +80,15 @@ func main() {
 }
 ```
 
-As a final note, Go does have `panic` and `recover` functions. `panic` is like throwing an exception while `recover` is like `catch`; they are rarely used.
+最後提醒一點，Go 有 `panic` 和 `recover` 函式。`panic` 類似於拋出異常，`recover` 類似於 `catch`。不過他們很少使用。
 
 ## Defer
 
-Even though Go has a garbage collector, some resources require that we explicitly release them. For example, we need to `Close()` files after we're done with them. This sort of code is always dangerous. For one thing, as we're writing a function, it's easy to forget to `Close` something that we declared 10 lines up. For another, a function might have multiple return points. Go's solution is the `defer` keyword:
+Even though Go has a garbage collector, some resources require that we explicitly release them. 
+For example, we need to `Close()` files after we're done with them. This sort of code 
+is always dangerous. For one thing, as we're writing a function, 
+it's easy to forget to `Close` something that we declared 10 lines up. For another, 
+a function might have multiple return points. Go's solution is the `defer` keyword:
 
 ```go
 package main
@@ -104,13 +109,19 @@ func main() {
 }
 ```
 
-If you try to run the above code, you'll probably get an error (the file doesn't exist). The point is to show how `defer` works. Whatever you `defer` will be executed after the enclosing function (in this case `main()`) returns, even if it does so violently. This lets you release resources near where it's initialized and takes care of multiple return points.
+If you try to run the above code, you'll probably get an error (the file doesn't exist). 
+The point is to show how `defer` works. Whatever you `defer` will be executed after the 
+enclosing function (in this case `main()`) returns, even if it does so violently. 
+This lets you release resources near where it's initialized and takes care of multiple return points.
 
 ## go fmt
 
-Most programs written in Go follow the same formatting rules, namely, a tab is used to indent and braces go on the same line as their statement.
+Most programs written in Go follow the same formatting rules, namely, a tab is used to 
+indent and braces go on the same line as their statement.
 
-I know, you have your own style and you want to stick to it. That's what I did for a long time, but I'm glad I eventually gave in. A big reason for this is the `go fmt` command. It's easy to use and authoritative (so no one argues over meaningless preferences).
+I know, you have your own style and you want to stick to it. That's what I did for a long time, 
+but I'm glad I eventually gave in. A big reason for this is the `go fmt` command. 
+It's easy to use and authoritative (so no one argues over meaningless preferences).
 
 When you're inside a project, you can apply the formatting rule to it and all sub-projects via:
 
@@ -118,11 +129,13 @@ When you're inside a project, you can apply the formatting rule to it and all su
 go fmt ./...
 ```
 
-Give it a try. It does more than indent your code; it also aligns field declarations and alphabetically orders imports.
+Give it a try. It does more than indent your code; it also aligns field declarations and alphabetically 
+orders imports.
 
 ## Initialized If
 
-Go supports a slightly modified if-statement, one where a value can be initiated prior to the condition being evaluated:
+Go supports a slightly modified if-statement, one where a value can be initiated 
+prior to the condition being evaluated:
 
 ```go
 if x := 10; count > x {
@@ -138,11 +151,16 @@ if err := process(); err != nil {
 }
 ```
 
-Interestingly, while the values aren't available outside the if-statement, they are available inside any `else if` or `else`.
+Interestingly, while the values aren't available outside the if-statement, 
+they are available inside any `else if` or `else`.
 
 ## Empty Interface and Conversions
 
-In most object-oriented languages, a built-in base class, often named `object`, is the superclass for all other classes. Go, having no inheritance, doesn't have such a superclass. What it does have is an empty interface with no methods: `interface{}`. Since every type implements all 0 of the empty interface's methods, and since interfaces are implicitly implemented, every type fulfills the contract of the empty interface.
+In most object-oriented languages, a built-in base class, often named `object`, 
+is the superclass for all other classes. Go, having no inheritance, 
+doesn't have such a superclass. What it does have is an empty interface with no methods: `interface{}`. 
+Since every type implements all 0 of the empty interface's methods, 
+and since interfaces are implicitly implemented, every type fulfills the contract of the empty interface.
 
  If we wanted to, we could write an `add` function with the following signature:
 
@@ -173,7 +191,9 @@ switch a.(type) {
 }
 ```
 
-You'll see and probably use the empty interface more than you might first expect. Admittedly, it won't result in clean code. Converting values back and forth is ugly and dangerous but sometimes, in a static language, it's the only choice.
+You'll see and probably use the empty interface more than you might first expect. 
+Admittedly, it won't result in clean code. Converting values back and forth is ugly and dangerous 
+but sometimes, in a static language, it's the only choice.
 
 ## Strings and Byte Arrays
 
@@ -185,19 +205,25 @@ byts := []byte(stra)
 strb := string(byts)
 ```
 
-In fact, this way of converting is common across various types as well. Some functions explicitly expect an `int32` or an `int64` or their unsigned counterparts. You might find yourself having to do things like:
+In fact, this way of converting is common across various types as well. 
+Some functions explicitly expect an `int32` or an `int64` or their unsigned counterparts. 
+You might find yourself having to do things like:
 
 ```go
 int64(count)
 ```
 
-Still, when it comes to bytes and strings, it's probably something you'll end up doing often. Do note that when you use `[]byte(X)` or `string(X)`, you're creating a copy of the data. This is necessary because strings are immutable.
+Still, when it comes to bytes and strings, it's probably something you'll end up doing often. 
+Do note that when you use `[]byte(X)` or `string(X)`, you're creating a copy of the data. 
+This is necessary because strings are immutable.
 
-Strings are made of `runes` which are unicode code points. If you take the length of a string, you might not get what you expect. The following prints 3:
+Strings are made of `runes` which are unicode code points. If you take the length of a string, 
+you might not get what you expect. The following prints 3:
 
     fmt.Println(len("椒"))
 
-If you iterate over a string using `range`, you'll get runes, not bytes. Of course, when you turn a string into a `[]byte` you'll get the correct data.
+If you iterate over a string using `range`, you'll get runes, not bytes. Of course, 
+when you turn a string into a `[]byte` you'll get the correct data.
 
 ## Function Type
 
@@ -229,10 +255,17 @@ func process(adder Add) int {
 }
 ```
 
-Using functions like this can help decouple code from specific implementations much like we achieve with interfaces.
+Using functions like this can help decouple code from specific implementations much like we achieve 
+with interfaces.
 
 ## Before You Continue
 
-We looked at various aspects of programming with Go. Most notably, we saw how error handling behaves and how to release resources such as connections and open files. Many people dislike Go's approach to error handling. It can feel like a step backwards. Sometimes, I agree. Yet, I also find that it results in code that's easier to follow. `defer` is an unusual but practical approach to resource management. In fact, it isn't tied to resource management only. You can use `defer` for any purpose, such as logging when a function exits.
+We looked at various aspects of programming with Go. Most notably, we saw how error handling 
+behaves and how to release resources such as connections and open files. Many people dislike 
+Go's approach to error handling. It can feel like a step backwards. Sometimes, I agree. Yet, 
+I also find that it results in code that's easier to follow. `defer` is an unusual 
+but practical approach to resource management. In fact, it isn't tied to resource management only. 
+You can use `defer` for any purpose, such as logging when a function exits.
 
-Certainly, we haven't looked at all of the tidbits Go has to offer. But you should be feeling comfortable enough to tackle whatever you come across.
+Certainly, we haven't looked at all of the tidbits Go has to offer. But you should be feeling 
+comfortable enough to tackle whatever you come across.
