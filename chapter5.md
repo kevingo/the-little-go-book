@@ -84,11 +84,9 @@ func main() {
 
 ## Defer
 
-Even though Go has a garbage collector, some resources require that we explicitly release them. 
-For example, we need to `Close()` files after we're done with them. This sort of code 
-is always dangerous. For one thing, as we're writing a function, 
-it's easy to forget to `Close` something that we declared 10 lines up. For another, 
-a function might have multiple return points. Go's solution is the `defer` keyword:
+儘管 Go 語言提供了垃圾回收的機制，還是有一些資源需要開發者明確的去釋放。比如說，在處理文件結束時，我們需要呼叫 `Close()` 來關閉 io。
+這種類型的程式碼總是比較危險的，首先，當我們寫了一個函式，很容易忘記去呼叫 `Close` 函式來關閉我們在第十行開啟的文件。此外，
+一個函式可能會有多個返回點。Go 提供了 `defer` 關鍵字來處理這一類的問題：
 
 ```go
 package main
@@ -105,37 +103,31 @@ func main() {
     return
   }
   defer file.Close()
-  // read the file
+  // 讀檔
 }
 ```
 
-If you try to run the above code, you'll probably get an error (the file doesn't exist). 
-The point is to show how `defer` works. Whatever you `defer` will be executed after the 
-enclosing function (in this case `main()`) returns, even if it does so violently. 
-This lets you release resources near where it's initialized and takes care of multiple return points.
+如果你嘗試執行上面的程式碼，你可能會得到一個錯誤（因為檔案不存在）。這裡主要是想要讓你知道 `defer` 的用法。
+使用 `defer` 的操作，都會在函式返回前執行。這讓你可以在初始化或宣告某個操作的附近就預先宣告要釋放資源。
 
 ## go fmt
 
-Most programs written in Go follow the same formatting rules, namely, a tab is used to 
-indent and braces go on the same line as their statement.
+大多數用 Go 寫的程式碼都遵循相同的風格，那就是，使用 tab 進行縮排、括號和程式宣告在同一行等。
 
-I know, you have your own style and you want to stick to it. That's what I did for a long time, 
-but I'm glad I eventually gave in. A big reason for this is the `go fmt` command. 
-It's easy to use and authoritative (so no one argues over meaningless preferences).
+我知道你有自己的風格，也很想堅持下去。我曾經有一段時間也是這樣的，但我很高興最後我還是屈服了。其中最大的原因就是 `go fmt` 命令工具。
+他很容使用也很具代表性（所以沒有人為了無意義的偏好而爭執）。
 
-When you're inside a project, you can apply the formatting rule to it and all sub-projects via:
+當你在專案的目錄下，你可以透過下面的命令行工具將所有子專案進行程式碼格式編排：
 
 ```
 go fmt ./...
 ```
 
-Give it a try. It does more than indent your code; it also aligns field declarations and alphabetically 
-orders imports.
+試試看吧，這個命令行工具會幫你的程式碼縮排，也會自動地幫你對齊，並且將引用的函式庫按照字母順序排列
 
-## Initialized If
+## 具有初始化功能的 if
 
-Go supports a slightly modified if-statement, one where a value can be initiated 
-prior to the condition being evaluated:
+Go 支援一種稍微不一樣的 if 敘述，一個變數可以在 if 條件執行前宣告並且初始化：
 
 ```go
 if x := 10; count > x {
@@ -143,26 +135,22 @@ if x := 10; count > x {
 }
 ```
 
-That's a pretty silly example. More realistically, you might do something like:
+這是一個有點愚蠢的例子，比較實際的範例如下：
 
 ```go
 if err := process(); err != nil {
   return err
 }
 ```
+有趣的是，透過 if 初始化的值在 if 的範圍以外是不能被存取的，但是在 `else if` 和 `else` 中可以被使用。
 
-Interestingly, while the values aren't available outside the if-statement, 
-they are available inside any `else if` or `else`.
+## 空的介面和轉換
 
-## Empty Interface and Conversions
+在大多數的物件導向程式語言中，都有內建的基礎類別，通常稱做 `物件`。它通常是所有類別的父類別。但在 Go 中不支援繼承，所以沒有類似這種父類別的概念。
+Go 裡面擁有的是一個沒有任何宣告的空介面 `interface{}`。由於每個型別都實作了空介面的 0 個方法，而且每個介面都是隱性實作，
+所以每種類型都實現了空介面的契約。
 
-In most object-oriented languages, a built-in base class, often named `object`, 
-is the superclass for all other classes. Go, having no inheritance, 
-doesn't have such a superclass. What it does have is an empty interface with no methods: `interface{}`. 
-Since every type implements all 0 of the empty interface's methods, 
-and since interfaces are implicitly implemented, every type fulfills the contract of the empty interface.
-
- If we wanted to, we could write an `add` function with the following signature:
+如果我們想要，可以寫一個 `add` 函式：
 
 ```go
 func add(a interface{}, b interface{}) interface{} {
@@ -170,16 +158,15 @@ func add(a interface{}, b interface{}) interface{} {
 }
 ```
 
-To convert an interface variable to an explicit type, you use `.(TYPE)`:
+將一個空介面型態的變數做顯性的轉換，可以用 `.(TYPE)`：
 
 ```go
 return a.(int) + b.(int)
 ```
 
-Note that if the underlying type is not `int`, the above will result in an error.
+要注意的是，如果欲轉換的變數並不是`整數`型態，上面的程式碼將會出錯。
 
-You also have access to a powerful type switch:
-
+你也可以使用 switch 進行轉換：
 ```go
 switch a.(type) {
   case int:
@@ -190,14 +177,12 @@ switch a.(type) {
     // ...
 }
 ```
+你會發現空介面的使用超出你的預期。不可否認的，這會讓你的程式碼看起來不夠乾淨。某些時候不斷轉換一個值是醜陋的且危險的，但在靜態語言中，
+這是唯一的選擇。
 
-You'll see and probably use the empty interface more than you might first expect. 
-Admittedly, it won't result in clean code. Converting values back and forth is ugly and dangerous 
-but sometimes, in a static language, it's the only choice.
+## 字串和位元組陣列
 
-## Strings and Byte Arrays
-
-Strings and byte arrays are closely related. We can easily convert one to the other:
+字串和位元組陣列有密切的關係，我們可以很容易轉換他們：
 
 ```go
 stra := "the spice must flow"
@@ -205,35 +190,29 @@ byts := []byte(stra)
 strb := string(byts)
 ```
 
-In fact, this way of converting is common across various types as well. 
-Some functions explicitly expect an `int32` or an `int64` or their unsigned counterparts. 
-You might find yourself having to do things like:
+事實上，這也是大多數型態的轉換方式。某些函式會明確指定 `int32` 或 `int64`，或其他無號的部分。你可能會發現自己必須這樣寫：
 
 ```go
 int64(count)
 ```
 
-Still, when it comes to bytes and strings, it's probably something you'll end up doing often. 
-Do note that when you use `[]byte(X)` or `string(X)`, you're creating a copy of the data. 
-This is necessary because strings are immutable.
-
-Strings are made of `runes` which are unicode code points. If you take the length of a string, 
-you might not get what you expect. The following prints 3:
+儘管如此，當提到位元組和字串時，這會是你經常接觸到的東西。要記住，當你使用 `[]byte(x)` 或 `string(x)` 時，你是建立資料的拷貝，
+這是因為字串是不可變得。字串是由 `runes` 組成，`runes` 是一個 unicode 字符。當你用 `len` 函式來取得字串的長度時，往往結果不如你預期。以下的範例將會印出 3：
 
     fmt.Println(len("椒"))
 
-If you iterate over a string using `range`, you'll get runes, not bytes. Of course, 
-when you turn a string into a `[]byte` you'll get the correct data.
+如果你嘗試透過 `range` 函式來遍歷一個字串，你是得到一個個的 runes，而不是位元組。當然，當你將一個字串轉成 `[]byte` 時，
+你會得到正確的資料。
 
-## Function Type
+## 函式型別
 
-Functions are first-class types:
+函式是一級型別：
 
 ```go
 type Add func(a int, b int) int
 ```
 
-which can then be used anywhere -- as a field type, as a parameter, as a return value.
+他可以用在任何地方 - 當作一個欄位型別、參數、回傳值。
 
 ```go
 package main
@@ -255,17 +234,11 @@ func process(adder Add) int {
 }
 ```
 
-Using functions like this can help decouple code from specific implementations much like we achieve 
-with interfaces.
+透過這種使用函式的方式，我們可以從特定的實作中解少耦合，就像我們使用介面一樣。
 
-## Before You Continue
+## 在你繼續學習之前
+我們已經學習了很多 Go 語言的特性，顯而易見的，我們學習了錯誤處理、當開起檔案後如何釋放資源。許多開發者不喜歡 Go 錯誤處理的方式，
+他讓人覺得是一種退步。某些時候我是同意的，然而，我也會發現這樣的程式碼更容易閱讀。`defer` 在資源管理上是一個不常見但實用的手段。
+事實上，`defer` 不僅僅可以用在資源管理上，比如說你可以用在函式退出時的日誌紀錄上。
 
-We looked at various aspects of programming with Go. Most notably, we saw how error handling 
-behaves and how to release resources such as connections and open files. Many people dislike 
-Go's approach to error handling. It can feel like a step backwards. Sometimes, I agree. Yet, 
-I also find that it results in code that's easier to follow. `defer` is an unusual 
-but practical approach to resource management. In fact, it isn't tied to resource management only. 
-You can use `defer` for any purpose, such as logging when a function exits.
-
-Certainly, we haven't looked at all of the tidbits Go has to offer. But you should be feeling 
-comfortable enough to tackle whatever you come across.
+當然，我們還沒有把所有 Go 的特性都介紹完，但你應該可以再遇到任何困難時都迎刃而解。
