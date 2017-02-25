@@ -1,10 +1,12 @@
-# Chapter 6 - Concurrency
+# 第六章 - 並行
 
-Go is often described as a concurrent-friendly language. The reason for this is that it provides a simple syntax over two powerful mechanisms: goroutines and channels.
+Go 經常被描述為適合用在並行化處理的程式語言。主要的原因在於，Go 在
+並行化上提供了兩種簡單且強大的機制：goroutine 和 channel。
 
 ## Goroutines
 
-A goroutine is similar to a thread, but it is scheduled by Go, not the OS. Code that runs in a goroutine can run concurrently with other code. Let's look at an example:
+goroutine 有點類似於執行緒，但它是由 Go 自己來調度安排的，而不是由作業系統。
+當你的程式碼在一個 goroutine 中執行時，他可以和其他的程式碼並行執行。讓我們來看個例子：
 
 ```go
 package main
@@ -26,7 +28,9 @@ func process() {
 }
 ```
 
-There are a few interesting things going on here, but the most important is how we start a goroutine. We simply use the `go` keyword followed by the function we want to execute. If we just want to run a bit of code, such as the above, we can use an anonymous function. Do note that anonymous functions aren't only used with goroutines, however.
+上面的程式碼有幾個有趣的點，但最重要的是我們要了解怎麼啟動一個 goroutine。我們只要將
+`go` 關鍵字放在我們想要執行的函式前面即可。如果我們想要執行一小段程式碼，那我們可以使用匿名函式。
+要注意的是，匿名函式不僅僅在 goroutine 中可以使用，其他地方也是可以的。
 
 ```go
 go func() {
@@ -34,17 +38,25 @@ go func() {
 }()
 ```
 
-Goroutines are easy to create and have little overhead. Multiple goroutines will end up running on the same underlying OS thread. This is often called an M:N threading model because we have M application threads (goroutines) running on N OS threads. The result is that a goroutine has a fraction of overhead (a few KB) than OS threads. On modern hardware, it's possible to have millions of goroutines.
+Goroutine 很容易建立而且開銷很小，最終多個 goroutine 會執行在同一個作業系統多個執行緒上。
+這也常被稱為 M:N 執行緒模型。因為我們有 M 個應用程式 goroutine，執行在 N 個作業系統的執行緒。
+結果就是，一個 goroutine 的開銷比起執行緒來說低很多（也許只有幾 KB），在現代的硬體上，
+甚至有可能同時執行幾百萬個 goroutine。
 
-Furthermore, the complexity of mapping and scheduling is hidden. We just say *this code should run concurrently* and let Go worry about making it happen.
+此外，這裡還隱藏了映射和調度的複雜性。我們僅需要說 *這段代碼要並行執行*，然後 Go 就會讓這件事情發生了。
 
-If we go back to our example, you'll notice that we had to `Sleep` for a few milliseconds. That's because the main process exits before the goroutine gets a chance to execute (the process doesn't wait until all goroutines are finished before exiting). To solve this, we need to coordinate our code.
+回到我們剛剛的例子，你會發現我們使用 `Sleep` 函式讓程式暫停幾毫秒，原因是因為我們必須要讓
+goroutine 在主程式執行完結束前被執行（主程式不會等到所有 goroutine 執行完才結束）。為了解決這個問題，我們必須要讓程式碼互相協調一下。
 
-## Synchronization
+## 同步
 
-Creating goroutines is trivial, and they are so cheap that we can start many; however, concurrent code needs to be coordinated. To help with this problem, Go provides `channels`. Before we look at `channels`, I think it's important to understand a little bit about the basics of concurrent programming.
+建立一個 goroutine 沒有太困難，而且開銷是很小，所以我們可以很容易地建立很多 goroutine。
+但問題是，並行化的程式碼需要互相溝通。為了解決這個需求，Go 提供了 `channels` 的機制。
+在我們學習 `channels` 之前，我們必須要先學習並行化程式的基本概念。
 
-Writing concurrent code requires that you pay specific attention to where and how you read and write values. In some ways, it's like programming without a garbage collector -- it requires that you think about your data from a new angle, always watchful for possible danger. Consider:
+撰寫並行化程式碼，你需要特別注意在哪裡，以及如何讀取一個值。某些面向來說，他很像你在撰寫一個沒有垃圾回收機制的程式語言。
+它需要你用不同的角度重新思考資料，永遠要考慮可能的危險性。看看以下的程式碼：
+
 
 ```go
 package main
@@ -69,13 +81,17 @@ func incr() {
 }
 ```
 
-What do you think the output will be?
+你覺得輸出會是什麼？
+如果你認為輸入會是 `1, 2, ... 20`，那我不能說你對也不能說你錯。當你執行上面的程式碼，
+的確你有時候會得到這樣的結果。然而，事實上這個結果是不確定的，為什麼？因為我們有多個（在這個例子是兩個) goroutine
+同時存取單一個變數 `counter`。或更糟糕的狀況是其中一個 goroutine 正在讀取這個變數，而另一個正在寫入。
 
-If you think the output is `1, 2, ... 20` you're both right and wrong. It's true that if you run the above code, you'll sometimes get that output. However, the reality is that the behavior is undefined. Why? Because we potentially have multiple (two in this case) goroutines writing to the same variable, `counter`, at the same time. Or, just as bad, one goroutine would be reading `counter` while another writes to it.
+這樣真的危險嗎？的確是的。`counter++` 看起來只是一行簡單的程式碼，但它實際上被拆解成數行的組合語言，
+實際的狀況會取決於你執行該程式碼的軟硬體平台。如果你執行這個範例，很有可能的情況是數字印出的順序是不固定的。
+或有可能某些數字重複或遺失。最壞的結果也有可能造成程式錯誤或是得到任意的值。
 
-Is that really a danger? Yes, absolutely. `counter++` might seem like a simple line of code, but it actually gets broken down into multiple assembly statements -- the exact nature is dependent on the platform that you're running. If you run this example, you'll see that very often the numbers are printed in a weird order, and/or numbers are duplicated/missing. There are worse possibilities too, such as system crashes or accessing an arbitrary piece of data and incrementing it!
-
-The only concurrent thing you can safely do to a variable is to read from it. You can have as many readers as you want, but writes need to be synchronized. There are various ways to do this, including using some truly atomic operations that rely on special CPU instructions. However, the most common approach is to use a mutex:
+在並行化的程式中，唯一安全的方式是讀取該變數。你可以有很多程式去讀一個變數，但寫入變數必須是同步的。
+這有幾中方法可以實現，包括使用依賴於 CPU 架構的原子化操作。然而，大多數的形況是使用一個互斥鎖：
 
 ```go
 package main
@@ -106,13 +122,17 @@ func incr() {
 }
 ```
 
-A mutex serializes access to the code under lock. The reason we simply define our lock as `lock sync.Mutex` is because the default value of a `sync.Mutex` is unlocked.
+互斥鎖可以讓你循序的存取程式碼。因為預設的 `sync.Mutex` 是沒有鎖定的，所以我們簡單的定義了一個 `lock sync.Mutex`。
 
-Seems simple enough? The example above is deceptive. There's a whole class of serious bugs that can arise when doing concurrent programming. First of all, it isn't always so obvious what code needs to be protected. While it might be tempting to use coarse locks (locks that cover a large amount of code), that undermines the very reason we're doing concurrent programming in the first place. We generally want fine locks; else, we end up with a ten-lane highway that suddenly turns into a one-lane road.
+看起來似乎很簡單？其實上面的例子有一點欺騙的意味。首先，哪一些程式碼需要被保護其實並不是很明顯的。
+雖然他可以用一個低等的鎖（這個鎖包含了許多的程式碼），這些潛在容易出錯的部分是我們在撰寫並行化程式碼首先要考慮的。
+我們通常想要一個很精確的鎖，不然我們經常會發現本來是開在一個十線道的，突然轉往一個單線道一樣。
 
-The other problem has to do with deadlocks. With a single lock, this isn't a problem, but if you're using two or more locks around the same code, it's dangerously easy to have situations where goroutineA holds lockA but needs access to lockB, while goroutineB holds lockB but needs access to lockA.
+另外一個問題是死鎖問題。當我們使用一個鎖的時候，沒有問題。但如果你使用兩個或兩個以上的鎖，
+很容易發生一種問題是，當 groutineA 有鎖A，但他想要存取鎖B，而 goroutineB 擁有鎖B，但它想要存取鎖A。
 
-It actually *is* possible to deadlock with a single lock, if we forget to release it. This isn't as dangerous as a multi-lock deadlock (because those are *really* tough to spot), but just so you can see what happens, try running:
+事實上當我們使用一個鎖的時候，如果忘了釋放它，也可能發生死鎖問題。但這和多個鎖引起的死鎖問題相比，
+並不嚴重（事實上這也很難發現）。你可以試著執行下面的程式碼：
 
 ```go
 package main
@@ -133,31 +153,52 @@ func main() {
 }
 ```
 
-There's more to concurrent programming than what we've seen so far. For one thing, there's another common mutex called a read-write mutex. This exposes two locking functions: one to lock for reading and one to lock for writing. This distinction allows multiple simultaneous readers while ensuring that writing is exclusive. In Go, `sync.RWMutex` is such a lock. In addition to the `Lock` and `Unlock` methods of a `sync.Mutex`, it also exposes `RLock` and `RUnlock` methods; where `R` stands for *Read*. While read-write mutexes are commonly used, they place an additional burden on developers: we must now pay attention to not only when we're accessing data, but also how.
+我們到目前為止還有很多並行程式沒有看過。首先，有一個常見的鎖叫做讀寫鎖。這個鎖提供兩個功能：一個鎖定讀、另一個鎖定寫。
+這個功能讓你可以同時有多個讀寫操作。在 Go 中，`sync.RWMutex` 就是這樣的功用。另外，`sync.Mutex` 除了提供 `Lock` 和 `Unlock` 外，
+它也提供了 `RLock` 和 `RUnlock`，這個 `R` 代表了*讀取*。雖然讀寫鎖很常用，但他們也會給開發者帶來額外的負擔：我們不僅要注意我們正在存取的資料，
+也要注意是如何存取的。
 
-Furthermore, part of concurrent programming isn't so much about serializing access across the narrowest possible piece of code; it's also about coordinating multiple goroutines. For example, sleeping for 10 milliseconds isn't a particularly elegant solution. What if a goroutine takes more than 10 milliseconds? What if it takes less and we're just wasting cycles? Also, what if instead of just waiting for goroutines to finish, we want to tell one *hey, I have new data for you to process!*?
+此外，部分的並行化程式不僅僅是循序的存取變數，也需要安排多個 goroutine。例如，等待 10 毫秒並不是一個優雅的解決方法，如果一個 goroutine 需要超過 10 毫秒呢？如果執行時間少於 10 毫秒，我們只是浪費時間呢？
+又或者當一個 goroutine 執行完畢後，我們要告訴另外一個 goroutine 有新的資料要給處理？
 
-These are all things that are doable without `channels`. Certainly for simpler cases, I believe you **should** use primitives such as `sync.Mutex` and `sync.RWMutex`, but as we'll see in the next section, `channels` aim at making concurrent programming cleaner and less error-prone.
+所有的這些事在沒有 `channel` 的情況都可以實現， 當然對於更簡單的例子來說，我相信你應該使用 `sync.Mutex` 和 `sync.RWMutex`。
+但在下一章節中，我們將會學習到 `channel` 的主要目的是為了讓並行程式碼在撰寫時更簡單且更不容易出錯。
 
 ## Channels
 
-The challenge with concurrent programming stems from sharing data. If your goroutines share no data, you needn't worry about synchronizing them. That isn't an option for all systems, however. In fact, many systems are built with the exact opposite goal in mind: to share data across multiple requests. An in-memory cache or a database, are good examples of this. This is becoming an increasingly common reality.
+The challenge with concurrent programming stems from sharing data. 
+If your goroutines share no data, you needn't worry about 
+synchronizing them. That isn't an option for all systems, 
+however. In fact, many systems are built with the exact 
+opposite goal in mind: to share data across multiple requests. 
+An in-memory cache or a database, are good examples of this. 
+This is becoming an increasingly common reality.
 
-Channels help make concurrent programming saner by taking shared data out of the picture. A channel is a communication pipe between goroutines which is used to pass data. In other words, a goroutine that has data can pass it to another goroutine via a channel. The result is that, at any point in time, only one goroutine has access to the data.
+Channels help make concurrent programming saner by taking 
+shared data out of the picture. A channel is a communication 
+pipe between goroutines which is used to pass data. 
+In other words, a goroutine that has data can pass it to 
+another goroutine via a channel. The result is that, at any 
+point in time, only one goroutine has access to the data.
 
-A channel, like everything else, has a type. This is the type of data that we'll be passing through our channel. For example, to create a channel which can be used to pass an integer around, we'd do:
+A channel, like everything else, has a type. This is the 
+type of data that we'll be passing through our channel. 
+For example, to create a channel which can be used to pass 
+an integer around, we'd do:
 
 ```go
 c := make(chan int)
 ```
 
-The type of this channel is `chan int`. Therefore, to pass this channel to a function, our signature looks like:
+The type of this channel is `chan int`. Therefore, 
+to pass this channel to a function, our signature looks like:
 
 ```go
 func worker(c chan int) { ... }
 ```
 
-Channels support two operations: receiving and sending. We send to a channel by doing:
+Channels support two operations: receiving and sending. 
+We send to a channel by doing:
 
 ```
 CHANNEL <- DATA
@@ -169,11 +210,24 @@ and receive from one by doing
 VAR := <-CHANNEL
 ```
 
-The arrow points in the direction that data flows. When sending, the data flows into the channel. When receiving, the data flows out of the channel.
+The arrow points in the direction that data flows. 
+When sending, the data flows into the channel. 
+When receiving, the data flows out of the channel.
 
-The final thing to know before we look at our first example is that receiving and sending to and from a channel is blocking. That is, when we receive from a channel, execution of the goroutine won't continue until data is available. Similarly, when we send to a channel, execution won't continue until the data is received.
+The final thing to know before we look at our first example 
+is that receiving and sending to and from a channel is blocking. 
+That is, when we receive from a channel, execution of the 
+goroutine won't continue until data is available. Similarly, 
+when we send to a channel, execution won't continue until 
+the data is received.
 
-Consider a system with incoming data that we want to handle in separate goroutines. This is a common requirement. If we did our data-intensive processing on the goroutine which accepts the incoming data, we'd risk timing out clients. First, we'll write our worker. This could be a simple function, but I'll make it part of a structure since we haven't seen goroutines used like this before:
+Consider a system with incoming data that we want to handle in 
+separate goroutines. This is a common requirement. 
+If we did our data-intensive processing on the goroutine 
+which accepts the incoming data, we'd risk timing out clients. 
+First, we'll write our worker. This could be a simple function, 
+but I'll make it part of a structure since we haven't seen 
+goroutines used like this before:
 
 ```go
 type Worker struct {
@@ -188,7 +242,9 @@ func (w Worker) process(c chan int) {
 }
 ```
 
-Our worker is simple. It waits until data is available then "processes" it. Dutifully, it does this in a loop, forever waiting for more data to process.
+Our worker is simple. It waits until data is available then 
+"processes" it. Dutifully, it does this in a loop, forever 
+waiting for more data to process.
 
 To use this, the first thing we'd do is start some workers:
 
@@ -245,13 +301,21 @@ func (w *Worker) process(c chan int) {
 }
 ```
 
-We don't know which worker is going to get what data. What we do know, what Go guarantees, is that the data we send to a channel will only be received by a single receiver.
+We don't know which worker is going to get what data. 
+What we do know, what Go guarantees, is that the data we 
+send to a channel will only be received by a single receiver.
 
-Notice that the only shared state is the channel, which we can safely receive from and send to concurrently. Channels provide all of the synchronization code we need and also ensure that, at any given time, only one goroutine has access to a specific piece of data.
+Notice that the only shared state is the channel, 
+which we can safely receive from and send to concurrently. 
+Channels provide all of the synchronization code we need 
+and also ensure that, at any given time, only one goroutine 
+has access to a specific piece of data.
 
 ### Buffered Channels
 
-Given the above code, what happens if we have more data coming in than we can handle? You can simulate this by changing the worker to sleep after it has received data:
+Given the above code, what happens if we have more data 
+coming in than we can handle? You can simulate this by 
+changing the worker to sleep after it has received data:
 
 ```go
 for {
@@ -261,17 +325,32 @@ for {
 }
 ```
 
-What's happening is that our main code, the one that accepts the user's incoming data (which we just simulated with a random number generator) is blocking as it sends to the channel because no receiver is available.
+What's happening is that our main code, the one that accepts 
+the user's incoming data (which we just simulated with a 
+random number generator) is blocking as it sends to the 
+channel because no receiver is available.
 
-In cases where you need high guarantees that the data is being processed, you probably will want to start blocking the client. In other cases, you might be willing to loosen those guarantees. There are a few popular strategies to do this. The first is to buffer the data. If no worker is available, we want to temporarily store the data in some sort of queue. Channels have this buffering capability built-in. When we created our channel with `make`, we can give our channel a length:
+In cases where you need high guarantees that the data is 
+being processed, you probably will want to start blocking 
+the client. In other cases, you might be willing to loosen 
+those guarantees. There are a few popular strategies to do this. 
+The first is to buffer the data. If no worker is available, 
+we want to temporarily store the data in some sort of queue. 
+Channels have this buffering capability built-in. When we 
+created our channel with `make`, we can give our channel a length:
 
 ```go
 c := make(chan int, 100)
 ```
 
-You can make this change, but you'll notice that the processing is still choppy. Buffered channels don't add more capacity; they merely provide a queue for pending work and a good way to deal with a sudden spike. In our example, we're continuously pushing more data than our workers can handle.
+You can make this change, but you'll notice that the processing 
+is still choppy. Buffered channels don't add more capacity; 
+they merely provide a queue for pending work and a good way to 
+deal with a sudden spike. In our example, we're continuously 
+pushing more data than our workers can handle.
 
-Nevertheless, we can get a sense that the buffered channel is, in fact, buffering by looking at the channel's `len`:
+Nevertheless, we can get a sense that the buffered channel is, 
+in fact, buffering by looking at the channel's `len`:
 
 ```go
 for {
@@ -281,13 +360,19 @@ for {
 }
 ```
 
-You can see that it grows and grows until it fills up, at which point sending to our channel start to block again.
+You can see that it grows and grows until it fills up, 
+at which point sending to our channel start to block again.
 
 ### Select
 
-Even with buffering, there comes a point where we need to start dropping messages. We can't use up an infinite amount of memory hoping a worker frees up. For this, we use Go's `select`.
+Even with buffering, there comes a point where we need to start 
+dropping messages. We can't use up an infinite amount of memory 
+hoping a worker frees up. For this, we use Go's `select`.
 
-Syntactically, `select` looks a bit like a switch. With it, we can provide code for when the channel isn't available to send to. First, let's remove our channel's buffering so that we can clearly see how `select` works:
+Syntactically, `select` looks a bit like a switch. With it,
+we can provide code for when the channel isn't available to 
+send to. First, let's remove our channel's buffering so that 
+we can clearly see how `select` works:
 
 ```go
 c := make(chan int)
@@ -308,17 +393,32 @@ for {
 }
 ```
 
-We're pushing out 20 messages per second, but our workers can only handle 10 per second; thus, half the messages get dropped.
+We're pushing out 20 messages per second, but our workers can 
+only handle 10 per second; thus, half the messages get dropped.
 
-This is only the start of what we can accomplish with `select`. A main purpose of select is to manage multiple channels. Given multiple channels, `select` will block until the first one becomes available. If no channel is available, `default` is executed if one is provided. A channel is randomly picked when multiple are available.
+This is only the start of what we can accomplish with `select`. 
+A main purpose of select is to manage multiple channels. 
+Given multiple channels, `select` will block until the first 
+one becomes available. If no channel is available, `default` 
+is executed if one is provided. A channel is randomly picked 
+when multiple are available.
 
-It's hard to come up with a simple example that demonstrates this behavior as it's a fairly advanced feature. The next section might help illustrate this though.
+It's hard to come up with a simple example that demonstrates 
+this behavior as it's a fairly advanced feature. The next 
+section might help illustrate this though.
 
 ### Timeout
 
-We've looked at buffering messages as well as simply dropping them. Another popular option is to timeout. We're willing to block for some time, but not forever. This is also something easy to achieve in Go. Admittedly, the syntax might be hard to follow but it's such a neat and useful feature that I couldn't leave it out.
+We've looked at buffering messages as well as simply dropping 
+them. Another popular option is to timeout. We're willing to 
+block for some time, but not forever. This is also something 
+easy to achieve in Go. Admittedly, the syntax might be hard 
+to follow but it's such a neat and useful feature that I 
+couldn't leave it out.
 
-To block for a maximum amount of time, we can use the `time.After` function. Let's look at it then try to peek beyond the magic. To use this, our sender becomes:
+To block for a maximum amount of time, we can use the `time.After` 
+function. Let's look at it then try to peek beyond the magic. 
+To use this, our sender becomes:
 
 ```go
 for {
@@ -331,7 +431,11 @@ for {
 }
 ```
 
-`time.After` returns a channel, so we can `select` from it. The channel is written to after the specified time expires. That's it. There's nothing more magical than that. If you're curious, here's what an implementation of `after` could look like:
+`time.After` returns a channel, so we can `select` from it. 
+The channel is written to after the specified time expires. 
+That's it. There's nothing more magical than that. 
+If you're curious, here's what an implementation of `after` 
+could look like:
 
 ```go
 func after(d time.Duration) chan bool {
@@ -344,16 +448,25 @@ func after(d time.Duration) chan bool {
 }
 ```
 
-Back to our `select`, there are a couple of things to play with. First, what happens if you add the `default` case back? Can you guess? Try it. If you aren't sure what's going on, remember that `default` fires immediately if no channel is available.
+Back to our `select`, there are a couple of things to play with. 
+First, what happens if you add the `default` case back? 
+Can you guess? Try it. If you aren't sure what's going on, 
+remember that `default` fires immediately if no channel is 
+available.
 
-Also, `time.After` is a channel of type `chan time.Time`. In the above example, we simply discard the value that was sent to the channel. If you want though, you can receive it:
+Also, `time.After` is a channel of type `chan time.Time`. 
+In the above example, we simply discard the value that was 
+sent to the channel. If you want though, you can receive it:
 
 ```go
 case t := <-time.After(time.Millisecond * 100):
   fmt.Println("timed out at", t)
 ```
 
-Pay close attention to our `select`. Notice that we're sending to `c` but receiving from `time.After`. `select` works the same regardless of whether we're receiving from, sending to, or any combination of channels:
+Pay close attention to our `select`. Notice that we're 
+sending to `c` but receiving from `time.After`. `select`
+ works the same regardless of whether we're receiving from, 
+ sending to, or any combination of channels:
 
 * The first available channel is chosen.
 * If multiple channels are available, one is randomly picked.
@@ -376,8 +489,22 @@ for {
 
 ## Before You Continue
 
-If you're new to the world of concurrent programming, it might all seem rather overwhelming. It categorically demands considerably more attention and care. Go aims to make it easier.
+If you're new to the world of concurrent programming, 
+it might all seem rather overwhelming. It categorically 
+demands considerably more attention and care. Go aims to 
+make it easier.
 
-Goroutines effectively abstract what's needed to run concurrent code. Channels help eliminate some serious bugs that can happen when data is shared by eliminating the sharing of data. This doesn't just eliminate bugs, but it changes how one approaches concurrent programming. You start to think about concurrency with respect to message passing, rather than dangerous areas of code.
+Goroutines effectively abstract what's needed to run concurrent 
+code. Channels help eliminate some serious bugs that can happen 
+when data is shared by eliminating the sharing of data. 
+This doesn't just eliminate bugs, but it changes how one 
+approaches concurrent programming. You start to think about 
+concurrency with respect to message passing, rather than 
+dangerous areas of code.
 
-Having said that, I still make extensive use of the various synchronization primitives found in the `sync` and `sync/atomic` packages. I think it's important to be comfortable with both. I encourage you to first focus on channels, but when you see a simple example that needs a short-lived lock, consider using a mutex or read-write mutex.
+Having said that, I still make extensive use of the various 
+synchronization primitives found in the `sync` and `sync/atomic` 
+packages. I think it's important to be comfortable with both. 
+I encourage you to first focus on channels, but when 
+you see a simple example that needs a short-lived lock, 
+consider using a mutex or read-write mutex.
