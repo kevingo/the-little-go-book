@@ -166,68 +166,44 @@ func main() {
 
 ## Channels
 
-The challenge with concurrent programming stems from sharing data. 
-If your goroutines share no data, you needn't worry about 
-synchronizing them. That isn't an option for all systems, 
-however. In fact, many systems are built with the exact 
-opposite goal in mind: to share data across multiple requests. 
-An in-memory cache or a database, are good examples of this. 
-This is becoming an increasingly common reality.
+撰寫並行化程式最主要的挑戰在於資料共享，如果你的 Go 程式沒有要共享資料，那就不需要擔心同步的問題。
+但是，對與所有其他的系統而言，這並不是不需要擔心的。事實上，許多系統反而朝向反方向設計：在多個請求之間分享資料。
+所有的記憶體快取或資料庫設計都是最好的例子。這已經變成越來越流行的現實了。
 
-Channels help make concurrent programming saner by taking 
-shared data out of the picture. A channel is a communication 
-pipe between goroutines which is used to pass data. 
-In other words, a goroutine that has data can pass it to 
-another goroutine via a channel. The result is that, at any 
-point in time, only one goroutine has access to the data.
+Channel 讓並行化程式設計在共享數據上更有道理。一個 Channel 就是不同的 goroutine 之間用來傳遞數據溝通的管道。
+換句話說，一個 goroutine 可以藉由 Channel 來傳遞資料到另外一個 goroutine。其結果就是，在同一時間內，只有一個 goroutine 會存取到資料。
 
-A channel, like everything else, has a type. This is the 
-type of data that we'll be passing through our channel. 
-For example, to create a channel which can be used to pass 
-an integer around, we'd do:
+Channel 一樣有型別。它的型別就是我們要在不同 goroutine 之間傳遞資料的型別。例如，我們可以建立一個用來傳遞整數的 Channel：
 
 ```go
 c := make(chan int)
 ```
 
-The type of this channel is `chan int`. Therefore, 
-to pass this channel to a function, our signature looks like:
+這種型別的 channel 就是 `chan int`。因此，為了要透過函式傳遞這樣的 channel，他的參數會是：
 
 ```go
 func worker(c chan int) { ... }
 ```
 
-Channels support two operations: receiving and sending. 
-We send to a channel by doing:
+Channel 支持兩種操作：接收和傳送。我們可以這樣傳送資料到一個 channel：
 
 ```
 CHANNEL <- DATA
 ```
 
-and receive from one by doing
+或是從 channel 接收資料：
 
 ```
 VAR := <-CHANNEL
 ```
 
-The arrow points in the direction that data flows. 
-When sending, the data flows into the channel. 
-When receiving, the data flows out of the channel.
+箭頭代表了資料傳遞的方向。當傳送資料時，箭頭是指向 channel 的。當接收資料時，箭頭是從 channel 指出去的。
 
-The final thing to know before we look at our first example 
-is that receiving and sending to and from a channel is blocking. 
-That is, when we receive from a channel, execution of the 
-goroutine won't continue until data is available. Similarly, 
-when we send to a channel, execution won't continue until 
-the data is received.
+在我們學習第一個例子之前，我們要知道最後一件事，從 channel 接收或傳送出去是互相阻塞的。也就是說，當我們從一個 channel 接收資料時，
+goroutine 會等到資料接收完畢後才會繼續執行。同樣的，當我們傳送資料到一個 channel 時，在資料被接收之前，goroutine 也不會繼續執行。
 
-Consider a system with incoming data that we want to handle in 
-separate goroutines. This is a common requirement. 
-If we did our data-intensive processing on the goroutine 
-which accepts the incoming data, we'd risk timing out clients. 
-First, we'll write our worker. This could be a simple function, 
-but I'll make it part of a structure since we haven't seen 
-goroutines used like this before:
+考量到一個系統會需要在不同的 goroutine 來處理接收到的資料，這是一個相當常見的需求。如果我們在 goroutine 針對接收到的資料進行複雜的處理，
+那客戶端很有可能會超時。首先，我們撰寫我們的 worker，這是一個簡單的函式，但我們會把它變成結構的一部份，因為我們之前還沒有這樣使用過 goroutine：
 
 ```go
 type Worker struct {
@@ -242,11 +218,9 @@ func (w Worker) process(c chan int) {
 }
 ```
 
-Our worker is simple. It waits until data is available then 
-"processes" it. Dutifully, it does this in a loop, forever 
-waiting for more data to process.
+我們的 worker 很簡單，他等到所有的資料都接收到了之後才處理他們。這個 Worker 盡責的在一個無窮迴圈中不斷的等待更多資料，然後處理他們。
 
-To use this, the first thing we'd do is start some workers:
+為了要使用它，第一件事就是要啟動一些 workers：
 
 ```go
 c := make(chan int)
@@ -256,7 +230,7 @@ for i := 0; i < 5; i++ {
 }
 ```
 
-And then we can give them some work:
+接著我們可以指派給他一些工作：
 
 ```go
 for {
@@ -265,7 +239,7 @@ for {
 }
 ```
 
-Here's the complete code to make it run:
+下面是完整的範例：
 
 ```go
 package main
@@ -301,15 +275,10 @@ func (w *Worker) process(c chan int) {
 }
 ```
 
-We don't know which worker is going to get what data. 
-What we do know, what Go guarantees, is that the data we 
-send to a channel will only be received by a single receiver.
+我們並不知道哪一個 worker 會收到資料。我們知道的是，Go 會確保我們送給 channel 的資料只會有一個接收者接收。
 
-Notice that the only shared state is the channel, 
-which we can safely receive from and send to concurrently. 
-Channels provide all of the synchronization code we need 
-and also ensure that, at any given time, only one goroutine 
-has access to a specific piece of data.
+要特別注意的是，channel 是唯一安全用來接收和傳送共享資料的方式。Channel 提供了所有我們在同步程式碼所需的功能。
+並且確保在同一時間只會有一個 goroutine 可以存取特定的資料。
 
 ### Buffered Channels
 
