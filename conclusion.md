@@ -1,11 +1,19 @@
-# Conclusion
+# 結論
 
-I recently heard Go described as a *boring* language. Boring because it's easy to learn, easy to write and, most importantly, easy to read. Perhaps, I did this reality a disservice. We *did* spend three chapters talking about types and how to declare variables after all.
+我最近聽到有人覺得 Go 是一個很無聊的語言。無聊的原因是因為他很容易學、容易寫，更重要的是容易讀。也許我幫了一個倒忙，
+畢竟我花了三個章節的時間來介紹型別和如何宣告變數。
 
-If you have a background in a statically typed language, much of what we saw was probably, at best, a refresher. That Go makes pointers visible and that slices are thin wrappers around arrays probably isn't overwhelming to seasoned Java or C# developers.
+如果你有撰寫靜態程式語言的經驗，最好的情況下就是稍微複習一下就可以了。Go 語言讓指針更容易使用，並且將
+陣列封裝後產生了 slice，對於經驗豐富的 Java 或 C# 開發者來說，也許這不是什麼優勢。
 
-If you've mostly been making use of dynamic languages, you might feel a little different. It *is* a fair bit to learn. Not least of which is the various syntax around declaration and initialization. Despite being a fan of Go, I find that for all the progress towards simplicity, there's something less than simple about it. Still, it comes down to some basic rules (like you can only declare variable once and `:=` does declare the variable) and fundamental understanding (like `new(X)` or `&X{}` only allocate memory, but slices, maps and channels require more initialization and thus, `make`).
+如果你過去是學習動態程式語言，可能會覺得有點不一樣。這是公平的學習過程，不僅僅是各種宣告和初始化的語法，儘管作為 Go 的粉絲，
+我發現這些所有學習的部分還是有些不太容易的地方。雖然如此，這裡也涉及到一些基本的規則（像是像是你可以使用 `:=` 宣告變數，但只能宣告一次）和
+基本的概念（像是 `new(X)` 或 `&X{}` 只用來分配記憶體，但是 slice、map 和 channel 的初始化則需要更多初始化，也就是 `make`）。
 
-Beyond this, Go gives us a simple but effective way to organize our code. Interfaces, return-based error handling, `defer` for resource management and a simple way to achieve composition.
+除此之外，Go 語言使用一個簡單但有效率的方法來管理程式碼。介面、基於回傳值的錯誤處理方法、`defer` 用在資源管理，
+以及用簡單的方式來實作組合。
 
-Last but not least is the built-in support for concurrency. There's little to say about goroutines other than they're effective and simple (simple to use anyway). It's a good abstraction. Channels are more complicated. I always think it's important to understand basics before using high-level wrappers. I *do* think learning about concurrent programming without channels is useful. Still, channels are implemented in a way that, to me, doesn't feel quite like a simple abstraction. They are almost their own fundamental building block. I say this because they change how you write and think about concurrent programming. Given how hard concurrent programming can be, that is definitely a good thing.
+最後但也是最重要的是，Go 語言內建就支持並行化。關於 goroutine 沒有什麼好說的了，他有效率且簡單（使用上很簡單）。
+這是很好的一個抽象化。Channel 更為複雜一點，我一直認為在使用複雜的封裝前，要先理解最基本的部分。同樣我也認為不透過 channel 來學習並行化程式是有用的。
+對我來說，Channel 的實現方式並不是一個簡單的抽象，他有一個自己建構的部分。我會這樣說是因為他改變了你在撰寫並行化程式的思考過程。
+考慮到撰寫並行化程式有多困難來說，這肯定是一件好事。
