@@ -280,11 +280,9 @@ func (w *Worker) process(c chan int) {
 要特別注意的是，channel 是唯一安全用來接收和傳送共享資料的方式。Channel 提供了所有我們在同步程式碼所需的功能。
 並且確保在同一時間只會有一個 goroutine 可以存取特定的資料。
 
-### Buffered Channels
+### 具有暫存能力的 Channels
 
-Given the above code, what happens if we have more data 
-coming in than we can handle? You can simulate this by 
-changing the worker to sleep after it has received data:
+在上面的程式中，如果資料超過我們可以處理的容量會怎樣呢？你可以嘗試模擬這種狀況，在 worker 接收到資料後，接收到資料後，讓 worker 執行 sleep 函式：
 
 ```go
 for {
@@ -294,32 +292,18 @@ for {
 }
 ```
 
-What's happening is that our main code, the one that accepts 
-the user's incoming data (which we just simulated with a 
-random number generator) is blocking as it sends to the 
-channel because no receiver is available.
+在 main 程式終會發生什麼事？接收使用者輸入的資料（在這裡是我們你的隨機亂數產生器）會被阻塞，因為往 channel 發送資料時並沒有接收者。
 
-In cases where you need high guarantees that the data is 
-being processed, you probably will want to start blocking 
-the client. In other cases, you might be willing to loosen 
-those guarantees. There are a few popular strategies to do this. 
-The first is to buffer the data. If no worker is available, 
-we want to temporarily store the data in some sort of queue. 
-Channels have this buffering capability built-in. When we 
-created our channel with `make`, we can give our channel a length:
+為了確保資料能夠被處理，你可能想要讓客戶端被堵塞住。在一些其他的情況下，你也許不願意確保資料能夠被處理。這裡有一些常見的策略來解決這個問題，
+首先是將資料暫存起來，如果沒有 worker 可用，我們可以將資料先存在一個有序的佇列中。Channel 擁有這種內建的暫存能力，
+當我們使用 `make` 建立 channel 時，可以給定它的長度：
 
 ```go
 c := make(chan int, 100)
 ```
 
-You can make this change, but you'll notice that the processing 
-is still choppy. Buffered channels don't add more capacity; 
-they merely provide a queue for pending work and a good way to 
-deal with a sudden spike. In our example, we're continuously 
-pushing more data than our workers can handle.
-
-Nevertheless, we can get a sense that the buffered channel is, 
-in fact, buffering by looking at the channel's `len`:
+你可以這樣調整，但你會發現這個過程還是蠻不穩定的。作為暫存的 channel 不能增加更多的容量，它只是提供一個佇列來處理這種突然劇增的資料。
+在我們的例子中，我們可以不斷地發送資料，而且 worker 也可以處理這些資料。雖然如此，我們可以透過 channel 的 `len` 函式來了解具有暫存功能的 channel 實際的作用：
 
 ```go
 for {
@@ -329,8 +313,7 @@ for {
 }
 ```
 
-You can see that it grows and grows until it fills up, 
-at which point sending to our channel start to block again.
+你會看到具有暫存的 channel 的長度不斷增加，直到資料裝滿為止。此時，往 channel 發送的資料又會被阻塞。
 
 ### Select
 
