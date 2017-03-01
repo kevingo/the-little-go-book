@@ -352,17 +352,10 @@ for {
 
 ### 逾時
 
-We've looked at buffering messages as well as simply dropping 
-them. Another popular option is to timeout. We're willing to 
-block for some time, but not forever. This is also something 
-easy to achieve in Go. Admittedly, the syntax might be hard 
-to follow but it's such a neat and useful feature that I 
-couldn't leave it out.
+我們已經看過暫存的訊息，同時也學到如何簡單的丟棄他們。另外一個比較常見的做法是使用逾時機制。我們會阻塞一段時間，
+但不是永遠阻塞。這在 Go 當中也是很容易做到的。老實說，我認爲這個語法有點難以接受，但他是比較靈活和有用的方法，基本上我不能不使用它。
 
-To block for a maximum amount of time, we can use the `time.After` 
-function. Let's look at it then try to peek beyond the magic. 
-To use this, our sender becomes:
-
+為了達到阻塞的最大值，我們可以使用 `time.After` 這個函式。讓我們來看看會發生什麼神奇的事情。我們修改一下發送部分的程式碼：
 ```go
 for {
   select {
@@ -374,11 +367,9 @@ for {
 }
 ```
 
-`time.After` returns a channel, so we can `select` from it. 
-The channel is written to after the specified time expires. 
-That's it. There's nothing more magical than that. 
-If you're curious, here's what an implementation of `after` 
-could look like:
+`time.After` 會回傳一個 channel，所以我們可以對它使用 `select` 語法。
+這個 channel 在指定的時間後會被寫入，就這樣。沒有什麼比這個更神奇的了。如果你仍然覺得困惑，這裡實作了一個 `after`：
+
 
 ```go
 func after(d time.Duration) chan bool {
@@ -391,32 +382,25 @@ func after(d time.Duration) chan bool {
 }
 ```
 
-Back to our `select`, there are a couple of things to play with. 
-First, what happens if you add the `default` case back? 
-Can you guess? Try it. If you aren't sure what's going on, 
-remember that `default` fires immediately if no channel is 
-available.
+回來看我們的 `select` 語法，這裡有幾個有趣的地方。首先，如果你在 `select` 後面增加 `default` 會發生什麼事情？
+你能猜猜看嗎？試試看，如果你不確定會發生什麼事情。記住，如果 channel 無法使用的時候，`default` 的部分會被執行。
 
-Also, `time.After` is a channel of type `chan time.Time`. 
-In the above example, we simply discard the value that was 
-sent to the channel. If you want though, you can receive it:
+此外，`time.After` 的類型是 `chan time.Time`。在上面的例子中，我們只是簡單的把傳給 channel 的值給丟掉。
+如果你想要的話，也可以嘗試接收它們：
 
 ```go
 case t := <-time.After(time.Millisecond * 100):
   fmt.Println("timed out at", t)
 ```
 
-Pay close attention to our `select`. Notice that we're 
-sending to `c` but receiving from `time.After`. `select`
- works the same regardless of whether we're receiving from, 
- sending to, or any combination of channels:
+注意我們的 `select` 語法，注意我們是往 `c` 發送資料，但是是從 `time.After` 拿資料。不管我們是從 channel 中接收資料、發送資料，`select` 的機制都一樣：
 
-* The first available channel is chosen.
-* If multiple channels are available, one is randomly picked.
-* If no channel is available, the default case is executed.
-* If there's no default, select blocks.
+* 第一個可用的 channel 會被選擇。
+* 如果有多個 channel 可用，會隨機挑選一個。
+* 如果沒有 channel 可用，`default` 的部分會被執行。
+* 如果沒有 `default`，`select` 會阻塞。
 
-Finally, it's common to see a `select` inside a `for`. Consider:
+最後，在 `for` 迴圈中使用 `select` 是常見的：
 
 ```go
 for {
