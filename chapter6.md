@@ -317,49 +317,40 @@ for {
 
 ### Select
 
-Even with buffering, there comes a point where we need to start 
-dropping messages. We can't use up an infinite amount of memory 
-hoping a worker frees up. For this, we use Go's `select`.
+即使有了暫存機制，我們還是需要開始丟棄掉一些資料。我們不可能使用一個無限大的記憶體，並指望透過人工的方式來釋放。
+因此，我們要使用 Go 的 `select`。
 
-Syntactically, `select` looks a bit like a switch. With it,
-we can provide code for when the channel isn't available to 
-send to. First, let's remove our channel's buffering so that 
-we can clearly see how `select` works:
+語法上，`select` 類似於 switch，透過 `select`，我們可以撰寫一些在 channel 下無法實現的程式碼。首先，讓我們移除我們 channel 的暫存，
+讓我們可以更清楚地看到 `select` 是如何運作的：
 
 ```go
 c := make(chan int)
 ```
 
-Next, we change our `for` loop:
+接下來，我們修改 `for` 迴圈：
 
 ```go
 for {
   select {
   case c <- rand.Int():
-    //optional code here
+    //以下是可選的部分
   default:
-    //this can be left empty to silently drop the data
+    //這裡可以留空，用來丟掉資料
     fmt.Println("dropped")
   }
   time.Sleep(time.Millisecond * 50)
 }
 ```
 
-We're pushing out 20 messages per second, but our workers can 
-only handle 10 per second; thus, half the messages get dropped.
+我們每秒往 channel 送 20 個訊息，但我們的 worker 每秒只能處理 10 個訊息。因此，會有一半的訊息被丟棄。
 
-This is only the start of what we can accomplish with `select`. 
-A main purpose of select is to manage multiple channels. 
-Given multiple channels, `select` will block until the first 
-one becomes available. If no channel is available, `default` 
-is executed if one is provided. A channel is randomly picked 
-when multiple are available.
+這僅僅是我們使用 `select` 來完成的第一件事情。使用 `select` 的最主要目的是讓你可以管理多個 channel。
+當你有多個 channel 時，`select` 會阻擋資料，直到有一個可用的 channel。如果沒有可用的 channel 時，如果你有提供 `default` 敘述，就會跑到該地方執行。
+當有多個 channel 都可用時，`select` 會隨機選擇一個 channel。
 
-It's hard to come up with a simple example that demonstrates 
-this behavior as it's a fairly advanced feature. The next 
-section might help illustrate this though.
+這是一個比較高級的特性，很難想出一個簡單的範例來證明這個行為。我們在下一節當中來說明這個部分。
 
-### Timeout
+### 逾時
 
 We've looked at buffering messages as well as simply dropping 
 them. Another popular option is to timeout. We're willing to 
