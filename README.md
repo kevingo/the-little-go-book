@@ -4,6 +4,9 @@
 
 # 目錄
 
+- [關於本書](https://github.com/kevingo/the-little-go-book/blob/master/about.md)
+- [簡介](https://github.com/kevingo/the-little-go-book/blob/master/introduction.md)
+- [入門](https://github.com/kevingo/the-little-go-book/blob/master/getting-started.md)
 - [第一章 - 基本概念](https://github.com/kevingo/the-little-go-book/blob/master/chapter1.md)
 - [第二章 - 結構](https://github.com/kevingo/the-little-go-book/blob/master/chapter2.md)
 - [第三章 - Map、Array、和 Slice](https://github.com/kevingo/the-little-go-book/blob/master/chapter3.md)
