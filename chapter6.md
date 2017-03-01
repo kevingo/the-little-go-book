@@ -414,24 +414,12 @@ for {
 }
 ```
 
-## Before You Continue
+## 在你繼續學習之前
 
-If you're new to the world of concurrent programming, 
-it might all seem rather overwhelming. It categorically 
-demands considerably more attention and care. Go aims to 
-make it easier.
+如果你才剛剛進入並行程式語言的世界，你可能會覺得它是銳不可擋的。的確，他需要你更多的關注，畢竟 Go 語言的目標就是為了讓並行程式更容易撰寫。
 
-Goroutines effectively abstract what's needed to run concurrent 
-code. Channels help eliminate some serious bugs that can happen 
-when data is shared by eliminating the sharing of data. 
-This doesn't just eliminate bugs, but it changes how one 
-approaches concurrent programming. You start to think about 
-concurrency with respect to message passing, rather than 
-dangerous areas of code.
+Goroutine 有效的抽象化了並行的程式碼。Channel 幫助我們在資料需要共享時所會產生的一些嚴重的 bug。其實不僅僅是消除 bug，他還改變了我們如何撰寫我們的並行程式碼。
+你可以開始思考怎麼透過訊息的傳遞來撰寫並行程式，而不是透過那些容易出錯的程式碼。
 
-Having said that, I still make extensive use of the various 
-synchronization primitives found in the `sync` and `sync/atomic` 
-packages. I think it's important to be comfortable with both. 
-I encourage you to first focus on channels, but when 
-you see a simple example that needs a short-lived lock, 
-consider using a mutex or read-write mutex.
+雖然如此，我依舊廣泛地使用 `sync` 和 `sync/atomic` 套件中的同步機制。我認為去熟悉他們是很重要的。
+我鼓勵你在學習時，可以先關注 `channel`，但當你需要一些短暫的鎖的範例時，也可以考慮使用 mutex 或讀寫 mutex。
