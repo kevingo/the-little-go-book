@@ -17,6 +17,7 @@
     - [Karl Seguin](http://openmymind.net/)
 - 翻譯人員
     - [kevingo](https://github.com/kevingo)
+- 貢獻人員
     - [neighborhood999](https://github.com/neighborhood999)
 
 # 授權
