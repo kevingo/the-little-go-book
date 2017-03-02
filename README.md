@@ -2,6 +2,13 @@
 
 [The Little Go Book](https://github.com/karlseguin/the-little-go-book) 繁體中文翻譯版。
 
+# 閱讀本書
+
+你可以透過 GitBook 或 Github Page 來閱讀本書，請參考以下連結：
+
+- [The Little Go Book - Github Page](https://kevingo.github.io/the-little-go-book/)
+- [The Little Go Book - GitBook](https://kevingo.gitbooks.io/the-little-go-book/content/)
+
 # 目錄
 
 - [關於本書](./about.md)
@@ -16,6 +23,7 @@
 - [結論](./conclusion.md)
 
 # 致謝
+
 - 作者
     - [Karl Seguin](http://openmymind.net/)
 - 翻譯人員
