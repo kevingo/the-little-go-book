@@ -31,6 +31,10 @@
 - 貢獻人員
     - [neighborhood999](https://github.com/neighborhood999)
 
+# 貢獻
+
+如果您發現任何翻譯錯誤或語意錯誤，歡迎隨時提交 Pull Request，我會將您加入貢獻人員名單中。
+
 # 授權
 
 本書內容採用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 授權。
