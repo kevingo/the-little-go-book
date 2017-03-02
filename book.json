@@ -1,0 +1,15 @@
+{
+  "title": "The Little Go Book 繁體中文翻譯版",
+  "gitbook": "3.2.0",
+  "pluginsConfig": {
+    "github": {
+      "url": "https://github.com/kevingo/the-little-go-book"
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false
+    }
+  }
+}
