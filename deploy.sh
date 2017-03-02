@@ -14,4 +14,4 @@ git config user.name "kevingo"
 git config user.email "kevingo75@gmail.com"
 git add .
 git commit -a -m "Auto-deploy by Travis CI"
-@git push --force --quiet "https://${GH_TOKEN}@github.com/kevingo/the-little-go-book.git" gh-pages:gh-pages
+git push --force --quiet "https://${GH_TOKEN}@github.com/kevingo/the-little-go-book.git" gh-pages:gh-pages
