@@ -16,7 +16,7 @@ update:
 
 deploy:
 	gitbook install
-	gitbook build -g kevingo/webapck-tutorial-gitbook
+	gitbook build -g kevingo/the-little-go-book
 
 clean:
 	rm -rf _book/ node_modules/
