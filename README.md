@@ -1,4 +1,4 @@
-# The Little Go Book 繁體中文翻譯版
+# The Little Go Book 繁體中文翻譯版 ![image](https://travis-ci.org/kevingo/the-little-go-book.svg?branch=master)
 
 [The Little Go Book](https://github.com/karlseguin/the-little-go-book) 繁體中文翻譯版。
 
