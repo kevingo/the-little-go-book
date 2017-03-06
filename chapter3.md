@@ -199,7 +199,7 @@ scores := []int{1, 2, 3, 4, 5}
 scores = scores[:len(scores) - 1]
 ```
 
-上面的例子是從一個未排序 slice 中去除一個值的有效方法。
+下面的例子是從一個未排序 slice 中去除一個值的有效方法。
 
 ```go
 func main() {
