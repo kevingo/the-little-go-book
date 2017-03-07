@@ -1,0 +1,359 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>簡介 · The Little Go Book 繁體中文翻譯版</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.0">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="getting-started.html" />
+    
+    
+    <link rel="prev" href="about.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="about.html">
+            
+                <a href="about.html">
+            
+                    
+                    關於本書
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="introduction.html">
+            
+                <a href="introduction.html">
+            
+                    
+                    簡介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    入門
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    第一章 - 基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    第二章 - 結構
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    第三章 - Map、Array、和 Slice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    第四章 - 組織程式碼和介面
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    第五章 - 花絮
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    第六章 - 並行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="conclusion.html">
+            
+                <a href="conclusion.html">
+            
+                    
+                    結論
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >簡介</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7C21;&#x4ECB;">&#x7C21;&#x4ECB;</h1><p>&#x6BCF;&#x7576;&#x6211;&#x5B78;&#x7FD2;&#x65B0;&#x8A9E;&#x8A00;&#x6642;&#xFF0C;&#x6211;&#x7E3D;&#x662F;&#x611F;&#x5230;&#x611B;&#x6068;&#x4EA4;&#x52A0;&#x3002;&#x4E00;&#x65B9;&#x9762;&#x4F86;&#x8AAA;&#xFF0C;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x5C0D;&#x65BC;&#x6211;&#x5011;&#x7684;&#x5DE5;&#x4F5C;&#x662F;&#x5982;&#x6B64;&#x91CD;&#x8981;&#xFF0C;&#x5373;&#x4F7F;&#x4E00;&#x500B;&#x5FAE;&#x5C0F;&#x7684;&#x6539;&#x8B8A;&#x90FD;&#x6703;&#x9020;&#x6210;&#x5DE8;&#x5927;&#x7684;&#x5F71;&#x97FF;&#x3002;&#x7576;&#x67D0;&#x500B;&#x7A81;&#x7136;&#x9813;&#x609F;&#x7684;&#x6642;&#x523B;&#x4F86;&#x81E8;&#x6642;&#xFF0C;&#x7E3D;&#x662F;&#x6703;&#x5C0D;&#x4F60;&#x7684;&#x7A0B;&#x5F0F;&#x7522;&#x751F;&#x9577;&#x9060;&#x7684;&#x5F71;&#x97FF;&#xFF0C;&#x4E26;&#x4E14;&#x91CD;&#x65B0;&#x5B9A;&#x7FA9;&#x4F60;&#x5C0D;&#x5176;&#x4ED6;&#x8A9E;&#x8A00;&#x7684;&#x671F;&#x5F85;&#x3002;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x8A9E;&#x8A00;&#x7684;&#x8A2D;&#x8A08;&#x662F;&#x6301;&#x7E8C;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x5B78;&#x7FD2;&#x65B0;&#x7684;&#x95DC;&#x9375;&#x5B57;&#x3001;&#x578B;&#x5225;&#x7CFB;&#x7D71;&#x3001;&#x7A0B;&#x5F0F;&#x64B0;&#x5BEB;&#x98A8;&#x683C;&#x3001;&#x65B0;&#x7684;&#x51FD;&#x5F0F;&#x5EAB;&#x3001;&#x65B0;&#x7684;&#x793E;&#x7FA4;&#x548C;&#x7BC4;&#x4F8B;&#x3002;&#x548C;&#x5176;&#x4ED6;&#x7684;&#x4E8B;&#x7269;&#x76F8;&#x6BD4;&#xFF0C;&#x5B78;&#x7FD2;&#x65B0;&#x7684;&#x8A9E;&#x8A00;&#x7E3D;&#x662F;&#x8B93;&#x6211;&#x5011;&#x611F;&#x89BA;&#x6295;&#x8CC7;&#x5831;&#x916C;&#x7387;&#x4E0D;&#x9AD8;&#x3002;</p><p>&#x63DB;&#x53E5;&#x8A71;&#x8AAA;&#xFF0C;&#x6211;&#x5011;&#x5FC5;&#x9808;&#x63A1;&#x53D6;&#x7A4D;&#x6975;&#x7684;&#x614B;&#x5EA6;&#x4F86;&#x9762;&#x5C0D;&#x3002;&#x6211;&#x5011;&#x9700;&#x8981;&#x900F;&#x904E;&#x6F38;&#x9032;&#x7684;&#x6B65;&#x9A5F;&#x4F86;&#x5B78;&#x7FD2;&#xFF0C;&#x7562;&#x7ADF;&#xFF0C;&#x8A9E;&#x8A00;&#x662F;&#x4E00;&#x5207;&#x7684;&#x57FA;&#x790E;&#x3002;&#x5373;&#x4F7F;&#x9019;&#x4E9B;&#x6539;&#x8B8A;&#x7D93;&#x5E38;&#x662F;&#x6301;&#x7E8C;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x4ED6;&#x4EE3;&#x8868;&#x4E86;&#x9019;&#x5F71;&#x97FF;&#x4E86;&#x751F;&#x7522;&#x529B;&#x3001;&#x53EF;&#x8B80;&#x6027;&#x3001;&#x6548;&#x80FD;&#x3001;&#x6E2C;&#x8A66;&#x3001;&#x76F8;&#x4F9D;&#x7BA1;&#x7406;&#x3001;&#x932F;&#x8AA4;&#x8655;&#x7406;&#x3001;&#x6587;&#x4EF6;&#x3001;&#x6548;&#x80FD;&#x5206;&#x6790;&#x3001;&#x793E;&#x7FA4;&#x3001;&#x6A19;&#x6E96;&#x51FD;&#x5F0F;&#x5EAB;&#x7B49;&#x3002;&#x96E3;&#x9053;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x8AAA;&#x5343;&#x5200;&#x842C;&#x526E;&#x662F;&#x6B7B;&#x5211;&#x7684;&#x7A4D;&#x6975;&#x65B9;&#x6CD5;&#x55CE;&#xFF1F;</p><p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x5011;&#x7522;&#x751F;&#x4E00;&#x500B;&#x91CD;&#x8981;&#x7684;&#x554F;&#x984C;&#xFF1A;&#x70BA;&#x4EC0;&#x9EBC;&#x8981;&#x5B78; Go&#xFF1F;&#x5C0D;&#x6211;&#x800C;&#x8A00;&#xFF0C;&#x6709;&#x5169;&#x500B;&#x91CD;&#x8981;&#x7684;&#x7406;&#x7531;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;Go &#x662F;&#x4E00;&#x500B;&#x5177;&#x6709;&#x76F8;&#x5C0D;&#x7C21;&#x55AE;&#x6A19;&#x6E96;&#x51FD;&#x5F0F;&#x5EAB;&#x7684;&#x8A9E;&#x8A00;&#x3002;&#x5F9E;&#x5F88;&#x591A;&#x65B9;&#x9762;&#x4F86;&#x770B;&#xFF0C;Go &#x5617;&#x8A66;&#x53BB;&#x7C21;&#x5316;&#x5728;&#x904E;&#x53BB;&#x5E7E;&#x5341;&#x5E74;&#x4E2D;&#x8A9E;&#x8A00;&#x4E0D;&#x65B7;&#x9032;&#x5316;&#x6240;&#x7522;&#x751F;&#x7684;&#x8907;&#x96DC;&#x5EA6;&#x3002;&#x7B2C;&#x4E8C;&#xFF0C;&#x5C0D;&#x65BC;&#x8A31;&#x591A;&#x958B;&#x767C;&#x8005;&#x800C;&#x8A00;&#xFF0C;Go &#x6703;&#x88DC;&#x9F4A;&#x4F60;&#x73FE;&#x6709;&#x7684;&#x6B66;&#x5668;&#x5EAB;&#x3002;</p><p>Go &#x88AB;&#x8A2D;&#x8A08;&#x6210;&#x4E00;&#x7A2E;&#x7CFB;&#x7D71;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;&#x4F5C;&#x696D;&#x7CFB;&#x7D71;&#x3001;&#x9A45;&#x52D5;&#x7A0B;&#x5F0F;&#xFF09;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x4ED6;&#x662F;&#x91DD;&#x5C0D; C/C++ &#x7684;&#x958B;&#x767C;&#x8005;&#x6240;&#x8A2D;&#x8A08;&#x3002;&#x4F46;&#x6839;&#x64DA; Go &#x7684;&#x6838;&#x5FC3;&#x958B;&#x767C;&#x5718;&#x968A;&#xFF0C;&#x540C;&#x6642;&#x6211;&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x80AF;&#x5B9A;&#x5730;&#x8AAA;&#xFF0C;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x958B;&#x767C;&#x8005;&#x5DF2;&#x7D93;&#x8B8A;&#x6210; Go &#x8A9E;&#x8A00;&#x4E3B;&#x8981;&#x7684;&#x4F7F;&#x7528;&#x8005;&#xFF0C;&#x800C;&#x4E26;&#x975E;&#x7CFB;&#x7D71;&#x958B;&#x767C;&#x8005;&#x3002;&#x70BA;&#x4EC0;&#x9EBC;&#xFF1F;&#x6211;&#x7121;&#x6CD5;&#x4EE3;&#x8868;&#x7CFB;&#x7D71;&#x958B;&#x767C;&#x8005;&#x4F86;&#x767C;&#x8868;&#x592A;&#x591A;&#x610F;&#x898B;&#xFF0C;&#x4F46;&#x5C0D;&#x65BC;&#x60F3;&#x8981;&#x5EFA;&#x69CB;&#x7DB2;&#x7AD9;&#x3001;&#x670D;&#x52D9;&#x3001;&#x684C;&#x9762;&#x61C9;&#x7528;&#x7A0B;&#x5F0F;&#x7B49;&#x61C9;&#x7528;&#x7684;&#x958B;&#x767C;&#x8005;&#x4F86;&#x8AAA;&#xFF0C;Go &#x6EFF;&#x8DB3;&#x4E86;&#x9019;&#x4E00;&#x985E;&#x4ECB;&#x65BC;&#x5E95;&#x5C64;&#x61C9;&#x7528;&#x8207;&#x9AD8;&#x968E;&#x61C9;&#x7528;&#x4E4B;&#x9593;&#x7684;&#x9700;&#x6C42;&#x3002;</p><p>&#x4E5F;&#x8A31;&#x9019;&#x4E00;&#x985E;&#x7684;&#x9700;&#x6C42;&#x662F;&#x8A0A;&#x606F;&#x50B3;&#x905E;&#x3001;&#x5FEB;&#x53D6;&#x3001;&#x8A08;&#x7B97;&#x91CF;&#x9F90;&#x5927;&#x7684;&#x8CC7;&#x6599;&#x5206;&#x6790;&#x3001;&#x547D;&#x4EE4;&#x5217;&#x61C9;&#x7528;&#x3001;&#x65E5;&#x8A8C;&#x6216;&#x76E3;&#x63A7;&#x3002;&#x6211;&#x4E0D;&#x77E5;&#x9053;&#x8A72;&#x7D66; Go &#x4EC0;&#x9EBC;&#x6A23;&#x7684;&#x6A19;&#x7C64;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x6211;&#x7684;&#x8077;&#x696D;&#x751F;&#x6DAF;&#x4E2D;&#xFF0C;&#x96A8;&#x8457;&#x7CFB;&#x7D71;&#x8D8A;&#x4F86;&#x8D8A;&#x8907;&#x96DC;&#xFF0C;&#x540C;&#x6642;&#x6703;&#x6709;&#x6210;&#x5343;&#x4E0A;&#x842C;&#x7A2E;&#x4E26;&#x884C;&#x8655;&#x7406;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5F88;&#x986F;&#x7136;&#x7684;&#xFF0C;&#x5BA2;&#x88FD;&#x5316;&#x57FA;&#x790E;&#x5E73;&#x53F0;&#x7684;&#x9700;&#x6C42;&#x8D8A;&#x4F86;&#x8D8A;&#x591A;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; Ruby &#x6216; Python &#x4F86;&#x5EFA;&#x7F6E;&#xFF08;&#x8A31;&#x591A;&#x4EBA;&#x4E5F;&#x9019;&#x9EBC;&#x505A;&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x4E9B;&#x7CFB;&#x7D71;&#x5C07;&#x53D7;&#x60E0;&#x65BC;&#x66F4;&#x56B4;&#x683C;&#x7684;&#x578B;&#x5225;&#x7CFB;&#x7D71;&#x548C;&#x66F4;&#x597D;&#x7684;&#x6548;&#x80FD;&#x3002;&#x540C;&#x6A23;&#x7684;&#xFF0C;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x7528; Go &#x4F86;&#x5EFA;&#x7F6E;&#x7DB2;&#x7AD9;&#xFF08;&#x4E5F;&#x6709;&#x8A31;&#x591A;&#x4EBA;&#x9019;&#x6A23;&#x505A;&#xFF09;&#xFF0C;&#x4F46;&#x8A71;&#x8AAA;&#x56DE;&#x4F86;&#xFF0C;&#x6211;&#x6B63;&#x559C;&#x6B61;&#x7528; Node &#x6216; Ruby &#x4F86;&#x505A;&#x9019;&#x4E9B;&#x4E8B;&#x60C5;&#x3002;</p><p>&#x9084;&#x6709;&#x8A31;&#x591A;&#x5176;&#x4ED6;&#x7684;&#x9818;&#x57DF;&#x662F; Go &#x64C5;&#x9577;&#x7684;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;Go &#x7DE8;&#x8B6F;&#x904E;&#x5F8C;&#x7684;&#x7A0B;&#x5F0F;&#x4E0D;&#x6703;&#x6709;&#x4EFB;&#x4F55;&#x7684;&#x76F8;&#x4F9D;&#x6027;&#xFF0C;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x64D4;&#x5FC3;&#x4F7F;&#x7528;&#x8005;&#x5B89;&#x88DD; Ruby &#x6216; JVM&#xFF0C;&#x751A;&#x81F3;&#x662F;&#x4EC0;&#x9EBC;&#x7248;&#x672C;&#x3002;&#x4E5F;&#x57FA;&#x65BC;&#x9019;&#x500B;&#x56E0;&#x7D20;&#xFF0C;Go &#x5728;&#x547D;&#x4EE4;&#x5217;&#x7A0B;&#x5F0F;&#x7684;&#x61C9;&#x7528;&#x548C;&#x5176;&#x4ED6;&#x5DE5;&#x5177;&#x985E;&#x7684;&#x61C9;&#x7528;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;&#x65E5;&#x8A8C;&#x641C;&#x96C6;&#xFF09;&#x4E0A;&#x8D8A;&#x4F86;&#x8D8A;&#x71B1;&#x9580;&#x3002;</p><p>&#x5766;&#x767D;&#x8AAA;&#xFF0C;&#x5B78;&#x7FD2; Go &#x8A9E;&#x8A00;&#x8B93;&#x4F60;&#x7684;&#x6642;&#x9593;&#x8B8A;&#x5F97;&#x66F4;&#x6709;&#x6548;&#x7387;&#x3002;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x82B1;&#x8CBB;&#x5927;&#x91CF;&#x7684;&#x6642;&#x9593;&#x6216;&#x8005;&#x5617;&#x8A66;&#x638C;&#x63E1; Go&#xFF0C;&#x5728;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x4E2D;&#xFF0C;&#x4F60;&#x6703;&#x900F;&#x904E;&#x4ED8;&#x51FA;&#x5F97;&#x5230;&#x8A31;&#x591A;&#x5BE6;&#x7528;&#x7684;&#x6771;&#x897F;&#x3002;</p><h2 id="&#x4F5C;&#x8005;&#x8A3B;&#x89E3;">&#x4F5C;&#x8005;&#x8A3B;&#x89E3;</h2><p>&#x57FA;&#x65BC;&#x5E7E;&#x500B;&#x7406;&#x7531;&#xFF0C;&#x6211;&#x5F88;&#x7336;&#x8C6B;&#x662F;&#x5426;&#x8981;&#x5BEB;&#x4E0B;&#x9019;&#x672C;&#x66F8;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;Go &#x5B98;&#x65B9;&#x7684;&#x6587;&#x4EF6;&#x5DF2;&#x7D93;&#x5F88;&#x5B8C;&#x6574;&#x4E86;&#xFF0C;&#x7279;&#x5225;&#x662F; Effective Go &#x9019;&#x4EFD;&#x6A94;&#x6848;&#x3002;</p><p>&#x53E6;&#x5916;&#x4E00;&#x500B;&#x7406;&#x7531;&#x662F;&#x5728;&#x5BEB;&#x8A9E;&#x8A00;&#x985E;&#x7684;&#x66F8;&#x7C4D;&#x6211;&#x6703;&#x611F;&#x5230;&#x4E0D;&#x5B89;&#x3002;&#x7576;&#x6211;&#x5BEB; Little MongoDB &#x9019;&#x672C;&#x66F8;&#x6642;&#xFF0C;&#x6211;&#x53EF;&#x4EE5;&#x5F88;&#x5B89;&#x5FC3;&#x7684;&#x5047;&#x8A2D;&#x5927;&#x591A;&#x6578;&#x7684;&#x8B80;&#x8005;&#x4E86;&#x89E3;&#x95DC;&#x806F;&#x5F0F;&#x8CC7;&#x6599;&#x5EAB;&#x548C;&#x6A21;&#x578B;&#x7B49;&#x76F8;&#x95DC;&#x7684;&#x57FA;&#x790E;&#x3002;&#x7576;&#x6211;&#x5BEB; Little Redis &#x9019;&#x672C;&#x66F8;&#x6642;&#xFF0C;&#x6211;&#x4E5F;&#x53EF;&#x4EE5;&#x5047;&#x8A2D;&#x8B80;&#x8005;&#x77AD;&#x89E3; key value &#x7684;&#x5132;&#x5B58;&#x65B9;&#x5F0F;&#x3002;</p><p>&#x6211;&#x60F3;&#x60F3;&#x9019;&#x4E9B;&#x7AE0;&#x7BC0;&#x548C;&#x6BB5;&#x843D;&#xFF0C;&#x53EF;&#x80FD;&#x7121;&#x6CD5;&#x505A;&#x9019;&#x4E9B;&#x5047;&#x8A2D;&#x3002;&#x4F60;&#x82B1;&#x4E86;&#x8A31;&#x591A;&#x6642;&#x9593;&#x5B78;&#x7FD2; interface&#xFF0C;&#x9019;&#x662F;&#x4E00;&#x500B;&#x65B0;&#x7684;&#x6982;&#x5FF5;&#x3002;&#x6700;&#x5F8C;&#xFF0C;&#x8003;&#x91CF;&#x5230;&#x9019;&#x672C;&#x66F8;&#x5E36;&#x7D66;&#x4F60;&#x7684;&#x50F9;&#x503C;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8B93;&#x6211;&#x77E5;&#x9053;&#x54EA;&#x4E9B;&#x7AE0;&#x7BC0;&#x592A;&#x8A73;&#x7D30;&#x6216;&#x592A;&#x7C97;&#x6DFA;&#x7684;&#x8A71;&#xFF0C;&#x6211;&#x6703;&#x611F;&#x5230;&#x76F8;&#x7576;&#x958B;&#x5FC3;&#x3002;</p>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="about.html" class="navigation navigation-prev " aria-label="Previous page: 關於本書">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="getting-started.html" class="navigation navigation-next " aria-label="Next page: 入門">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"簡介","level":"1.3","depth":1,"next":{"title":"入門","level":"1.4","depth":1,"path":"getting-started.md","ref":"./getting-started.md","articles":[]},"previous":{"title":"關於本書","level":"1.2","depth":1,"path":"about.md","ref":"./about.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/kevingo/the-little-go-book"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Little Go Book 繁體中文翻譯版","gitbook":"3.2.0"},"file":{"path":"introduction.md","mtime":"2017-03-07T03:33:15.596Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2017-03-07T03:34:24.460Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,513 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>第二章 - 結構 · The Little Go Book 繁體中文翻譯版</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.0">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chapter3.html" />
+    
+    
+    <link rel="prev" href="chapter1.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="about.html">
+            
+                <a href="about.html">
+            
+                    
+                    關於本書
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="introduction.html">
+            
+                <a href="introduction.html">
+            
+                    
+                    簡介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    入門
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    第一章 - 基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    第二章 - 結構
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    第三章 - Map、Array、和 Slice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    第四章 - 組織程式碼和介面
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    第五章 - 花絮
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    第六章 - 並行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="conclusion.html">
+            
+                <a href="conclusion.html">
+            
+                    
+                    結論
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >第二章 - 結構</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x7B2C;&#x4E8C;&#x7AE0;---&#x7D50;&#x69CB;">&#x7B2C;&#x4E8C;&#x7AE0; - &#x7D50;&#x69CB;</h1><p>Go &#x4E0D;&#x50CF; C++&#x3001;Java&#x3001;Ruby &#x6216; C# &#x4E00;&#x6A23;&#x662F;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x3002;&#x4ED6;&#x6C92;&#x6709;&#x7269;&#x4EF6;&#x6216;&#x7E7C;&#x627F;&#xFF0C;&#x4E5F;&#x6C92;&#x6709;&#x8A31;&#x591A;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x6BD4;&#x5982;&#x8AAA;&#x591A;&#x5F62;&#x6216;&#x91CD;&#x8F09;&#x3002;</p><p>Go &#x8A9E;&#x8A00;&#x64C1;&#x6709;&#x7684;&#x662F;&#x7D50;&#x69CB;&#xFF0C;&#x548C;&#x65B9;&#x6CD5;&#x6709;&#x95DC;&#x3002;Go &#x4E5F;&#x652F;&#x6301;&#x7C21;&#x6F54;&#x4F46;&#x6709;&#x6548;&#x7684;&#x7D44;&#x5408;&#x95DC;&#x4FC2;&#x3002;&#x6574;&#x9AD4;&#x4F86;&#x8AAA;&#xFF0C;&#x4ED6;&#x6703;&#x8B93;&#x7A0B;&#x5F0F;&#x78BC;&#x66F4;&#x7C21;&#x6F54;&#xFF0C;&#x4F46;&#x4F60;&#x6709;&#x6642;&#x5019;&#x4E5F;&#x6703;&#x5931;&#x53BB;&#x4E00;&#x4E9B;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x6240;&#x63D0;&#x4F9B;&#x7684;&#x7279;&#x6027;&#x3002;&#xFF08;&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;<em>&#x7D44;&#x5408;&#x512A;&#x65BC;&#x7E7C;&#x627F;</em> &#x9019;&#x6A23;&#x7684;&#x8AAA;&#x6CD5;&#x9577;&#x4E45;&#x4EE5;&#x4F86;&#x4E0D;&#x65B7;&#x88AB;&#x8A0E;&#x8AD6;&#xFF0C;&#x800C; Go &#x662F;&#x6211;&#x7528;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53EF;&#x4EE5;&#x5C0D;&#x9019;&#x500B;&#x8AAA;&#x6CD5;&#x63A1;&#x53D6;&#x5805;&#x5B9A;&#x7ACB;&#x5834;&#x7684;&#x8A9E;&#x8A00;&#xFF09;</p><p>&#x5373;&#x4F7F; Go &#x53EF;&#x80FD;&#x4E0D;&#x50CF;&#x4F60;&#x5728;&#x5BEB;&#x7269;&#x4EF6;&#x5C0E;&#x5411;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x90A3;&#x6A23;&#x719F;&#x6089;&#xFF0C;&#x4F46;&#x4F60;&#x6703;&#x767C;&#x73FE;&#x7D50;&#x69CB;&#x548C;&#x985E;&#x5225;&#x6709;&#x5F88;&#x591A;&#x76F8;&#x50CF;&#x4E4B;&#x8655;&#xFF0C;&#x8B93;&#x6211;&#x5011;&#x4F86;&#x770B;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684; <code>Saiyan</code> &#x7D50;&#x69CB;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">type</span> Saiyan <span class="hljs-keyword">struct</span> {
+  Name <span class="hljs-keyword">string</span>
+  Power <span class="hljs-keyword">int</span>
+}</code></pre>
+<p>&#x6211;&#x5011;&#x5F88;&#x5FEB;&#x5C07;&#x770B;&#x5230;&#x5982;&#x4F55;&#x5728;&#x9019;&#x500B;&#x7D50;&#x69CB;&#x4E2D;&#x589E;&#x52A0;&#x4E00;&#x500B;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x50CF;&#x4F60;&#x5C07;&#x65B9;&#x6CD5;&#x4F5C;&#x70BA;&#x985E;&#x5225;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x5728;&#x6211;&#x5011;&#x9019;&#x6A23;&#x505A;&#x4E4B;&#x524D;&#xFF0C;&#x6211;&#x5011;&#x5FC5;&#x9808;&#x56DE;&#x9867;&#x5BA3;&#x544A;&#x7684;&#x7528;&#x6CD5;&#x3002;</p><h2 id="&#x5BA3;&#x544A;&#x53CA;&#x521D;&#x59CB;&#x5316;">&#x5BA3;&#x544A;&#x53CA;&#x521D;&#x59CB;&#x5316;</h2><p>&#x7576;&#x6211;&#x5011;&#x7B2C;&#x4E00;&#x6B21;&#x770B;&#x5230;&#x8B8A;&#x6578;&#x548C;&#x5BA3;&#x544A;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x53EA;&#x5B78;&#x7FD2;&#x4E86;&#x5167;&#x5EFA;&#x7684;&#x578B;&#x614B;&#xFF0C;&#x6BD4;&#x5982;&#x8AAA;&#x6574;&#x6578;&#x6216;&#x5B57;&#x4E32;&#x3002;&#x73FE;&#x5728;&#xFF0C;&#x6211;&#x5011;&#x4F86;&#x8AC7;&#x8AC7;&#x7D50;&#x69CB;&#x3002;&#x6211;&#x5011;&#x540C;&#x6642;&#x5FC5;&#x9808;&#x4F86;&#x5B78;&#x7FD2;&#x6307;&#x91DD;&#x3002;</p><p>&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x7684;&#x503C;&#xFF0C;&#x6700;&#x7C21;&#x55AE;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;</p><pre><code class="lang-go">goku := Saiyan{
+  Name: <span class="hljs-string">&quot;Goku&quot;</span>,
+  Power: <span class="hljs-number">9000</span>,
+}</code></pre>
+<p><em>&#x6CE8;&#x610F;&#xFF1A;</em> &#x4E0A;&#x9762;&#x7684;&#x7D50;&#x69CB;&#x4E2D;&#x6700;&#x5F8C;&#x7684; <code>,</code> &#x662F;&#x5FC5;&#x8981;&#x7684;&#x3002;&#x4F60;&#x6703;&#x611F;&#x6FC0;&#x9700;&#x8981;&#x9017;&#x9EDE;&#x6240;&#x4EE3;&#x8868;&#x7684;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x4F60;&#x7528;&#x904E;&#x5176;&#x4ED6;&#x4E0D;&#x9700;&#x8981;&#x5F37;&#x5236;&#x4F7F;&#x7528;&#x9017;&#x865F;&#x7684;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x3002;</p><p>&#x5728;&#x521D;&#x59CB;&#x5316;&#x7D50;&#x69CB;&#x6642;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x9700;&#x8981;&#x8A2D;&#x7F6E;&#x6240;&#x6709;&#x7684;&#x6B04;&#x4F4D;&#x3002;&#x4E0B;&#x9762;&#x5169;&#x500B;&#x5BA3;&#x544A;&#x90FD;&#x662F;&#x5408;&#x6CD5;&#x7684;&#xFF1A;</p><pre><code class="lang-go">goku := Saiyan{}
+
+<span class="hljs-comment">// &#x6216;&#x8005;</span>
+
+goku := Saiyan{Name: <span class="hljs-string">&quot;Goku&quot;</span>}
+goku.Power = <span class="hljs-number">9000</span></code></pre>
+<p>&#x5C31;&#x50CF;&#x6C92;&#x6709;&#x6307;&#x6D3E;&#x7684;&#x8B8A;&#x6578;&#x4E00;&#x6A23;&#xFF0C;&#x6B04;&#x4F4D;&#x4E5F;&#x6703;&#x88AB;&#x6307;&#x6D3E;&#x70BA;&#x5C0D;&#x61C9;&#x7684;&#x96F6;&#x503C;&#x3002;</p><p>&#x6B64;&#x5916;&#xFF0C;&#x4F60;&#x9084;&#x53EF;&#x4EE5;&#x7701;&#x7565;&#x6B04;&#x4F4D;&#x7684;&#x540D;&#x7A31;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x6703;&#x6309;&#x7167;&#x9806;&#x5E8F;&#x4F86;&#x5C0D;&#x61C9;&#x8CE6;&#x503C;&#xFF08;&#x70BA;&#x4E86;&#x6E05;&#x695A;&#x8D77;&#x898B;&#xFF0C;&#x4F60;&#x61C9;&#x8A72;&#x50C5;&#x50C5;&#x5728;&#x5C11;&#x91CF;&#x6B04;&#x4F4D;&#x540D;&#x7A31;&#x7684;&#x6642;&#x5019;&#x4F7F;&#x7528;&#x9019;&#x7A2E;&#x64CD;&#x4F5C;&#xFF09;&#xFF1A;</p><pre><code class="lang-go">goku := Saiyan{<span class="hljs-string">&quot;Goku&quot;</span>, <span class="hljs-number">9000</span>}</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;&#x5404;&#x7A2E;&#x7BC4;&#x4F8B;&#x90FD;&#x662F;&#x5BA3;&#x544A;&#x4E00;&#x500B; <code>goku</code> &#x7684;&#x7D50;&#x69CB;&#x8B8A;&#x6578;&#xFF0C;&#x4E26;&#x4E14;&#x6307;&#x6D3E;&#x5C0D;&#x61C9;&#x7684;&#x503C;&#x3002;</p><p>&#x8A31;&#x591A;&#x6642;&#x5019;&#xFF0C;&#x6211;&#x5011;&#x4E0D;&#x60F3;&#x8981;&#x4E00;&#x500B;&#x76F4;&#x63A5;&#x95DC;&#x806F;&#x7684;&#x8B8A;&#x6578;&#xFF0C;&#x800C;&#x662F;&#x60F3;&#x8981;&#x4E00;&#x500B;&#x6307;&#x5411;&#x8A72;&#x8B8A;&#x6578;&#x6240;&#x5132;&#x5B58;&#x7684;&#x503C;&#x7684;&#x6307;&#x6A19;&#x3002;&#x6307;&#x6A19;&#x6240;&#x5132;&#x5B58;&#x7684;&#x5167;&#x5BB9;&#x662F;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#xFF0C;&#x627E;&#x5230;&#x9019;&#x500B;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#x5C31;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x5C0D;&#x61C9;&#x7684;&#x503C;&#x3002;&#x9019;&#x662F;&#x4E00;&#x7A2E;&#x5C0D;&#x61C9;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;
+&#x5C31;&#x50CF;&#x4F60;&#x7684;&#x623F;&#x5B50;&#x548C;&#x524D;&#x5F80;&#x4F60;&#x623F;&#x5B50;&#x7684;&#x65B9;&#x5411;&#x4E00;&#x6A23;&#x3002;</p><p>&#x70BA;&#x4EC0;&#x9EBC;&#x6211;&#x5011;&#x60F3;&#x8981;&#x503C;&#x7684;&#x6307;&#x6A19;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x503C;&#x672C;&#x8EAB;&#x5462;&#xFF1F;&#x9019;&#x5C31;&#x5FC5;&#x9808;&#x8981;&#x77E5;&#x9053; Go &#x50B3;&#x905E;&#x53C3;&#x6578;&#x5230;&#x4E00;&#x500B;&#x51FD;&#x5F0F;&#xFF1A;&#x7528;&#x526F;&#x672C;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x4E86;&#x89E3;&#x9019;&#x500B;&#x4E4B;&#x5F8C;&#xFF0C;&#x4F86;&#x770B;&#x770B;&#x5E95;&#x4E0B;&#x6703;&#x5370;&#x51FA;&#x4EC0;&#x9EBC;&#xFF1F;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> main() {
+  goku := Saiyan{<span class="hljs-string">&quot;Goku&quot;</span>, <span class="hljs-number">9000</span>}
+  Super(goku)
+  fmt.Println(goku.Power)
+}
+
+<span class="hljs-keyword">func</span> Super(s Saiyan) {
+  s.Power += <span class="hljs-number">10000</span>
+}</code></pre>
+<p>&#x7B54;&#x6848;&#x662F; 9000&#xFF0C;&#x800C;&#x4E0D;&#x662F; 19000&#xFF0C;&#x70BA;&#x4EC0;&#x9EBC;&#xFF1F;&#x56E0;&#x70BA; <code>Super</code> &#x6539;&#x8B8A;&#x4E86; <code>goku</code> &#x526F;&#x672C;&#x7684;&#x503C;&#xFF0C;&#x800C;&#x4E26;&#x975E;&#x539F;&#x672C;&#x547C;&#x53EB; <code>Super</code> &#x6240;&#x50B3;&#x9032;&#x53BB;&#x7684; <code>goku</code>&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728; <code>Super</code> &#x4E2D;&#x7684;&#x8B8A;&#x66F4;&#x4E26;&#x4E0D;&#x6703;&#x53CD;&#x61C9;&#x5230;&#x547C;&#x53EB; <code>Super</code> &#x6642;&#x6240;&#x50B3;&#x5165;&#x7684; <code>goku</code> &#x4E0A;&#x3002;&#x70BA;&#x4E86;&#x8B93;&#x7A0B;&#x5F0F;&#x78BC;&#x7684;&#x884C;&#x70BA;&#x5982;&#x4F60;&#x6240;&#x9810;&#x671F;&#xFF0C;&#x6211;&#x5011;&#x5FC5;&#x9808;&#x8981;&#x50B3;&#x5165;&#x6307;&#x6A19;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> main() {
+  goku := &amp;Saiyan{<span class="hljs-string">&quot;Goku&quot;</span>, <span class="hljs-number">9000</span>}
+  Super(goku)
+  fmt.Println(goku.Power)
+}
+
+<span class="hljs-keyword">func</span> Super(s *Saiyan) {
+  s.Power += <span class="hljs-number">10000</span>
+}</code></pre>
+<p>&#x5728;&#x9019;&#x88E1;&#x6211;&#x5011;&#x8ABF;&#x6574;&#x5169;&#x500B;&#x90E8;&#x5206;&#x3002;&#x7B2C;&#x4E00;&#x500B;&#x662F;&#x6211;&#x5011;&#x4F7F;&#x7528; <code>&amp;</code> &#x904B;&#x7B97;&#x5B50;&#x4F86;&#x53D6;&#x5F97;&#x5C0D;&#x61C9;&#x503C;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#xFF08;&#x9019;&#x53EB;&#x505A; <em>&#x53D6;&#x5F97;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;</em> &#x904B;&#x7B97;&#x5B50;&#xFF09;&#x3002;&#x63A5;&#x8457;&#xFF0C;&#x6211;&#x5011;&#x8B8A;&#x66F4; <code>Super</code> &#x51FD;&#x5F0F;&#x7684;&#x53C3;&#x6578;&#x3002;&#x4E4B;&#x524D;&#x6211;&#x5011;&#x9810;&#x671F;&#x7684;&#x53C3;&#x6578;&#x662F; <code>Saiyan</code> &#x7D50;&#x69CB;&#x7684;&#x503C;&#xFF0C;&#x4F46;&#x662F;&#x73FE;&#x5728;&#x6211;&#x5011;&#x9810;&#x671F;&#x7684;&#x53C3;&#x6578;&#x662F; <code>*Saiyan</code> &#x578B;&#x614B;&#xFF0C;<code>*X</code> &#x7684;&#x610F;&#x601D;&#x662F; <em>&#x578B;&#x5225; X &#x7684;&#x503C;&#x7684;&#x6307;&#x6A19;</em>&#x3002;&#x986F;&#x800C;&#x6613;&#x898B;&#x7684;&#xFF0C;<code>Saiyan</code> &#x548C; <code>*Saiyan</code> &#x52E2;&#x5FC5;&#x6709;&#x4E9B;&#x95DC;&#x806F;&#xFF0C;&#x4F46;&#x4ED6;&#x5011;&#x662F;&#x5169;&#x7A2E;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x578B;&#x5225;&#x3002;</p><p>&#x6CE8;&#x610F;&#x6211;&#x5011;&#x4ECD;&#x7136;&#x5C07; <code>goku</code> &#x7684;&#x526F;&#x672C;&#x503C;&#x50B3;&#x7D66; <code>Super</code>&#xFF0C;&#x53EA;&#x662F; <code>goku</code> &#x7684;&#x503C;&#x8B8A;&#x6210;&#x4E86;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#x3002;</p><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x8A66;&#x8457;&#x8B8A;&#x66F4;&#x9019;&#x500B;&#x526F;&#x672C;&#x6307;&#x5411;&#x7684;&#x4F4D;&#x7F6E;&#x4F86;&#x8B49;&#x660E;&#x4ED6;&#x7684;&#x78BA;&#x662F;&#x500B;&#x526F;&#x672C;&#xFF08;&#x4E0D;&#x904E;&#x9019;&#x4E5F;&#x8A31;&#x4E0D;&#x662F;&#x4F60;&#x672C;&#x4F86;&#x6703;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#xFF09;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> main() {
+  goku := &amp;Saiyan{<span class="hljs-string">&quot;Goku&quot;</span>, <span class="hljs-number">9000</span>}
+  Super(goku)
+  fmt.Println(goku.Power)
+}
+
+<span class="hljs-keyword">func</span> Super(s *Saiyan) {
+  s = &amp;Saiyan{<span class="hljs-string">&quot;Gohan&quot;</span>, <span class="hljs-number">1000</span>}
+}</code></pre>
+<p>&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x9084;&#x662F;&#x6703;&#x5370;&#x51FA; 9000&#x3002;&#x9019;&#x500B;&#x884C;&#x70BA;&#x5728;&#x8A31;&#x591A;&#x7684;&#x7A0B;&#x5F0F;&#x8A9E;&#x8A00;&#x90FD;&#x662F;&#x5982;&#x6B64;&#xFF0C;&#x5305;&#x542B;&#xFF1A;Ruby, Python, Java &#x548C; C#&#x3002;&#x5728; Go &#x548C;&#x67D0;&#x7A2E;&#x7A0B;&#x5EA6;&#x7684; C# &#x4E0A;&#xFF0C;&#x53EA;&#x662F;&#x8B93;&#x9019;&#x500B;&#x4E8B;&#x5BE6;&#x66F4;&#x986F;&#x8457;&#x3002;</p><p>&#x66F4;&#x986F;&#x800C;&#x6613;&#x898B;&#x7684;&#xFF0C;&#x6307;&#x6A19;&#x7684;&#x526F;&#x672C;&#x6703;&#x6BD4;&#x6574;&#x500B;&#x8907;&#x96DC;&#x7D50;&#x69CB;&#x7684;&#x526F;&#x672C;&#x4F86;&#x7684;&#x8F15;&#x91CF;&#x591A;&#x4E86;&#x3002;&#x5728; 64 &#x4F4D;&#x5143;&#x7684;&#x6A5F;&#x5668;&#x4E0A;&#xFF0C;&#x4E00;&#x500B;&#x6307;&#x6A19;&#x7684;&#x5927;&#x5C0F;&#x662F; 64 bits&#x3002;&#x5982;&#x679C;&#x6211;&#x5011;&#x6709;&#x4E00;&#x500B;&#x5305;&#x542B;&#x8A31;&#x591A;&#x6B04;&#x4F4D;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x526F;&#x672C;&#x6703;&#x662F;&#x76F8;&#x7576;&#x6602;&#x8CB4;&#x7684;&#x3002;&#x6307;&#x6A19;&#x7684;&#x771F;&#x6B63;&#x50F9;&#x503C;&#x662F;&#x8B93;&#x4F60;&#x5171;&#x4EAB;&#x503C;&#xFF0C;&#x60F3;&#x60F3;&#x770B;&#xFF0C;&#x6211;&#x5011;&#x662F;&#x60F3;&#x8981;&#x8B93; <code>Super</code> &#x8B8A;&#x66F4; <code>goku</code> &#x7684;&#x526F;&#x672C;&#xFF0C;&#x9084;&#x662F;&#x5171;&#x4EAB; <code>goku</code> &#x503C;&#x7684;&#x672C;&#x8EAB;&#x5462;&#xFF1F;</p><p>&#x9019;&#x4E00;&#x5207;&#x4E0D;&#x662F;&#x8AAA;&#x4F60;&#x6C38;&#x9060;&#x90FD;&#x8981;&#x4F7F;&#x7528;&#x6307;&#x6A19;&#x3002;&#x5728;&#x9019;&#x7AE0;&#x7BC0;&#x7684;&#x6700;&#x5F8C;&#xFF0C;&#x7B49;&#x5230;&#x6211;&#x5011;&#x770B;&#x4E86;&#x66F4;&#x591A;&#x95DC;&#x65BC;&#x7D50;&#x69CB;&#x7684;&#x5167;&#x5BB9;&#x5F8C;&#xFF0C;&#x6211;&#x5011;&#x6703;&#x518D;&#x91CD;&#x65B0;&#x770B;&#x770B;&#x6307;&#x6A19;&#x548C;&#x503C;&#x7684;&#x554F;&#x984C;&#x3002;</p><h2 id="&#x51FD;&#x5F0F;&#x548C;&#x7D50;&#x69CB;">&#x51FD;&#x5F0F;&#x548C;&#x7D50;&#x69CB;</h2><p>&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5C07;&#x4E00;&#x500B;&#x65B9;&#x6CD5;&#x8207;&#x7D50;&#x69CB;&#x4E92;&#x76F8;&#x95DC;&#x806F;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">type</span> Saiyan <span class="hljs-keyword">struct</span> {
+  Name <span class="hljs-keyword">string</span>
+  Power <span class="hljs-keyword">int</span>
+}
+
+<span class="hljs-keyword">func</span> (s *Saiyan) Super() {
+  s.Power += <span class="hljs-number">10000</span>
+}</code></pre>
+<p>&#x5728;&#x4E0A;&#x9762;&#x7684;&#x7A0B;&#x5F0F;&#x4E2D;&#xFF0C;&#x6211;&#x5011;&#x8AAA; <code>*Saiyan</code> &#x578B;&#x5225;&#x662F; <code>Super</code> &#x65B9;&#x6CD5;&#x7684;<strong>&#x63A5;&#x6536;&#x8005;</strong>&#x3002;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x547C;&#x53EB; <code>Super</code>&#xFF1A;</p><pre><code class="lang-go">goku := &amp;Saiyan{<span class="hljs-string">&quot;Goku&quot;</span>, <span class="hljs-number">9001</span>}
+goku.Super()
+fmt.Println(goku.Power) <span class="hljs-comment">// &#x5C07;&#x5217;&#x5370;&#x51FA; 19001</span></code></pre>
+<h2 id="&#x5EFA;&#x69CB;&#x5B50;">&#x5EFA;&#x69CB;&#x5B50;</h2><p>&#x7D50;&#x69CB;&#x4E26;&#x6C92;&#x6709;&#x6240;&#x8B02;&#x7684;&#x5EFA;&#x69CB;&#x5B50;&#x3002;&#x76F8;&#x53CD;&#x7684;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x51FD;&#x5F0F;&#xFF0C;&#x56DE;&#x50B3;&#x503C;&#x662F;&#x4F60;&#x6240;&#x9700;&#x8981;&#x578B;&#x5225;&#x7684;&#x5BE6;&#x4F8B;&#xFF08;&#x5C31;&#x50CF;&#x5DE5;&#x5EE0;&#x6A21;&#x5F0F;&#x4E00;&#x6A23;&#xFF09;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> NewSaiyan(name <span class="hljs-keyword">string</span>, power <span class="hljs-keyword">int</span>) *Saiyan {
+  <span class="hljs-keyword">return</span> &amp;Saiyan{
+    Name: name,
+    Power: power,
+  }
+}</code></pre>
+<p>&#x9019;&#x7A2E;&#x6A21;&#x5F0F;&#x8B93;&#x5F88;&#x591A;&#x958B;&#x767C;&#x8005;&#x8D70;&#x5230;&#x932F;&#x8AA4;&#x7684;&#x8DEF;&#x4E0A;&#x3002;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x500B;&#x5F88;&#x5FAE;&#x5999;&#x7684;&#x8A9E;&#x6CD5;&#xFF0C;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#xFF0C;&#x4ED6;&#x78BA;&#x5BE6;&#x611F;&#x89BA;&#x6709;&#x9EDE;&#x4E0D;&#x76F4;&#x89BA;&#x3002;</p><p>&#x6211;&#x5011;&#x7684;&#x5DE5;&#x5EE0;&#x6A21;&#x5F0F;&#x4E0D;&#x4E00;&#x5B9A;&#x8981;&#x56DE;&#x50B3;&#x4E00;&#x500B;&#x6307;&#x6A19;&#xFF0C;&#x4E0B;&#x9762;&#x9019;&#x6BB5;&#x7A0B;&#x5F0F;&#x78BC;&#x4E5F;&#x662F;&#x5B8C;&#x5168;&#x5408;&#x6CD5;&#x7684;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> NewSaiyan(name <span class="hljs-keyword">string</span>, power <span class="hljs-keyword">int</span>) Saiyan {
+  <span class="hljs-keyword">return</span> Saiyan{
+    Name: name,
+    Power: power,
+  }
+}</code></pre>
+<h2 id="new">New</h2><p>&#x5118;&#x7BA1; Go &#x8A9E;&#x8A00;&#x4E2D;&#x6C92;&#x6709;&#x5EFA;&#x69CB;&#x5B50;&#xFF0C;&#x4F46; Go &#x537B;&#x6709;&#x5167;&#x5EFA;&#x7684; <code>new</code> &#x51FD;&#x5F0F;&#xFF0C;&#x7528;&#x4F86;&#x5206;&#x914D;&#x5C0D;&#x61C9;&#x578B;&#x5225;&#x7684;&#x8A18;&#x61B6;&#x9AD4;&#x7A7A;&#x9593;&#x3002;&#x5C31;&#x7D50;&#x679C;&#x4F86;&#x770B;&#xFF0C;<code>new(X)</code> &#x548C; <code>&amp;X{}</code> &#x662F;&#x4E00;&#x6A23;&#x7684;&#x3002;</p><pre><code class="lang-go">goku := <span class="hljs-built_in">new</span>(Saiyan)
+<span class="hljs-comment">// &#x76F8;&#x540C;&#x65BC;</span>
+goku := &amp;Saiyan{}</code></pre>
+<p>&#x8981;&#x7528;&#x54EA;&#x4E00;&#x7A2E;&#x65B9;&#x6CD5;&#x90FD;&#x53EF;&#x4EE5;&#xFF0C;&#x4F46;&#x4F60;&#x6703;&#x767C;&#x73FE;&#x5927;&#x591A;&#x6578;&#x4EBA;&#x90FD;&#x559C;&#x6B61;&#x7528;&#x5F8C;&#x8005;&#xFF0C;&#x7121;&#x8AD6;&#x4ED6;&#x5011;&#x662F;&#x5426;&#x6709;&#x5C0D;&#x61C9;&#x7684;&#x6B04;&#x4F4D;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x3002;&#x539F;&#x56E0;&#x662F;&#x4ED6;&#x6BD4;&#x8F03;&#x5BB9;&#x6613;&#x95B1;&#x8B80;&#x3002;</p><pre><code class="lang-go">goku := <span class="hljs-built_in">new</span>(Saiyan)
+goku.name = <span class="hljs-string">&quot;goku&quot;</span>
+goku.power = <span class="hljs-number">9001</span>
+
+<span class="hljs-comment">// vs</span>
+
+goku := &amp;Saiyan {
+  name: <span class="hljs-string">&quot;goku&quot;</span>,
+  power: <span class="hljs-number">9000</span>,
+}</code></pre>
+<p>&#x7121;&#x8AD6;&#x4F60;&#x63A1;&#x7528;&#x54EA;&#x7A2E;&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x8981;&#x9075;&#x5FAA;&#x5DE5;&#x5EE0;&#x6A21;&#x5F0F;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x653E;&#x5FC3;&#x7684;&#x4E0D;&#x53BB;&#x7BA1;&#x5F8C;&#x9762;&#x5982;&#x4F55;&#x5206;&#x914D;&#x8A18;&#x61B6;&#x9AD4;&#x4F4D;&#x7F6E;&#x7684;&#x7A2E;&#x7A2E;&#x7D30;&#x7BC0;&#x3002;</p><h2 id="&#x7D50;&#x69CB;&#x4E2D;&#x7684;&#x6B04;&#x4F4D;">&#x7D50;&#x69CB;&#x4E2D;&#x7684;&#x6B04;&#x4F4D;</h2><p>&#x5728;&#x6211;&#x5011;&#x5DF2;&#x7D93;&#x770B;&#x904E;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;<code>Saiyan</code> &#x7D50;&#x69CB;&#x6709;&#x5169;&#x500B;&#x6B04;&#x4F4D;&#xFF0C;&#x5B57;&#x4E32;&#x578B;&#x5225;&#x7684; <code>Name</code> &#x548C; &#x6574;&#x6578;&#x578B;&#x5225;&#x7684; <code>Power</code>&#x3002;&#x4E8B;&#x5BE6;&#x4E0A;&#xFF0C;&#x7D50;&#x69CB;&#x7684;&#x6B04;&#x4F4D;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x4F55;&#x578B;&#x5225;&#xFF0C;&#x5305;&#x62EC;&#x5176;&#x4ED6;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x6216;&#x662F;&#x4EFB;&#x4F55;&#x6211;&#x5011;&#x9084;&#x6C92;&#x6709;&#x4ECB;&#x7D39;&#x904E;&#x7684;&#x9663;&#x5217;&#x3001;map&#x3001;&#x4ECB;&#x9762;&#x548C;&#x51FD;&#x5F0F;&#x3002;</p><p>&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x64F4;&#x5C55; <code>Saiyan</code> &#x7684;&#x5B9A;&#x7FA9;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">type</span> Saiyan <span class="hljs-keyword">struct</span> {
+  Name <span class="hljs-keyword">string</span>
+  Power <span class="hljs-keyword">int</span>
+  Father *Saiyan
+}</code></pre>
+<p>&#x53EF;&#x4EE5;&#x9019;&#x6A23;&#x521D;&#x59CB;&#x5316;&#xFF1A;</p><pre><code class="lang-go">gohan := &amp;Saiyan{
+  Name: <span class="hljs-string">&quot;Gohan&quot;</span>,
+  Power: <span class="hljs-number">1000</span>,
+  Father: &amp;Saiyan {
+    Name: <span class="hljs-string">&quot;Goku&quot;</span>,
+    Power: <span class="hljs-number">9001</span>,
+    Father: <span class="hljs-literal">nil</span>,
+  },
+}</code></pre>
+<h2 id="&#x7D44;&#x5408;">&#x7D44;&#x5408;</h2><p>Go &#x8A9E;&#x8A00;&#x652F;&#x6301;&#x7D44;&#x5408;&#xFF0C;&#x610F;&#x601D;&#x5C31;&#x662F;&#x5C07;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x5305;&#x542B;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x500B;&#x7D50;&#x69CB;&#x7684;&#x884C;&#x70BA;&#x3002;&#x5728;&#x67D0;&#x4E9B;&#x8A9E;&#x8A00;&#x4E2D;&#xFF0C;&#x9019;&#x88AB;&#x53EB;&#x505A; <code>trait</code> &#x6216; <code>mixin</code>&#x3002;&#x6C92;&#x6709;&#x660E;&#x78BA;&#x7D44;&#x5408;&#x6A5F;&#x5236;&#x7684;&#x8A9E;&#x8A00;&#x7E3D;&#x662F;&#x6703;&#x7528;&#x5176;&#x4ED6;&#x7684;&#x65B9;&#x5F0F;&#x4F86;&#x9054;&#x6210;&#x3002;&#x5728; Java &#x4E2D;&#x662F;&#x9019;&#x6A23;&#x505A;&#xFF1A;</p><pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>{
+  <span class="hljs-keyword">private</span> String name;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;
+  }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Saiyan</span> </span>{
+  <span class="hljs-comment">// &#x985E;&#x5225; Saiyan &#x5BA3;&#x544A;&#x9019;&#x88E1;&#x6709;&#x4E00;&#x500B; person</span>
+  <span class="hljs-keyword">private</span> Person person;
+
+  <span class="hljs-comment">// &#x6211;&#x5011;&#x8F49;&#x5411;&#x547C;&#x53EB;&#x5230; person &#x7684; getName() &#x65B9;&#x6CD5;</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.person.getName();
+  }
+  ...
+}</code></pre>
+<p>&#x9019;&#x6A23;&#x64B0;&#x5BEB;&#x5341;&#x5206;&#x4E4F;&#x5473;&#x3002;<code>Person</code> &#x4E2D;&#x7684;&#x6BCF;&#x500B;&#x65B9;&#x6CD5;&#x90FD;&#x5FC5;&#x9808;&#x8981;&#x5728; <code>Saiyan</code> &#x4E2D;&#x91CD;&#x8907;&#x4E00;&#x6B21;&#x3002;Go &#x5247;&#x907F;&#x514D;&#x4E86;&#x9019;&#x6A23;&#x7684;&#x4F5C;&#x6CD5;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">type</span> Person <span class="hljs-keyword">struct</span> {
+  Name <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-keyword">func</span> (p *Person) Introduce() {
+  fmt.Printf(<span class="hljs-string">&quot;Hi, I&apos;m %s\n&quot;</span>, p.Name)
+}
+
+<span class="hljs-keyword">type</span> Saiyan <span class="hljs-keyword">struct</span> {
+  *Person
+  Power <span class="hljs-keyword">int</span>
+}
+
+<span class="hljs-comment">// &#x4E26;&#x4F7F;&#x7528;&#x4ED6;&#xFF1A;</span>
+goku := &amp;Saiyan{
+  Person: &amp;Person{<span class="hljs-string">&quot;Goku&quot;</span>},
+  Power: <span class="hljs-number">9001</span>,
+}
+goku.Introduce()</code></pre>
+<p><code>Saiyan</code> &#x7D50;&#x69CB;&#x4E2D;&#x6709;&#x4E00;&#x500B;&#x578B;&#x614B;&#x662F; <code>*Person</code> &#x7684;&#x6B04;&#x4F4D;&#x3002;&#x56E0;&#x70BA;&#x6211;&#x5011;&#x6C92;&#x6709;&#x7D66;&#x4ED6;&#x660E;&#x78BA;&#x7684;&#x6B04;&#x4F4D;&#x540D;&#x7A31;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x900F;&#x904E;&#x7D44;&#x5408;&#x96B1;&#x6027;&#x7684;&#x5B58;&#x53D6;&#x9019;&#x500B;&#x6B04;&#x4F4D;&#x548C;&#x51FD;&#x5F0F;&#x3002;&#x7136;&#x800C;&#xFF0C;Go &#x7684;&#x7DE8;&#x8B6F;&#x5668; <em>&#x7684;&#x78BA;</em> &#x6703;&#x7D66;&#x4ED6;&#x4E00;&#x500B;&#x6B04;&#x4F4D;&#x540D;&#x7A31;&#x3002;&#x770B;&#x770B;&#x4EE5;&#x4E0B;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p><pre><code class="lang-go">goku := &amp;Saiyan{
+  Person: &amp;Person{<span class="hljs-string">&quot;Goku&quot;</span>},
+}
+fmt.Println(goku.Name)
+fmt.Println(goku.Person.Name)</code></pre>
+<p>&#x5169;&#x500B;&#x90FD;&#x6703;&#x5370;&#x51FA; &quot;Goku&quot;&#x3002;</p><p>&#x7D44;&#x5408;&#x662F;&#x5426;&#x6BD4;&#x7E7C;&#x627F;&#x597D;&#x5462;&#xFF1F;&#x8A31;&#x591A;&#x4EBA;&#x8A8D;&#x70BA;&#x9019;&#x662F;&#x5206;&#x4EAB;&#x7A0B;&#x5F0F;&#x78BC;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x53EF;&#x9760;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x7576;&#x4F7F;&#x7528;&#x7E7C;&#x627F;&#x6642;&#xFF0C;&#x4F60;&#x7684;&#x985E;&#x5225;&#x6703;&#x50C5;&#x8026;&#x5408;&#x5230;&#x7236;&#x985E;&#x5225;&#xFF0C;&#x6700;&#x7D42;&#x4F60;&#x95DC;&#x6CE8;&#x7684;&#x662F;&#x968E;&#x5C64;&#x7D50;&#x69CB;&#x800C;&#x4E26;&#x975E;&#x662F;&#x7A0B;&#x5F0F;&#x78BC;&#x672C;&#x8EAB;&#x7684;&#x884C;&#x70BA;&#x3002;</p><h3 id="&#x591A;&#x8F09;">&#x591A;&#x8F09;</h3><p>&#x96D6;&#x7136;&#x591A;&#x8F09;&#x4E26;&#x4E0D;&#x9650;&#x5B9A;&#x65BC;&#x5728;&#x7D50;&#x69CB;&#xFF0C;&#x4F46;&#x503C;&#x5F97;&#x5728;&#x9019;&#x4E00;&#x63D0;&#x3002;&#x7C21;&#x55AE;&#x4F86;&#x8AAA;&#xFF0C;Go &#x4E0D;&#x652F;&#x63F4;&#x591A;&#x8F09;&#xFF0C;
+&#x6240;&#x4EE5;&#x4F60;&#x6703;&#x770B;&#x5230;&#x5F88;&#x591A;&#x51FD;&#x5F0F;&#x7528;&#x4F86;&#x505A; <code>Load</code>&#x3001;<code>LoadById</code>&#x3001;<code>LoadByName</code>&#x3002;</p><p>&#x7136;&#x800C;&#xFF0C;&#x56E0;&#x70BA;&#x96B1;&#x6027;&#x7D44;&#x5408;&#x662F;&#x4E00;&#x7A2E;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x5C0F;&#x6280;&#x5DE7;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x300C;&#x8986;&#x5BEB;&#x300D;&#x7D44;&#x5408;&#x578B;&#x5225;&#x7684;&#x51FD;&#x5F0F;&#x3002;&#x4F8B;&#x5982;&#xFF0C;<code>Saiyan</code> &#x7D50;&#x69CB;&#x53EF;&#x4EE5;&#x6709;&#x81EA;&#x5DF1;&#x7684; <code>Introduce</code> &#x51FD;&#x5F0F;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">func</span> (s *Saiyan) Introduce() {
+  fmt.Printf(<span class="hljs-string">&quot;Hi, I&apos;m %s. Ya!\n&quot;</span>, s.Name)
+}</code></pre>
+<p>&#x800C;&#x4F60;&#x7E3D;&#x662F;&#x53EF;&#x4EE5;&#x900F;&#x904E; <code>s.Person.Introduce()</code> &#x4F86;&#x547C;&#x53EB;&#x4ED6;&#x3002;</p><h2 id="&#x6307;&#x6A19;-vs-&#x503C;">&#x6307;&#x6A19; V.S. &#x503C;</h2><p>&#x7576;&#x4F60;&#x5728;&#x5BEB; Go &#x7684;&#x7A0B;&#x5F0F;&#x78BC;&#x6642;&#xFF0C;&#x554F;&#x554F;&#x81EA;&#x5DF1; <em>&#x9019;&#x662F;&#x4E00;&#x500B;&#x503C;&#xFF0C;&#x9084;&#x662F;&#x4E00;&#x500B;&#x6307;&#x6A19;&#x6307;&#x5411;&#x8A72;&#x503C;</em> &#x662F;&#x5F88;&#x6B63;&#x5E38;&#x7684;&#x3002;&#x6709;&#x5169;&#x500B;&#x597D;&#x6D88;&#x606F;&#xFF0C;&#x7B2C;&#x4E00;&#xFF0C;&#x4E0B;&#x9762;&#x4EFB;&#x4F55;&#x4E00;&#x500B;&#x554F;&#x984C;&#x7684;&#x7B54;&#x6848;&#x90FD;&#x662F;&#x4E00;&#x6A23;&#x7684;&#xFF1A;</p><ul><li>&#x5340;&#x57DF;&#x8B8A;&#x6578;&#x8CE6;&#x503C;
+</li>
+<li>&#x7D50;&#x69CB;&#x4E2D;&#x7684;&#x6B04;&#x4F4D;
+</li>
+<li>&#x51FD;&#x5F0F;&#x7684;&#x56DE;&#x50B3;&#x503C;
+</li>
+<li>&#x51FD;&#x5F0F;&#x7684;&#x53C3;&#x6578;
+</li>
+<li>&#x65B9;&#x6CD5;&#x7684;&#x63A5;&#x6536;&#x8005;
+</li></ul>
+<p>&#x7B2C;&#x4E8C;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x78BA;&#x5B9A;&#x7684;&#x8A71;&#xFF0C;&#x7528;&#x6307;&#x6A19;&#x3002;</p><p>&#x5C31;&#x50CF;&#x6211;&#x5011;&#x770B;&#x5230;&#x7684;&#xFF0C;&#x50B3;&#x905E;&#x503C;&#x662F;&#x4F7F;&#x5F97;&#x8CC7;&#x6599;&#x6210;&#x70BA;&#x4E0D;&#x53EF;&#x8B8A;&#x7684;&#x4E00;&#x500B;&#x597D;&#x65B9;&#x6CD5;&#xFF08;&#x5728;&#x88AB;&#x547C;&#x53EB;&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#x8B8A;&#x66F4;&#x8A72;&#x503C;&#x4E26;&#x4E0D;&#x6703;&#x53CD;&#x6620;&#x5230;&#x547C;&#x53EB;&#x8005;&#x4E0A;&#xFF09;&#x3002;&#x6709;&#x6642;&#x5019;&#xFF0C;&#x9019;&#x662F;&#x4F60;&#x60F3;&#x8981;&#x7684;&#x884C;&#x70BA;&#xFF0C;&#x4F46;&#x5927;&#x591A;&#x6642;&#x5019;&#x4F60;&#x4E0D;&#x6703;&#x60F3;&#x8981;&#x9019;&#x6A23;&#x3002;</p><p>&#x5373;&#x4F7F;&#x4F60;&#x771F;&#x7684;&#x4E0D;&#x60F3;&#x8981;&#x6539;&#x8B8A;&#x8CC7;&#x6599;&#x672C;&#x8EAB;&#xFF0C;&#x60F3;&#x60F3;&#x770B;&#x5EFA;&#x7ACB;&#x4E00;&#x500B;&#x9F90;&#x5927;&#x7D50;&#x69CB;&#x7684;&#x526F;&#x672C;&#x662F;&#x591A;&#x5927;&#x7684;&#x958B;&#x92B7;&#x3002;&#x76F8;&#x53CD;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x4E00;&#x500B;&#x76F8;&#x5C0D;&#x5C0F;&#x7684;&#x7D50;&#x69CB;&#xFF1A;</p><pre><code class="lang-go"><span class="hljs-keyword">type</span> Point <span class="hljs-keyword">struct</span> {
+  X <span class="hljs-keyword">int</span>
+  Y <span class="hljs-keyword">int</span>
+}</code></pre>
+<p>&#x5728;&#x9019;&#x6A23;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;&#x7D50;&#x69CB;&#x526F;&#x672C;&#x7684;&#x958B;&#x92B7;&#x53EF;&#x80FD;&#x88AB;&#x62B5;&#x92B7;&#x6389;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8A2A;&#x554F; <code>X</code> &#x548C; <code>Y</code>&#x3002;&#x518D;&#x63D0;&#x9192;&#x4E00;&#x6B21;&#xFF0C;&#x9019;&#x4E9B;&#x90FD;&#x662F;&#x6BD4;&#x8F03;&#x7D30;&#x5FAE;&#x7684;&#x5DEE;&#x5225;&#xFF0C;&#x9664;&#x975E;&#x4F60;&#x53CD;&#x8986;&#x5B58;&#x53D6;&#x5E7E;&#x5343;&#x6216;&#x5E7E;&#x842C;&#x6B21;&#xFF0C;&#x4E0D;&#x7136;&#x53EF;&#x80FD;&#x4E0D;&#x6703;&#x6CE8;&#x610F;&#x5230;&#x9019;&#x958B;&#x92B7;&#x7684;&#x5DEE;&#x5225;&#x3002;</p><h2 id="&#x5728;&#x4F60;&#x7E7C;&#x7E8C;&#x5B78;&#x7FD2;&#x4E4B;&#x524D;">&#x5728;&#x4F60;&#x7E7C;&#x7E8C;&#x5B78;&#x7FD2;&#x4E4B;&#x524D;</h2><p>&#x5F9E;&#x5BE6;&#x969B;&#x7684;&#x89D2;&#x5EA6;&#x4F86;&#x8AAA;&#xFF0C;&#x9019;&#x4E00;&#x7AE0;&#x7BC0;&#x4E2D;&#x6211;&#x5011;&#x4ECB;&#x7D39;&#x4E86;&#x7D50;&#x69CB;&#x3002;&#x5B78;&#x7FD2;&#x5982;&#x4F55;&#x8B93;&#x7D50;&#x69CB;&#x7684;&#x5BE6;&#x4F8B;&#x6210;&#x70BA;&#x4E00;&#x500B;&#x51FD;&#x5F0F;&#x7684;&#x63A5;&#x6536;&#x8005;&#x3002;
+&#x4E26;&#x4E14;&#x5728;&#x65E2;&#x6709; Go &#x7684;&#x578B;&#x5225;&#x7CFB;&#x7D71;&#x4E2D;&#x589E;&#x52A0;&#x4E86;&#x6307;&#x6A19;&#x7684;&#x77E5;&#x8B58;&#x3002;&#x4E0B;&#x4E00;&#x7AE0;&#x7BC0;&#x5247;&#x6703;&#x5EFA;&#x57FA;&#x5728;&#x6211;&#x5011;&#x5B78;&#x7FD2;&#x5230;&#x7684;&#x7D50;&#x69CB;&#x7E7C;&#x7E8C;&#x5B78;&#x7FD2;&#x3002;</p>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="chapter1.html" class="navigation navigation-prev " aria-label="Previous page: 第一章 - 基本概念">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="chapter3.html" class="navigation navigation-next " aria-label="Next page: 第三章 - Map、Array、和 Slice">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"第二章 - 結構","level":"1.6","depth":1,"next":{"title":"第三章 - Map、Array、和 Slice","level":"1.7","depth":1,"path":"chapter3.md","ref":"./chapter3.md","articles":[]},"previous":{"title":"第一章 - 基本概念","level":"1.5","depth":1,"path":"chapter1.md","ref":"./chapter1.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/kevingo/the-little-go-book"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Little Go Book 繁體中文翻譯版","gitbook":"3.2.0"},"file":{"path":"chapter2.md","mtime":"2017-03-07T03:33:15.596Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2017-03-07T03:34:24.460Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

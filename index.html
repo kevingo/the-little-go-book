@@ -1,0 +1,386 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>Introduction · The Little Go Book 繁體中文翻譯版</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.0">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="about.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter active" data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="about.html">
+            
+                <a href="about.html">
+            
+                    
+                    關於本書
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="introduction.html">
+            
+                <a href="introduction.html">
+            
+                    
+                    簡介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    入門
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    第一章 - 基本概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    第二章 - 結構
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    第三章 - Map、Array、和 Slice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    第四章 - 組織程式碼和介面
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    第五章 - 花絮
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    第六章 - 並行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="conclusion.html">
+            
+                <a href="conclusion.html">
+            
+                    
+                    結論
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Introduction</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="the-little-go-book-&#x7E41;&#x9AD4;&#x4E2D;&#x6587;&#x7FFB;&#x8B6F;&#x7248;-">The Little Go Book &#x7E41;&#x9AD4;&#x4E2D;&#x6587;&#x7FFB;&#x8B6F;&#x7248; <img alt="image" src="https://travis-ci.org/kevingo/the-little-go-book.svg?branch=master"></h1><p><a href="https://github.com/karlseguin/the-little-go-book" target="_blank">The Little Go Book</a> &#x7E41;&#x9AD4;&#x4E2D;&#x6587;&#x7FFB;&#x8B6F;&#x7248;&#x3002;</p><h1 id="&#x95B1;&#x8B80;&#x672C;&#x66F8;">&#x95B1;&#x8B80;&#x672C;&#x66F8;</h1><p>&#x4F60;&#x53EF;&#x4EE5;&#x900F;&#x904E; GitBook &#x6216; Github Page &#x4F86;&#x95B1;&#x8B80;&#x672C;&#x66F8;&#xFF0C;&#x8ACB;&#x53C3;&#x8003;&#x4EE5;&#x4E0B;&#x9023;&#x7D50;&#xFF1A;</p><ul><li><a href="https://kevingo.github.io/the-little-go-book/" target="_blank">The Little Go Book - Github Page</a>
+</li>
+<li><a href="https://kevingo.gitbooks.io/the-little-go-book/content/" target="_blank">The Little Go Book - GitBook</a>
+</li></ul>
+<h1 id="&#x76EE;&#x9304;">&#x76EE;&#x9304;</h1><ul><li><a href="about.html">&#x95DC;&#x65BC;&#x672C;&#x66F8;</a>
+</li>
+<li><a href="introduction.html">&#x7C21;&#x4ECB;</a>
+</li>
+<li><a href="getting-started.html">&#x5165;&#x9580;</a>
+</li>
+<li><a href="chapter1.html">&#x7B2C;&#x4E00;&#x7AE0; - &#x57FA;&#x672C;&#x6982;&#x5FF5;</a>
+</li>
+<li><a href="chapter2.html">&#x7B2C;&#x4E8C;&#x7AE0; - &#x7D50;&#x69CB;</a>
+</li>
+<li><a href="chapter3.html">&#x7B2C;&#x4E09;&#x7AE0; - Map&#x3001;Array&#x3001;&#x548C; Slice</a>
+</li>
+<li><a href="chapter4.html">&#x7B2C;&#x56DB;&#x7AE0; - &#x7D44;&#x7E54;&#x7A0B;&#x5F0F;&#x78BC;&#x548C;&#x4ECB;&#x9762;</a>
+</li>
+<li><a href="chapter5.html">&#x7B2C;&#x4E94;&#x7AE0; - &#x82B1;&#x7D6E;</a>
+</li>
+<li><a href="chapter6.html">&#x7B2C;&#x516D;&#x7AE0; - &#x4E26;&#x884C;</a>
+</li>
+<li><a href="conclusion.html">&#x7D50;&#x8AD6;</a>
+</li></ul>
+<h1 id="&#x81F4;&#x8B1D;">&#x81F4;&#x8B1D;</h1><ul><li><p>&#x4F5C;&#x8005;</p><ul><li><a href="http://openmymind.net/" target="_blank">Karl Seguin</a>
+</li></ul>
+</li>
+<li><p>&#x7FFB;&#x8B6F;&#x4EBA;&#x54E1;</p><ul><li><a href="https://github.com/kevingo" target="_blank">kevingo</a>
+</li></ul>
+</li>
+<li><p>&#x8CA2;&#x737B;&#x4EBA;&#x54E1;</p><ul><li><a href="https://github.com/neighborhood999" target="_blank">neighborhood999</a>
+</li></ul>
+</li></ul>
+<h1 id="&#x8CA2;&#x737B;">&#x8CA2;&#x737B;</h1><p>&#x5982;&#x679C;&#x60A8;&#x767C;&#x73FE;&#x4EFB;&#x4F55;&#x7FFB;&#x8B6F;&#x932F;&#x8AA4;&#x6216;&#x8A9E;&#x610F;&#x932F;&#x8AA4;&#xFF0C;&#x6B61;&#x8FCE;&#x96A8;&#x6642;&#x63D0;&#x4EA4; Pull Request&#xFF0C;&#x6211;&#x6703;&#x5C07;&#x60A8;&#x52A0;&#x5165;&#x8CA2;&#x737B;&#x4EBA;&#x54E1;&#x540D;&#x55AE;&#x4E2D;&#x3002;</p><h1 id="&#x6388;&#x6B0A;">&#x6388;&#x6B0A;</h1><p>&#x672C;&#x66F8;&#x5167;&#x5BB9;&#x63A1;&#x7528; <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> &#x6388;&#x6B0A;&#x3002;</p>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="about.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 關於本書">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"關於本書","level":"1.2","depth":1,"path":"about.md","ref":"./about.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"github":{"url":"https://github.com/kevingo/the-little-go-book"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Little Go Book 繁體中文翻譯版","gitbook":"3.2.0"},"file":{"path":"README.md","mtime":"2017-03-07T03:33:15.596Z","type":"markdown"},"gitbook":{"version":"3.2.0","time":"2017-03-07T03:34:24.460Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
