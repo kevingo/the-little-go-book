@@ -34,7 +34,7 @@ go func() {
 }()
 ```
 
-Goroutine 很容易建立而且開銷很小，最終多個 goroutine 會執行在同一個作業系統多個執行緒上。這也常被稱為 M:N 執行緒模型。因為我們有 M 個應用程式 goroutine，執行在 N 個作業系統的執行緒。結果就是，一個 goroutine 的開銷比起執行緒來說低很多（也許只有幾 KB），在現代的硬體上，甚至有可能同時執行幾百萬個 goroutine。
+Goroutine 很容易建立而且開銷很小，最終多個 goroutine 會執行在同一個作業系統多個執行緒上 (譯注：可以參考 Effective Go 的說明：[https://golang.org/doc/effective_go.html#goroutines](https://golang.org/doc/effective_go.html#goroutines))。這也常被稱為 M:N 執行緒模型。因為我們有 M 個應用程式 goroutine，執行在 N 個作業系統的執行緒。結果就是，一個 goroutine 的開銷比起執行緒來說低很多（也許只有幾 KB），在現代的硬體上，甚至有可能同時執行幾百萬個 goroutine。
 
 此外，這裡還隱藏了映射和調度的複雜性。我們僅需要說 *這段代碼要並行執行*，然後 Go 就會讓這件事情發生了。
 
